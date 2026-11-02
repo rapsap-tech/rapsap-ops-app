@@ -1,0 +1,1455 @@
+{
+  "@@locale": "en",
+  "appTitle": "Rapsap Ops",
+  "errorServer": "Something went wrong on our side. Please try again.",
+  "errorUnauthorized": "Your session has ended. Please sign in again.",
+  "errorForbidden": "You don't have access to this.",
+  "errorNotFound": "We couldn't find what you were looking for.",
+  "errorValidation": "Please check the details and try again.",
+  "errorNoInternet": "No internet connection. Check your mobile data or Wi-Fi.",
+  "errorTimeout": "This is taking too long. Please try again.",
+  "errorCancelled": "Request cancelled.",
+  "errorForceUpdate": "Please update the app to continue.",
+  "errorStorage": "Couldn't save data on this device. Please try again.",
+  "errorUnknown": "Something went wrong. Please try again.",
+  "pageNotFoundTitle": "Page not found",
+  "pageNotFoundAction": "Go to start",
+  "languageEnglishShort": "EN",
+  "languageDevanagariShort": "अ",
+  "languageEnglish": "English",
+  "languageMarathi": "मराठी",
+  "languageHindi": "हिंदी",
+  "languagePick": "Choose Marathi or Hindi",
+  "offlineBanner": "You're offline. Some actions won't work until you reconnect.",
+  "actionRetry": "Try again",
+  "actionBack": "Back",
+  "listSeparator": " · ",
+  "errorOtpInvalid": "That code didn't match. {attempts, plural, =1{1 try left} other{{attempts} tries left}} before this number is locked for {minutes} minutes.",
+  "errorOtpLocked": "Too many wrong tries. This number is locked for {minutes} minutes. Your store manager can unlock it.",
+  "errorTooManyRequests": "Too many OTP requests. Please try again later.",
+  "validationPhoneRequired": "Enter your mobile number.",
+  "validationPhoneInvalid": "Enter a valid 10-digit mobile number.",
+  "loginTitle": "Operations",
+  "loginSubtitle": "Complete store operations, report issues, and keep every shift accountable.",
+  "loginPhoneLabel": "Mobile number",
+  "loginPhoneHint": "98765 43210",
+  "loginHelper": "No sign-up here. Your store manager creates your login.",
+  "loginNoAccount": "No login found for this number. Check the number or ask your store manager for help.",
+  "loginGetOtp": "Get OTP",
+  "otpTitle": "Enter OTP",
+  "otpSentTo": "Sent to {countryCode} {phone}. Valid for {minutes} minutes.",
+  "otpDidntGet": "Didn't get it?",
+  "otpResendIn": "Resend in {time}",
+  "otpResend": "Resend OTP",
+  "otpVerify": "Verify",
+  "welcomeTitle": "Welcome, {name}",
+  "welcomeSubtitle": "{roles} · {store}",
+  "welcomeCollectTitle": "What we collect",
+  "welcomeCollectBody": "Your name, phone number and the task photos you take in the app. We use them to track the store checklist. Photos are kept for 5 months.",
+  "permissionCameraTitle": "Camera",
+  "permissionCameraBody": "To take task photos",
+  "permissionNotificationsTitle": "Notifications",
+  "permissionNotificationsBody": "Reminders 15 and 5 min before due",
+  "permissionAllow": "Allow",
+  "permissionAllowed": "Allowed",
+  "permissionBlocked": "Blocked",
+  "permissionCameraDeniedHelp": "Camera is blocked. Turn it on in your browser or phone settings, then tap Allow again.",
+  "welcomeAgree": "Agree and continue",
+  "navHome": "Home",
+  "navChecklist": "Checklist",
+  "homeComingUp": "Coming up",
+  "homeDoNow": "Do this now",
+  "homeDueAt": "{section} · due {time}",
+  "statDone": "Done",
+  "statMissed": "Missed",
+  "statLeft": "Left",
+  "statDoneValue": "{done} / {total}",
+  "shiftOpening": "Opening shift",
+  "shiftMid": "Mid shift",
+  "shiftClosing": "Closing shift",
+  "checklistMyTitle": "My checklist",
+  "checklistDoneOf": "{done} of {total}",
+  "checklistDoneToday": "tasks done today",
+  "checklistEmpty": "No tasks here right now.",
+  "checklistNoTasksToday": "No tasks for you today.",
+  "filterAll": "All {count}",
+  "filterOpen": "Open {count}",
+  "filterDone": "Done {count}",
+  "filterMissed": "Missed {count}",
+  "sectionWindow": "{name} · {from}–{to}",
+  "sectionFrom": "{name} · from {from}",
+  "taskTitle": "#{number} {title}",
+  "taskChipLater": "Later",
+  "taskChipDueSoon": "Due soon",
+  "taskChipSubmitted": "Sent to SM",
+  "taskChipVerified": "Verified",
+  "taskChipSentBack": "Sent back",
+  "taskChipMissed": "Missed",
+  "taskChipNotDone": "Not done",
+  "taskOpensAt": "Opens {time}",
+  "taskMinutesLeft": "{minutes} min left",
+  "taskSubmittedAt": "Submitted {time}",
+  "taskVerifiedBy": "Verified by {name}",
+  "taskSentBackBy": "Sent back by {name}",
+  "taskAskToUnlock": "Ask your SM to unlock",
+  "taskMarkedNotDone": "Marked not done",
+  "@errorOtpInvalid": {
+    "placeholders": {
+      "attempts": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@errorOtpLocked": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@otpSentTo": {
+    "placeholders": {
+      "countryCode": {
+        "type": "String"
+      },
+      "phone": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@otpResendIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@welcomeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@welcomeSubtitle": {
+    "placeholders": {
+      "roles": {
+        "type": "String"
+      },
+      "store": {
+        "type": "String"
+      }
+    }
+  },
+  "@homeDueAt": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@statDoneValue": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@checklistDoneOf": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@filterAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@filterOpen": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@filterDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@filterMissed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@sectionWindow": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@sectionFrom": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      }
+    }
+  },
+  "@taskTitle": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "@taskOpensAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@taskMinutesLeft": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@taskSubmittedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@taskVerifiedBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@taskSentBackBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "taskHeader": "{section} · #{number}",
+  "taskAssignedTo": "Assigned to {team}",
+  "taskDueAt": "Due {time}",
+  "taskDueSoonLeft": "Due soon · {minutes} min left",
+  "taskReopenedLeft": "Reopened · {minutes} min left",
+  "taskPhotoProof": "Photo proof*",
+  "taskTapToOpenCamera": "Tap to open camera",
+  "taskRetake": "Retake",
+  "taskRemarks": "Remarks",
+  "taskRemarksHint": "Anything your SM should know",
+  "taskCantTakePhoto": "Can't take a photo? Tell your SM why",
+  "taskUsePhotoInstead": "Take a photo instead",
+  "taskNotDoneReason": "Why can't you take a photo?*",
+  "taskNotDoneHint": "Tell your SM what's stopping you",
+  "taskAutoPosted": "Your photo is also posted to {group} automatically.",
+  "taskTakePhotoFirst": "Take photo first",
+  "taskSubmit": "Submit",
+  "taskSubmitNotDone": "Submit as not done",
+  "taskRetakePhoto": "Retake photo",
+  "taskFromManager": "From {name} (SM)",
+  "taskEarlierPhoto": "Your earlier photo",
+  "taskYourPhoto": "Your photo",
+  "taskMissedWasDue": "Missed · was due {time}",
+  "taskLockedAt": "Task locked at {time}",
+  "taskLockedHelp": "Only your store manager can unlock this task. If unlocked, you get 30 minutes and it shows as late.",
+  "taskOpensLater": "This task opens at {time}.",
+  "taskBackToChecklist": "Back to checklist",
+  "taskUploading": "Uploading photo… {percent}%",
+  "cameraOnly": "Camera only · gallery is off",
+  "cameraClose": "Close camera",
+  "cameraTakePhoto": "Take photo",
+  "cameraSwitch": "Switch camera",
+  "cameraDenied": "Camera is blocked. Turn it on in your browser or phone settings and try again.",
+  "cameraUnavailable": "No camera found on this device.",
+  "resultConfirmed": "Confirmed",
+  "resultActionNeeded": "Action needed",
+  "submittedTitle": "Sent for review",
+  "submittedBody": "Your photo and remarks have been sent to {manager}, your store manager.",
+  "submittedNotDoneTitle": "Sent to your SM",
+  "submittedNotDoneBody": "Your reason has been sent to {manager}, your store manager.",
+  "submittedAtOnTime": "Submitted at {time} · On time",
+  "submittedAtLate": "Submitted at {time} · Late",
+  "submittedPosted": "Photo posted to {group}",
+  "interruptedTitle": "Your photo is saved",
+  "interruptedBody": "The connection dropped before your task could be sent. Keep this screen open and retry when you're online.",
+  "interruptedWaiting": "Photo captured · Waiting to upload",
+  "interruptedNotSubmitted": "The task is not submitted yet.",
+  "interruptedRetry": "Retry upload",
+  "interruptedBack": "Back to task",
+  "caughtUpTitle": "You're all caught up",
+  "caughtUpBody": "No tasks need your attention right now. We'll let you know when the next one opens.",
+  "caughtUpNext": "Next task  {task}",
+  "caughtUpOpens": "Opens today at {time}",
+  "homeOpenCamera": "Open camera",
+  "validationTooLong": "Keep it under {max} characters.",
+  "validationReasonRequired": "Please write a reason.",
+  "validationReasonTooShort": "Write at least {min} characters.",
+  "@taskHeader": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      },
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "@taskAssignedTo": {
+    "placeholders": {
+      "team": {
+        "type": "String"
+      }
+    }
+  },
+  "@taskDueAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@taskDueSoonLeft": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@taskReopenedLeft": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@taskAutoPosted": {
+    "placeholders": {
+      "group": {
+        "type": "String"
+      }
+    }
+  },
+  "@taskFromManager": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@taskMissedWasDue": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@taskLockedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@taskOpensLater": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@taskUploading": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@submittedBody": {
+    "placeholders": {
+      "manager": {
+        "type": "String"
+      }
+    }
+  },
+  "@submittedNotDoneBody": {
+    "placeholders": {
+      "manager": {
+        "type": "String"
+      }
+    }
+  },
+  "@submittedAtOnTime": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@submittedAtLate": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@submittedPosted": {
+    "placeholders": {
+      "group": {
+        "type": "String"
+      }
+    }
+  },
+  "@caughtUpNext": {
+    "placeholders": {
+      "task": {
+        "type": "String"
+      }
+    }
+  },
+  "@caughtUpOpens": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@validationTooLong": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "@validationReasonTooShort": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "menuOpen": "Open menu",
+  "menuMyTeam": "My Team",
+  "menuRoleLine": "{role} · {roles}",
+  "roleStaff": "Staff",
+  "roleStoreManager": "Store Manager",
+  "roleAdmin": "Admin",
+  "profileTitle": "My profile",
+  "profileEmployeeId": "Employee ID",
+  "profileMobile": "Mobile (login)",
+  "profileStore": "Store",
+  "profileReportsTo": "Reports to",
+  "profileEmergencyContact": "Emergency contact",
+  "profileThisMonth": "This month",
+  "profileOnTime": "{percent}% on time",
+  "profileDoneMissed": "Done {done} · Missed {missed}",
+  "settingsTitle": "Settings",
+  "settingsLanguage": "Language",
+  "settingsNotifications": "Notifications",
+  "settingsTaskReminders": "Task reminders",
+  "settingsAlwaysOn": "Always on",
+  "settingsChatMessages": "Chat messages",
+  "settingsAnnouncements": "Announcements",
+  "logOut": "Log out",
+  "logOutAllDevices": "Log out on all devices",
+  "listEmpty": "Nothing here yet.",
+  "notificationsTitle": "Notifications",
+  "notificationsUnread": "{count} unread",
+  "notificationsMarkAllRead": "Mark all read",
+  "filterAllPlain": "All",
+  "notificationsUnreadTab": "Unread ({count})",
+  "notificationsEmpty": "You're all caught up.",
+  "notificationMeta": "{source} · {time}",
+  "notificationUnreadDot": "Unread",
+  "navChat": "Chat",
+  "navAlerts": "Alerts",
+  "chatTitle": "Chat",
+  "chatSearch": "Search chats",
+  "chatEmpty": "No chats yet.",
+  "chatNoMatch": "No chats match your search.",
+  "chatMuted": "Muted",
+  "chatMembers": "{count} members",
+  "chatMute": "Mute this chat",
+  "chatUnmute": "Unmute this chat",
+  "chatPinned": "Pinned",
+  "chatNoMessages": "No messages yet. Say hello.",
+  "chatLoadOlder": "Load older",
+  "chatSenderWithRole": "{name} · {role}",
+  "chatNotSent": "Not sent",
+  "chatReport": "Report message",
+  "chatReported": "Message reported. Admin will review it.",
+  "chatSending": "Sending…",
+  "chatFailedRetry": "Failed — tap to retry",
+  "chatSeenBy": "{time} · ✓✓ Seen by {count}",
+  "chatPhoto": "Photo",
+  "chatReadOnly": "Only Admin can post here.",
+  "chatMutedNotice": "You're muted until {time} after 3 blocked messages. Admin has been told.",
+  "chatMessageHint": "Message",
+  "chatSend": "Send",
+  "chatBlockedAbuse": "This message has words that aren't allowed here.",
+  "chatBlockedLink": "Links can't be shared in chat.",
+  "chatBlockedFlood": "You're sending too fast. Wait a moment.",
+  "chatBlockedSensitive": "This looks like a password or OTP. Never share them in chat.",
+  "chatBlockedMuted": "You're muted for now. Admin has been told.",
+  "taskMessageManager": "Message my SM",
+  "submittedViewChat": "View checklist chat",
+  "@menuRoleLine": {
+    "placeholders": {
+      "role": {
+        "type": "String"
+      },
+      "roles": {
+        "type": "String"
+      }
+    }
+  },
+  "@profileOnTime": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@profileDoneMissed": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "missed": {
+        "type": "int"
+      }
+    }
+  },
+  "@notificationsUnread": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notificationsUnreadTab": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@notificationMeta": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@chatMembers": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@chatSenderWithRole": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "role": {
+        "type": "String"
+      }
+    }
+  },
+  "@chatSeenBy": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@chatMutedNotice": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "managerSections": "Sections",
+  "managerAllChecklist": "All Checklist",
+  "managerActivitiesDone": "activities completed",
+  "managerToReview": "{count} to review",
+  "managerMissed": "{count} missed",
+  "managerNotDone": "{count} not done",
+  "sectionInProgress": "In progress",
+  "sectionCritical": "Critical · {count} missed",
+  "sectionReady": "Ready to submit",
+  "sectionSubmitted": "Submitted to HO",
+  "sectionApproved": "Approved by HO",
+  "sectionReturned": "Returned by HO",
+  "managerSalesMtd": "Sales · {month} MTD",
+  "amountOf": "{amount} of {target}",
+  "dsrDueBy": "DSR due by {time}",
+  "percent": "{percent}%",
+  "sectionReportsTitle": "Section reports",
+  "reviewNothing": "Nothing here right now.",
+  "reviewNeedsReview": "Needs review {count}",
+  "reviewNotDone": "Not done {count}",
+  "reviewOpenNow": "Open now {count}",
+  "reviewNotDoneLine": "Not done · {name} · “{reason}”",
+  "reviewToday": "Today {time}",
+  "reviewTitle": "Report review",
+  "reviewMissedTitle": "Missed task",
+  "reviewChipNeedsReview": "Needs review",
+  "reviewSubmittedBy": "Submitted by {name}",
+  "reviewReason": "Reason",
+  "reviewAssignedTo": "Assigned to {name} · {role}",
+  "reviewLockedAt": "Missed · locked at {time}",
+  "reviewUnlockTitle": "Unlock for {minutes} minutes",
+  "reviewUnlockBody": "{name} gets a notification and can submit until {time}. The task shows as late in reports.",
+  "reviewDoItTitle": "Do it yourself",
+  "reviewDoItBody": "Marked “Done by SM”. Admin verifies it with the section report.",
+  "reviewVerify": "Verify",
+  "reviewEdit": "Edit",
+  "reviewSendBack": "Send back",
+  "reviewUnlockFor": "Unlock for {name}",
+  "reviewDoItMyself": "Do it myself",
+  "reviewLeaveMissed": "Leave missed",
+  "reviewUnlockedTitle": "Task unlocked",
+  "reviewVerifiedTitle": "Entry verified",
+  "reviewUnlockedBody": "{name} can submit it now. It will show as late.",
+  "reviewVerifiedBody": "{name}'s task is now verified. The update is visible in their checklist.",
+  "reviewVerifiedBy": "Verified by {name}",
+  "reviewHistoryKept": "Original evidence stays in task history",
+  "reviewBackToQueue": "Back to review",
+  "sendBackPhotoBlurry": "Photo blurry",
+  "sendBackWrongArea": "Wrong area",
+  "sendBackNotDone": "Task not done",
+  "sendBackTitle": "Send back to staff",
+  "sendBackBody": "The task opens again for them for 30 minutes.",
+  "sendBackQuick": "Quick reasons",
+  "sendBackReason": "Reason*",
+  "editTitle": "Edit entry",
+  "editPhotoUnclear": "Photo unclear",
+  "editWrongPhoto": "Wrong photo",
+  "editRemarkMissing": "Remark missing",
+  "editOther": "Other",
+  "editBody": "Their original photo and remark stay in history and they are notified.",
+  "editNewPhoto": "New photo*",
+  "editWhy": "Why are you editing?*",
+  "editSave": "Save changes",
+  "@managerToReview": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@managerMissed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@managerNotDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@sectionCritical": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@managerSalesMtd": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "@amountOf": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "@dsrDueBy": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@percent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@reviewNeedsReview": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@reviewNotDone": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@reviewOpenNow": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@reviewNotDoneLine": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "@reviewToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@reviewSubmittedBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@reviewAssignedTo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "role": {
+        "type": "String"
+      }
+    }
+  },
+  "@reviewLockedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@reviewUnlockTitle": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "@reviewUnlockBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@reviewUnlockFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@reviewUnlockedBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@reviewVerifiedBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@reviewVerifiedBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "teamTitle": "My team",
+  "teamSubtitle": "{store} · {count} staff",
+  "teamCreateLogin": "+ Create staff login",
+  "teamActive": "Active {count}",
+  "teamInvited": "SMS sent {count}",
+  "teamDeactivated": "Deactivated {count}",
+  "teamInvitedLine": "{roles} · SMS sent {days, plural, =0{today} =1{1 day ago} other{{days} days ago}}, not signed in",
+  "teamLeftLine": "{roles} · left {days, plural, =0{today} =1{1 day ago} other{{days} days ago}}",
+  "teamStatusActive": "Active",
+  "teamStatusDeactivated": "Deactivated",
+  "teamSmsSent": "SMS sent",
+  "teamResendSms": "Resend SMS",
+  "teamLoginCreated": "Login created. {name} will get an SMS.",
+  "teamStep1": "Step 1 of 3 · Details",
+  "teamStep2": "Step 2 of 3 · Pick one or more",
+  "teamStep3": "Step 3 of 3 · Review & send",
+  "teamNewLogin": "New staff login",
+  "teamSmsFailedTitle": "Login created. SMS not sent.",
+  "teamSmsFailedBody": "{name}'s login is ready, but the invitation could not be delivered. Check the number and try again.",
+  "teamNotSignedIn": "Account status · Not signed in",
+  "teamBackToTeam": "Back to team",
+  "teamPhoneTaken": "This number already has a login. Ask Admin to move the person.",
+  "teamFullName": "Full name*",
+  "teamFullNameHint": "As on ID card · letters only",
+  "actionNext": "Next",
+  "teamJobRoles": "Job roles",
+  "teamTasksFromRoles": "Tasks from these roles",
+  "teamAddTask": "+ Add a task",
+  "teamPhoneStore": "{countryCode} {phone} · {store}",
+  "teamJobRole": "Job role",
+  "teamTasks": "Tasks",
+  "teamChatGroups": "Chat groups",
+  "teamDefaultGroups": "Store Team, Checklist",
+  "teamSmsPreviewTitle": "SMS {name} will get",
+  "teamSmsPreview": "Hi {name}, your rapsap ops login is ready. Sign in with this number using OTP. - Rapsap",
+  "teamCreateAndSend": "Create & send SMS",
+  "teamSaved": "Changes saved.",
+  "teamDeactivatedDone": "Login deactivated.",
+  "teamReactivatedDone": "Login reactivated.",
+  "teamChangeNumber": "Change number",
+  "teamReactivate": "Reactivate login",
+  "teamDeactivate": "Deactivate login",
+  "teamDeactivateTitle": "Deactivate {name}'s login?",
+  "teamDeactivateSignedOut": "Signed out on all phones straight away",
+  "teamDeactivateGroups": "Removed from store chat groups",
+  "teamDeactivateHistory": "Past tasks and photos stay in reports",
+  "teamDeactivateReactivate": "You can reactivate them later",
+  "teamReactivateTitle": "Restore {name}'s access?",
+  "teamReactivateTasks": "Future assigned tasks resume after activation.",
+  "actionCancel": "Cancel",
+  "teamNumberUpdated": "Number updated. They can now sign in with {countryCode} {phone}.",
+  "teamVerifyNumber": "Verify new number",
+  "teamNewNumber": "New mobile number*",
+  "teamChangeNumberHelp": "We'll send an OTP to the new number. They read it out to you to confirm. Their tasks, history and groups stay the same.",
+  "teamSendOtpNew": "Send OTP to new number",
+  "teamAskForOtp": "Ask them for the 6-digit OTP sent to {countryCode} {phone}",
+  "teamDidntArrive": "Didn't arrive?",
+  "teamVerifyAndUpdate": "Verify and update",
+  "validationNameRequired": "Enter the full name.",
+  "validationNameLength": "Name must be {min}–{max} characters.",
+  "validationNameLetters": "Use letters only.",
+  "@teamSubtitle": {
+    "placeholders": {
+      "store": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@teamActive": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@teamInvited": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@teamDeactivated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@teamInvitedLine": {
+    "placeholders": {
+      "roles": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@teamLeftLine": {
+    "placeholders": {
+      "roles": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "@teamLoginCreated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@teamSmsFailedBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@teamPhoneStore": {
+    "placeholders": {
+      "countryCode": {
+        "type": "String"
+      },
+      "phone": {
+        "type": "String"
+      },
+      "store": {
+        "type": "String"
+      }
+    }
+  },
+  "@teamSmsPreviewTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@teamSmsPreview": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@teamDeactivateTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@teamReactivateTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@teamNumberUpdated": {
+    "placeholders": {
+      "countryCode": {
+        "type": "String"
+      },
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "@teamAskForOtp": {
+    "placeholders": {
+      "countryCode": {
+        "type": "String"
+      },
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "@validationNameLength": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "listSeparatorJoin": "{first} · {second}",
+  "reportNotReady": "Not ready",
+  "reportReady": "Ready",
+  "reportSubmittedAt": "Submitted to HO · {time}",
+  "reportApprovedAt": "Approved by HO · {time}",
+  "reportReturned": "Returned by HO",
+  "reportSnapshot": "Snapshot",
+  "reportFix": "Fix and resend",
+  "reportReturnedLine": "Returned: #{number} {comment}",
+  "reportOpensWithSummary": "Opens {time} · includes daily summary",
+  "reportSendAfterLast": "Send after the last task closes",
+  "reportStats": "{notDone} not done · {photos} photos · {toVerify} to verify",
+  "reportNote": "Note to HO (optional)",
+  "reportSubmit": "Submit to HO",
+  "reportWalkthrough": "#46 Store walkthrough video",
+  "reportClosing": "#47 Closing report",
+  "reportDailySummary": "Daily summary & submit",
+  "reportResubmittedTitle": "Ready for another review",
+  "reportResubmittedBody": "The corrected evidence is attached. The earlier submission remains in history.",
+  "reportRevision": "{section} report · Revision {revision}",
+  "reportNewPhoto": "#{number} New photo attached",
+  "reportBackToReports": "Back to reports",
+  "reportNeedsCorrection": "{section} needs a correction",
+  "reportReturnedBody": "HO returned this report. Fix the flagged entry and send a revised report.",
+  "reportReturnedAt": "Returned today at {time}",
+  "reportSendRevised": "Send revised report",
+  "reportFixEntry": "Fix the entry",
+  "summaryDsrFirstTitle": "Upload today's DSR first",
+  "summaryDsrFirstBody": "The closing summary needs today's sales and bill totals. Your other entries are saved.",
+  "summaryNotAvailable": "{label} · Not available",
+  "summarySales": "Total sales",
+  "summaryBills": "Bills (NOB)",
+  "summaryTicket": "Ticket size",
+  "summaryGoToSales": "Go to Sales",
+  "summaryTitle": "Daily summary",
+  "summarySubtitle": "Closing · daily summary",
+  "summaryFromDsr": "From today's DSR · read-only",
+  "summaryFixExcel": "Wrong? Fix the Excel and re-upload.",
+  "summaryMargin": "Margin %*",
+  "summaryComplaints": "Customer complaints*",
+  "summaryDamages": "Damages ₹*",
+  "summaryShrinkage": "Shrinkage ₹*",
+  "summaryManpower": "Manpower present (of {total})*",
+  "summaryKeyIssues": "Key issues for HO",
+  "summarySend": "Send to HO",
+  "validationNumberRequired": "Enter a number.",
+  "validationNumberRange": "Enter a number from {min} to {max}.",
+  "snapshotPostTo": "Post to",
+  "snapshotPost": "Post to chat",
+  "snapshotSharedTitle": "Report shared",
+  "snapshotSharedBody": "Your snapshot was posted successfully.",
+  "snapshotWindow": "{date} · {from}–{to}",
+  "snapshotMarkDone": "✓",
+  "snapshotMarkMissed": "✕",
+  "snapshotMarkNotDone": "—",
+  "closingSent": "Closing report sent.",
+  "closingShutter": "Shutter photo*",
+  "closingSubtitle": "Closing · #47 · due {time}",
+  "closingTime": "Closing time",
+  "closingTimeHelp": "Taken from the clock when you submit.",
+  "closingEarly": "Before {time}",
+  "closingWho": "Who closed the store?*",
+  "closingFlagNote": "Closing before {time} is flagged to Admin.",
+  "walkthroughSent": "Walkthrough video sent.",
+  "walkthroughTitle": "#46 Store walkthrough",
+  "walkthroughSubtitle": "Floor + back store · due {time}",
+  "walkthroughRec": "● REC {elapsed} / {limit}",
+  "walkthroughStop": "Stop recording",
+  "walkthroughStart": "Start recording",
+  "walkthroughReviewTitle": "Review your walkthrough",
+  "walkthroughReviewBody": "Check that the floor and back store are clearly visible before sending.",
+  "walkthroughPlay": "Play or pause the video",
+  "walkthroughMeta": "Task #46 · Today, {time}",
+  "walkthroughSend": "Send video",
+  "@listSeparatorJoin": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "second": {
+        "type": "String"
+      }
+    }
+  },
+  "@reportSubmittedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@reportApprovedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@reportReturnedLine": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "comment": {
+        "type": "String"
+      }
+    }
+  },
+  "@reportOpensWithSummary": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@reportStats": {
+    "placeholders": {
+      "notDone": {
+        "type": "int"
+      },
+      "photos": {
+        "type": "int"
+      },
+      "toVerify": {
+        "type": "int"
+      }
+    }
+  },
+  "@reportRevision": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      },
+      "revision": {
+        "type": "int"
+      }
+    }
+  },
+  "@reportNewPhoto": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "@reportNeedsCorrection": {
+    "placeholders": {
+      "section": {
+        "type": "String"
+      }
+    }
+  },
+  "@reportReturnedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@summaryNotAvailable": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "@summaryManpower": {
+    "placeholders": {
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@validationNumberRange": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "@snapshotWindow": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "@closingSubtitle": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@closingEarly": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@closingFlagNote": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@walkthroughSubtitle": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@walkthroughRec": {
+    "placeholders": {
+      "elapsed": {
+        "type": "String"
+      },
+      "limit": {
+        "type": "String"
+      }
+    }
+  },
+  "@walkthroughMeta": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "navSales": "Sales",
+  "salesTitle": "Sales (DSR)",
+  "dsrNotUploaded": "Not uploaded",
+  "dsrUploadedOnTime": "Uploaded {time} · On time",
+  "dsrUploadedLate": "Uploaded {time} · Late",
+  "dsrUpload": "Upload today's DSR Excel",
+  "dsrReupload": "Upload again",
+  "dsrMonthTarget": "{month} target",
+  "dsrAchieved": "{percent}% achieved",
+  "dsrNeedPerDay": "Need {amount} a day for the rest of the month",
+  "dsrTrend": "Trend",
+  "dsrChange": "Change",
+  "dsrPeriod1M": "1M",
+  "dsrPeriod3M": "3M",
+  "dsrPeriod6M": "6M",
+  "dsrPeriod1Y": "1Y",
+  "dsrTrendLabel": "Daily sales this period compared with the same days last period",
+  "dsrLegend": "— This period   - - Same days last period",
+  "dsrHistory": "Posting history",
+  "dsrOnTime": "On time",
+  "dsrLate": "Late",
+  "dsrReading": "Reading your file…",
+  "dsrCheckTitle": "Check before saving",
+  "dsrRejectedTitle": "Can't save this file",
+  "dsrXlsx": "XLSX",
+  "dsrFileMeta": "{kb} KB · {note}",
+  "dsrReadNow": "read just now",
+  "dsrNotReadable": "not accepted",
+  "dsrDate": "Date",
+  "dsrNetSales": "Net sales",
+  "dsrMonthTargetShort": "Month target",
+  "dsrReplaces": "Already uploaded for this date? Saving replaces it. The old version stays in history.",
+  "dsrSave": "Save DSR",
+  "dsrWrongStore": "This looks like {store}'s DSR. You can only upload your store's DSR. Pick today's file for your store and try again.",
+  "dsrUnreadableDate": "Unreadable date",
+  "dsrNoSales": "No sales figure",
+  "dsrTooLarge": "Over {mb} MB",
+  "dsrHasMacros": "Has macros",
+  "dsrOtherReasons": "Other reasons a file is blocked",
+  "dsrUploadAnother": "Upload another file",
+  "dsrSavedOnTime": "DSR saved · {time} · on time",
+  "dsrSavedLate": "DSR saved · {time} · late",
+  "dsrSnapshotTitle": "DSR · {date}",
+  "dsrSnapshotLine": "{bills} bills · {ticket} ticket · MTD {percent}%",
+  "dsrReportsGroup": "DSR Reports",
+  "dsrPostedBody": "Your DSR snapshot was posted successfully.",
+  "dsrSalesBills": "{sales} sales · {bills} bills",
+  "dsrBackToSales": "Back to Sales",
+  "@dsrUploadedOnTime": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@dsrUploadedLate": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@dsrMonthTarget": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "@dsrAchieved": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@dsrNeedPerDay": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@dsrFileMeta": {
+    "placeholders": {
+      "kb": {
+        "type": "int"
+      },
+      "note": {
+        "type": "String"
+      }
+    }
+  },
+  "@dsrWrongStore": {
+    "placeholders": {
+      "store": {
+        "type": "String"
+      }
+    }
+  },
+  "@dsrTooLarge": {
+    "placeholders": {
+      "mb": {
+        "type": "int"
+      }
+    }
+  },
+  "@dsrSavedOnTime": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@dsrSavedLate": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@dsrSnapshotTitle": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "@dsrSnapshotLine": {
+    "placeholders": {
+      "bills": {
+        "type": "int"
+      },
+      "ticket": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "@dsrSalesBills": {
+    "placeholders": {
+      "sales": {
+        "type": "String"
+      },
+      "bills": {
+        "type": "int"
+      }
+    }
+  },
+  "dsrChangePercent": "{sign}{value}%",
+  "@dsrChangePercent": {
+    "placeholders": {
+      "sign": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  }
+}

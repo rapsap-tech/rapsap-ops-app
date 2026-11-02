@@ -1,0 +1,33 @@
+# C16 · Closing report
+
+- Figma node: `1124:8140` · frame 390×844 (design size 390×844)
+
+Layout tree from the Figma file (positions are relative to the parent; Container/Background wrappers omitted). Texts are quoted exactly.
+
+- [frame] Header (x0 y0 · 390×70)
+  - [frame] Link - Back (x16 y12 · 36×44)
+  - [frame] Heading 1 (x58 y12 · 316×45)
+    - "Closing report" (x0 y0 · 151×29)
+    - [frame] Small (x0 y29 · 316×16)
+      - "Closing · #47 · due 11:15 PM" (x0 y0 · 316×16)
+  - [frame] Background+Border (x16 y16 · 358×100)
+        - "Closing time" (x0 y0 · 223×16)
+        - "10:58 PM" (x0 y0 · 223×30)
+        - "Taken from the clock when you submit" (x0 y0 · 223×16)
+      - "Before 11 PM" (x10 y4 · 71×16)
+      - "Who closed the store?*" (x0 y0 · 358×18)
+      - [frame] Button (x0 y0 · 64×35)
+        - "Rahul" (x15 y9 · 34×17)
+      - [frame] Button (x72 y0 · 80×35)
+        - "Santosh" (x15 y9 · 50×17)
+      - [frame] Button (x160 y0 · 60×35)
+        - "Vijay" (x15 y9 · 30×17)
+      - [frame] Button (x228 y0 · 68×35)
+        - "Kavita" (x15 y9 · 38×17)
+      - "Shutter photo*" (x0 y0 · 358×18)
+    - [frame] Link (x0 y26 · 358×172)
+        - "Tap to open camera" (x0 y0 · 125×17)
+    - "Closing before 11:00 PM is flagged to Admin." (x14 y12 · 263×19)
+- [frame] Background+HorizontalBorder (x0 y749 · 390×95)
+  - [frame] Button (x16 y17 · 358×54)
+    - "Take photo first" (x120 y16 · 119×21)

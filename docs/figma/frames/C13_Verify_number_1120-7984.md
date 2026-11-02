@@ -1,0 +1,32 @@
+# C13 · Verify number
+
+- Figma node: `1120:7984` · frame 390×844 (design size 390×844)
+
+Layout tree from the Figma file (positions are relative to the parent; Container/Background wrappers omitted). Texts are quoted exactly.
+
+- [frame] Header (x0 y0 · 390×70)
+  - [frame] Link - Back (x16 y12 · 36×44)
+  - [frame] Heading 1 (x58 y12 · 316×45)
+    - "Verify new number" (x0 y0 · 199×29)
+    - [frame] Small (x0 y29 · 316×16)
+      - "Ramesh Patil" (x0 y0 · 316×16)
+    - "Ask Ramesh for the 6-digit OTP sent to +91 99201 44587" (x0 y0 · 358×47)
+  - [frame] OTP from new number (x16 y83 · 358×56)
+    - [frame] Input - Digit 1 (x0 y0 · 53×56)
+        - "7" (x17 y0 · 12×29)
+    - [frame] Input - Digit 2 (x61 y0 · 53×56)
+        - "1" (x19 y0 · 8×29)
+    - [frame] Input - Digit 3 (x121 y0 · 53×56)
+        - "9" (x16 y0 · 14×29)
+    - [frame] Input - Digit 4 (x182 y0 · 53×56)
+        - "0" (x15 y0 · 16×29)
+    - [frame] Input - Digit 5 (x243 y0 · 53×56)
+        - "3" (x16 y0 · 14×29)
+    - [frame] Input - Digit 6 (x303 y0 · 55×56)
+        - "6" (x16 y0 · 14×29)
+      - "Didn't arrive?" (x0 y-1 · 78×19)
+      - "Resend in 0:18" (x0 y-1 · 89×19)
+    - "Number updated. Ramesh can now sign in with +91 99201 44587." (x14 y12 · 305×38)
+- [frame] Background+HorizontalBorder (x0 y749 · 390×95)
+  - [frame] Link (x16 y17 · 358×54)
+    - "Verify and update" (x110 y16 · 138×21)

@@ -1,0 +1,42 @@
+class RoutePaths {
+  new _();
+
+  static const String splash = '/';
+  static const String login = '/login';
+  static const String otp = 'otp';
+  static const String otpFull = '/login/otp';
+  static const String welcome = '/welcome';
+  static const String home = '/home';
+  static const String checklist = '/checklist';
+  static const String task = '/task/:$taskIdParam';
+  static const String taskCamera = 'camera';
+  static const String taskIdParam = 'taskId';
+  static const String profile = '/profile';
+  static const String team = '/team';
+  static const String teamNew = 'new';
+  static const String teamMember = 'member/:$memberIdParam';
+  static const String teamNumber = 'number';
+  static const String memberIdParam = 'memberId';
+  static const String sales = '/sales';
+  static const String dsrUpload = '/dsr-upload';
+  static const String sectionReports = '/section-reports';
+  static const String reportSnapshot = ':$reportIdParam/snapshot';
+  static const String reportReturned = ':$reportIdParam/returned';
+  static const String reportIdParam = 'reportId';
+  static const String dailySummary = 'daily-summary';
+  static const String closingReport = 'closing';
+  static const String closingCamera = 'camera';
+  static const String walkthrough = 'walkthrough';
+  static const String review = '/review/:$taskIdParam';
+  static const String reviewSendBack = 'send-back';
+  static const String reviewEdit = 'edit';
+  static const String reviewEditCamera = 'camera';
+  static const String settings = '/settings';
+  static const String notifications = '/alerts';
+  static const String chat = '/chat';
+  static const String conversation = '/conversation/:$conversationIdParam';
+  static const String conversationCamera = 'camera';
+  static const String conversationIdParam = 'conversationId';
+  static const String openCameraQuery = 'camera';
+  static const String queryTrue = '1';
+}
