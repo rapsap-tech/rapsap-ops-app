@@ -1455,7 +1455,7 @@
   "installTitle": "Install Rapsap Ops",
   "installBody": "Install the app on your phone to continue. It opens full screen and sends you task alerts.",
   "installNow": "Install now",
-  "installIosStepShare": "Tap the Share button in the Safari toolbar",
+  "installIosStepShare": "Tap Share in Safari. Don't see it? Tap the menu (⋯ or ≡) next to the address bar first",
   "installIosStepAdd": "Scroll down and tap \"Add to Home Screen\"",
   "installBrowserStepMenu": "Open the browser menu (⋮)",
   "installBrowserStepAdd": "Tap \"Install app\" or \"Add to Home screen\"",

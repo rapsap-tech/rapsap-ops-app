@@ -1702,7 +1702,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get installIosStepShare =>
-      'Tap the Share button in the Safari toolbar';
+      'Tap Share in Safari. Don\'t see it? Tap the menu (⋯ or ≡) next to the address bar first';
 
   @override
   String get installIosStepAdd => 'Scroll down and tap \"Add to Home Screen\"';

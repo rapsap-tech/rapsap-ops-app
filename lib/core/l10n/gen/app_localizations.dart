@@ -2893,7 +2893,7 @@ abstract class AppLocalizations {
   /// No description provided for @installIosStepShare.
   ///
   /// In en, this message translates to:
-  /// **'Tap the Share button in the Safari toolbar'**
+  /// **'Tap Share in Safari. Don\'t see it? Tap the menu (⋯ or ≡) next to the address bar first'**
   String get installIosStepShare;
 
   /// No description provided for @installIosStepAdd.

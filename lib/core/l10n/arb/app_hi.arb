@@ -465,7 +465,7 @@
   "installTitle": "Rapsap Ops इंस्टॉल करें",
   "installBody": "आगे बढ़ने के लिए ऐप को अपने फ़ोन पर इंस्टॉल करें। यह फ़ुल स्क्रीन में खुलता है और आपको टास्क अलर्ट भेजता है।",
   "installNow": "अभी इंस्टॉल करें",
-  "installIosStepShare": "Safari टूलबार में शेयर बटन दबाएँ",
+  "installIosStepShare": "Safari में शेयर दबाएँ। नहीं दिख रहा? पहले एड्रेस बार के पास मेन्यू (⋯ या ≡) दबाएँ",
   "installIosStepAdd": "नीचे स्क्रॉल करें और \"Add to Home Screen\" दबाएँ",
   "installBrowserStepMenu": "ब्राउज़र मेनू (⋮) खोलें",
   "installBrowserStepAdd": "\"Install app\" या \"Add to Home screen\" दबाएँ",

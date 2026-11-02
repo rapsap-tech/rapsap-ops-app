@@ -1698,7 +1698,8 @@ class AppLocalizationsMr extends AppLocalizations {
   String get installNow => 'आता इन्स्टॉल करा';
 
   @override
-  String get installIosStepShare => 'Safari टूलबारमधील शेअर बटण दाबा';
+  String get installIosStepShare =>
+      'Safari मध्ये शेअर दाबा. दिसत नाही? आधी ॲड्रेस बारजवळील मेन्यू (⋯ किंवा ≡) दाबा';
 
   @override
   String get installIosStepAdd =>

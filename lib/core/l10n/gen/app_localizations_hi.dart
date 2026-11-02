@@ -1701,7 +1701,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get installNow => 'अभी इंस्टॉल करें';
 
   @override
-  String get installIosStepShare => 'Safari टूलबार में शेयर बटन दबाएँ';
+  String get installIosStepShare =>
+      'Safari में शेयर दबाएँ। नहीं दिख रहा? पहले एड्रेस बार के पास मेन्यू (⋯ या ≡) दबाएँ';
 
   @override
   String get installIosStepAdd =>

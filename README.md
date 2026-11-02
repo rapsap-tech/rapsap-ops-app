@@ -38,6 +38,23 @@ make build-apk
 
 Camera and "Add to Home Screen" need HTTPS or `localhost`.
 
+## Test the PWA in the iOS Simulator
+
+The Simulator shares the Mac's `localhost`, so no tunnel or HTTPS is needed.
+
+```bash
+make build-web
+python3 -m http.server 8080 -d build/web   # keep running in its own terminal tab
+open -a Simulator
+xcrun simctl openurl booted http://localhost:8080
+```
+
+1. Safari shows the install screen. Follow its steps: Share (under the ⋯ / ≡ menu on newer Safari) → **Add to Home Screen** → **Add**.
+2. Close Safari and open **Rapsap Ops** from the home screen to test the installed app.
+3. After a code change: run `make build-web` again, delete the home-screen icon, and repeat from `openurl`.
+
+Console and network: in Safari on the Mac, **Develop → Simulator → localhost** (enable the Develop menu in Safari Settings → Advanced).
+
 ## Quality
 
 ```bash
