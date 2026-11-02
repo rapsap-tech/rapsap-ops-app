@@ -1686,4 +1686,46 @@ class AppLocalizationsMr extends AppLocalizations {
   String dsrChangePercent(String sign, String value) {
     return '$sign$value%';
   }
+
+  @override
+  String get installTitle => 'Rapsap Ops इन्स्टॉल करा';
+
+  @override
+  String get installBody =>
+      'पुढे जाण्यासाठी ॲप तुमच्या फोनवर इन्स्टॉल करा. ते फुल स्क्रीनमध्ये उघडते आणि तुम्हाला टास्क अलर्ट पाठवते.';
+
+  @override
+  String get installNow => 'आता इन्स्टॉल करा';
+
+  @override
+  String get installIosStepShare => 'Safari टूलबारमधील शेअर बटण दाबा';
+
+  @override
+  String get installIosStepAdd =>
+      'खाली स्क्रोल करा आणि \"Add to Home Screen\" दाबा';
+
+  @override
+  String get installBrowserStepMenu => 'ब्राउझर मेनू (⋮) उघडा';
+
+  @override
+  String get installBrowserStepAdd =>
+      '\"Install app\" किंवा \"Add to Home screen\" दाबा';
+
+  @override
+  String get installStepOpen => 'होम स्क्रीनवरून Rapsap Ops उघडा';
+
+  @override
+  String get installIosNote =>
+      'ही लिंक दुसऱ्या ॲपमध्ये उघडली आहे? आधी ती Safari मध्ये उघडा.';
+
+  @override
+  String get installBrowserNote =>
+      'आधीच इन्स्टॉल केले आहे? होम स्क्रीनवरून Rapsap Ops उघडा.';
+
+  @override
+  String get installDoneTitle => 'ॲप इन्स्टॉल झाले';
+
+  @override
+  String get installDoneBody =>
+      'हा टॅब बंद करा आणि होम स्क्रीनवरून Rapsap Ops उघडा.';
 }

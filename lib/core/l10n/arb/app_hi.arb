@@ -461,5 +461,17 @@
   "dsrPostedBody": "आपका DSR स्नैपशॉट सफलतापूर्वक पोस्ट हो गया.",
   "dsrSalesBills": "{sales} बिक्री · {bills} बिल",
   "dsrBackToSales": "बिक्री पर वापस",
-  "dsrChangePercent": "{sign}{value}%"
+  "dsrChangePercent": "{sign}{value}%",
+  "installTitle": "Rapsap Ops इंस्टॉल करें",
+  "installBody": "आगे बढ़ने के लिए ऐप को अपने फ़ोन पर इंस्टॉल करें। यह फ़ुल स्क्रीन में खुलता है और आपको टास्क अलर्ट भेजता है।",
+  "installNow": "अभी इंस्टॉल करें",
+  "installIosStepShare": "Safari टूलबार में शेयर बटन दबाएँ",
+  "installIosStepAdd": "नीचे स्क्रॉल करें और \"Add to Home Screen\" दबाएँ",
+  "installBrowserStepMenu": "ब्राउज़र मेनू (⋮) खोलें",
+  "installBrowserStepAdd": "\"Install app\" या \"Add to Home screen\" दबाएँ",
+  "installStepOpen": "होम स्क्रीन से Rapsap Ops खोलें",
+  "installIosNote": "यह लिंक किसी दूसरे ऐप में खुला है? पहले इसे Safari में खोलें।",
+  "installBrowserNote": "पहले से इंस्टॉल है? होम स्क्रीन से Rapsap Ops खोलें।",
+  "installDoneTitle": "ऐप इंस्टॉल हो गया",
+  "installDoneBody": "यह टैब बंद करें और होम स्क्रीन से Rapsap Ops खोलें।"
 }

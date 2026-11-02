@@ -18,21 +18,35 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="Rapsap Ops: daily store checklist and reports.">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="rapsap_ops_app">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Rapsap Ops">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>rapsap_ops_app</title>
+  <title>Rapsap Ops</title>
+  <meta name="theme-color" content="#4866EC">
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <!-- Captured before Flutter loads; read by install_service_web.dart. -->
+  <script>
+    window.addEventListener('beforeinstallprompt', function (event) {
+      event.preventDefault();
+      window.rapsapInstallPrompt = event;
+      window.dispatchEvent(new Event('rapsapinstallchange'));
+    });
+    window.addEventListener('appinstalled', function () {
+      window.rapsapInstallPrompt = null;
+      window.rapsapInstalled = true;
+      window.dispatchEvent(new Event('rapsapinstallchange'));
+    });
+  </script>
   <!--
     You can customize the "flutter_bootstrap.js" script.
     This is useful to provide a custom configuration to the Flutter loader

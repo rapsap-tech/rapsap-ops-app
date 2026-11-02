@@ -36,4 +36,9 @@ void main() {
     expect(go(signedIn, '/welcome'), '/home');
     expect(go(signedIn, '/checklist'), isNull);
   });
+
+  test('installed app and desktop leave the install page', () {
+    expect(go(signedIn, '/install'), '/');
+    expect(go(signedOut, '/install'), '/');
+  });
 }

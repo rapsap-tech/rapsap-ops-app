@@ -2,6 +2,7 @@ class RouteNames {
   new _();
 
   static const String splash = 'splash';
+  static const String install = 'install';
   static const String login = 'login';
   static const String otp = 'otp';
   static const String welcome = 'welcome';

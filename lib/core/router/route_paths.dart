@@ -2,6 +2,7 @@ class RoutePaths {
   new _();
 
   static const String splash = '/';
+  static const String install = '/install';
   static const String login = '/login';
   static const String otp = 'otp';
   static const String otpFull = '/login/otp';

@@ -10,14 +10,17 @@ import 'package:rapsap_ops_app/core/bloc/connectivity_cubit.dart';
 import 'package:rapsap_ops_app/core/bloc/locale_cubit.dart';
 import 'package:rapsap_ops_app/core/bloc/session_cubit.dart';
 import 'package:rapsap_ops_app/core/di/injection.dart';
+import 'package:rapsap_ops_app/core/services/install/install_service.dart';
 import 'package:rapsap_ops_app/core/services/permissions/permission_service.dart';
 import 'package:rapsap_ops_app/features/auth/domain/usecases/accept_consent.dart';
 import 'package:rapsap_ops_app/features/auth/domain/usecases/send_otp.dart';
 import 'package:rapsap_ops_app/features/auth/domain/usecases/verify_otp.dart';
 import 'package:rapsap_ops_app/features/auth/presentation/bloc/first_sign_in_cubit.dart';
+import 'package:rapsap_ops_app/features/auth/presentation/bloc/install_cubit.dart';
 import 'package:rapsap_ops_app/features/auth/presentation/bloc/login_cubit.dart';
 import 'package:rapsap_ops_app/features/auth/presentation/bloc/otp_cubit.dart';
 import 'package:rapsap_ops_app/features/auth/presentation/pages/first_sign_in_page.dart';
+import 'package:rapsap_ops_app/features/auth/presentation/pages/install_page.dart';
 import 'package:rapsap_ops_app/features/auth/presentation/pages/login_page.dart';
 import 'package:rapsap_ops_app/features/auth/presentation/pages/otp_page.dart';
 import 'package:rapsap_ops_app/features/chat/presentation/bloc/chat_list_cubit.dart';
@@ -59,6 +62,8 @@ class _MockVerifyOtp extends Mock implements VerifyOtp;
 class _MockAccept extends Mock implements AcceptConsent;
 
 class _MockPermissions extends Mock implements PermissionService;
+
+class _MockInstall extends Mock implements InstallService;
 
 class _MockGetToday extends Mock implements GetTodayChecklist;
 
@@ -103,6 +108,9 @@ void main() {
         .thenAnswer((_) async => AppPermissionStatus.granted);
     when(permissions.notificationStatus)
         .thenAnswer((_) async => AppPermissionStatus.unknown);
+    final install = _MockInstall();
+    when(() => install.mode).thenReturn(InstallMode.iosGuide);
+    when(() => install.modeChanges).thenAnswer((_) => const Stream.empty());
     final getToday = _MockGetToday();
     final today = (await FakeChecklistRemoteDataSource().today()).toEntity();
     when(getToday.call).thenAnswer((_) async => Right(today));
@@ -113,7 +121,8 @@ void main() {
     getIt
       ..registerFactory(() => LoginCubit(_MockSendOtp()))
       ..registerFactory(() => OtpCubit(_MockVerifyOtp(), _MockSendOtp()))
-      ..registerFactory(() => FirstSignInCubit(permissions, _MockAccept()));
+      ..registerFactory(() => FirstSignInCubit(permissions, _MockAccept()))
+      ..registerFactory(() => InstallCubit(install));
     await registerTaskCubit();
     registerAppCubits(session);
   });
@@ -126,6 +135,7 @@ void main() {
       args: OtpPageArgs(phone: '9876543210', ticket: testTicket),
     ),
     'first sign-in': (_) => const FirstSignInPage(),
+    'install (iOS guide)': (_) => const InstallPage(),
     'staff home': (c) => BlocProvider.value(
       value: c,
       child: const Scaffold(body: StaffHomePage()),

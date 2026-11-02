@@ -29,6 +29,8 @@ import 'package:rapsap_ops_app/core/services/app_update/app_update_service.dart'
     as _i613;
 import 'package:rapsap_ops_app/core/services/files/file_picker_service.dart'
     as _i65;
+import 'package:rapsap_ops_app/core/services/install/install_service.dart'
+    as _i600;
 import 'package:rapsap_ops_app/core/services/media/camera_service.dart'
     as _i869;
 import 'package:rapsap_ops_app/core/services/media/photo_processor.dart'
@@ -61,6 +63,8 @@ import 'package:rapsap_ops_app/features/auth/domain/usecases/verify_otp.dart'
     as _i797;
 import 'package:rapsap_ops_app/features/auth/presentation/bloc/first_sign_in_cubit.dart'
     as _i667;
+import 'package:rapsap_ops_app/features/auth/presentation/bloc/install_cubit.dart'
+    as _i585;
 import 'package:rapsap_ops_app/features/auth/presentation/bloc/login_cubit.dart'
     as _i762;
 import 'package:rapsap_ops_app/features/auth/presentation/bloc/logout_cubit.dart'
@@ -317,6 +321,7 @@ extension GetItInjectableX on _i174.GetIt {
       dispose: (i) => i.dispose(),
     );
     gh.lazySingleton<_i65.FilePickerService>(() => _i65.FilePickerService());
+    gh.lazySingleton<_i600.InstallService>(() => _i600.InstallService.create());
     gh.lazySingleton<_i886.PhotoProcessor>(() => _i886.PhotoProcessor());
     gh.lazySingleton<_i269.PermissionService>(
       () => _i269.PermissionService.create(),
@@ -331,6 +336,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i814.SecureStorageService>(
       () => _i814.SecureStorageService(gh<_i558.FlutterSecureStorage>()),
+    );
+    gh.factory<_i585.InstallCubit>(
+      () => _i585.InstallCubit(gh<_i600.InstallService>()),
     );
     gh.lazySingleton<_i932.TeamRemoteDataSource>(
       () => _i1035.FakeTeamRemoteDataSource(),
@@ -805,12 +813,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i92.LogoutCubit>(
       () => _i92.LogoutCubit(gh<_i355.LogOut>(), gh<_i1041.SessionCubit>()),
     );
-    gh.lazySingleton<_i288.AppRouter>(
-      () => _i288.AppRouter(gh<_i1041.SessionCubit>()),
-      dispose: (i) => i.dispose(),
-    );
     gh.factory<_i1.ProfileCubit>(
       () => _i1.ProfileCubit(gh<_i629.GetProfile>()),
+    );
+    gh.lazySingleton<_i288.AppRouter>(
+      () => _i288.AppRouter(
+        gh<_i1041.SessionCubit>(),
+        gh<_i600.InstallService>(),
+      ),
+      dispose: (i) => i.dispose(),
     );
     return this;
   }

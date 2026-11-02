@@ -1451,5 +1451,17 @@
         "type": "String"
       }
     }
-  }
+  },
+  "installTitle": "Install Rapsap Ops",
+  "installBody": "Install the app on your phone to continue. It opens full screen and sends you task alerts.",
+  "installNow": "Install now",
+  "installIosStepShare": "Tap the Share button in the Safari toolbar",
+  "installIosStepAdd": "Scroll down and tap \"Add to Home Screen\"",
+  "installBrowserStepMenu": "Open the browser menu (⋮)",
+  "installBrowserStepAdd": "Tap \"Install app\" or \"Add to Home screen\"",
+  "installStepOpen": "Open Rapsap Ops from your home screen",
+  "installIosNote": "Opened this link inside another app? Open it in Safari first.",
+  "installBrowserNote": "Already installed? Open Rapsap Ops from your home screen.",
+  "installDoneTitle": "App installed",
+  "installDoneBody": "Close this tab and open Rapsap Ops from your home screen."
 }

@@ -8,6 +8,7 @@ const String _fromKey = 'from';
 /// deep link lands back on it.
 String? sessionRedirect(SessionState session, Uri uri) {
   final location = uri.path;
+  if (location == RoutePaths.install) return RoutePaths.splash;
   final onAuthPage =
       location == RoutePaths.login || location == RoutePaths.otpFull;
   final onEntryPage =

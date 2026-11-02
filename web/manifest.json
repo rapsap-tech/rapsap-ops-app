@@ -1,11 +1,11 @@
 {
-    "name": "rapsap_ops_app",
-    "short_name": "rapsap_ops_app",
+    "name": "Rapsap Ops",
+    "short_name": "Rapsap Ops",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#FCFCFC",
+    "theme_color": "#4866EC",
+    "description": "Rapsap Ops: daily store checklist and reports.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

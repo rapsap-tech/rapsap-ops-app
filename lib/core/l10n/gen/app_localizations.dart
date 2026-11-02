@@ -2871,6 +2871,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{sign}{value}%'**
   String dsrChangePercent(String sign, String value);
+
+  /// No description provided for @installTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Install Rapsap Ops'**
+  String get installTitle;
+
+  /// No description provided for @installBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Install the app on your phone to continue. It opens full screen and sends you task alerts.'**
+  String get installBody;
+
+  /// No description provided for @installNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Install now'**
+  String get installNow;
+
+  /// No description provided for @installIosStepShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the Share button in the Safari toolbar'**
+  String get installIosStepShare;
+
+  /// No description provided for @installIosStepAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll down and tap \"Add to Home Screen\"'**
+  String get installIosStepAdd;
+
+  /// No description provided for @installBrowserStepMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the browser menu (⋮)'**
+  String get installBrowserStepMenu;
+
+  /// No description provided for @installBrowserStepAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap \"Install app\" or \"Add to Home screen\"'**
+  String get installBrowserStepAdd;
+
+  /// No description provided for @installStepOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Rapsap Ops from your home screen'**
+  String get installStepOpen;
+
+  /// No description provided for @installIosNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Opened this link inside another app? Open it in Safari first.'**
+  String get installIosNote;
+
+  /// No description provided for @installBrowserNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Already installed? Open Rapsap Ops from your home screen.'**
+  String get installBrowserNote;
+
+  /// No description provided for @installDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'App installed'**
+  String get installDoneTitle;
+
+  /// No description provided for @installDoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Close this tab and open Rapsap Ops from your home screen.'**
+  String get installDoneBody;
 }
 
 class _AppLocalizationsDelegate

@@ -3,12 +3,15 @@ import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/bloc/session_cubit.dart';
 import 'package:rapsap_ops_app/core/router/go_router_refresh_stream.dart';
+import 'package:rapsap_ops_app/core/router/guards/install_guard.dart';
 import 'package:rapsap_ops_app/core/router/guards/role_guard.dart';
 import 'package:rapsap_ops_app/core/router/guards/session_guard.dart';
 import 'package:rapsap_ops_app/core/router/route_names.dart';
 import 'package:rapsap_ops_app/core/router/route_paths.dart';
+import 'package:rapsap_ops_app/core/services/install/install_service.dart';
 import 'package:rapsap_ops_app/core/widgets/not_found_view.dart';
 import 'package:rapsap_ops_app/features/auth/presentation/pages/first_sign_in_page.dart';
+import 'package:rapsap_ops_app/features/auth/presentation/pages/install_page.dart';
 import 'package:rapsap_ops_app/features/auth/presentation/pages/login_page.dart';
 import 'package:rapsap_ops_app/features/auth/presentation/pages/otp_page.dart';
 import 'package:rapsap_ops_app/features/auth/presentation/pages/splash_page.dart';
@@ -39,16 +42,25 @@ import 'package:rapsap_ops_app/features/team/presentation/pages/team_page.dart';
 
 @lazySingleton
 class AppRouter {
-  new(this._session) : _refresh = GoRouterRefreshStream(_session.stream);
+  new(this._session, this._install)
+    : _refresh = GoRouterRefreshStream(_session.stream);
 
   final SessionCubit _session;
+  final InstallService _install;
   final GoRouterRefreshStream _refresh;
 
   late final GoRouter router = GoRouter(
     initialLocation: RoutePaths.splash,
     refreshListenable: _refresh,
-    redirect: (_, state) => sessionRedirect(_session.state, state.uri),
+    redirect: (_, state) => _install.isRequired
+        ? installRedirect(state.uri)
+        : sessionRedirect(_session.state, state.uri),
     routes: [
+      GoRoute(
+        path: RoutePaths.install,
+        name: RouteNames.install,
+        builder: (_, _) => const InstallPage(),
+      ),
       GoRoute(
         path: RoutePaths.splash,
         name: RouteNames.splash,
