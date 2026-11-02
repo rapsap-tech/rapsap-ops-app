@@ -11,20 +11,17 @@ enum CameraStartResult { ready, denied, unavailable }
 @injectable
 class CameraService {
   CameraController? _controller;
-  List<CameraDescription> _cameras = const [];
   bool _disposed = false;
-
-  bool get canSwitch => _cameras.length > 1;
 
   Future<CameraStartResult> start({bool withAudio = false}) async {
     _disposed = false;
     try {
-      _cameras = await availableCameras();
+      final cameras = await availableCameras();
       if (_disposed) return CameraStartResult.unavailable;
-      if (_cameras.isEmpty) return CameraStartResult.unavailable;
-      final back = _cameras.firstWhere(
+      if (cameras.isEmpty) return CameraStartResult.unavailable;
+      final back = cameras.firstWhere(
         (c) => c.lensDirection == CameraLensDirection.back,
-        orElse: () => _cameras.first,
+        orElse: () => cameras.first,
       );
       final controller = CameraController(
         back,
@@ -56,15 +53,6 @@ class CameraService {
       return const SizedBox.shrink();
     }
     return controller.buildPreview();
-  }
-
-  Future<void> switchCamera() async {
-    final controller = _controller;
-    if (controller == null || !canSwitch) return;
-    final next =
-        _cameras[(_cameras.indexOf(controller.description) + 1) %
-            _cameras.length];
-    await controller.setDescription(next);
   }
 
   Future<Uint8List> takePhoto() async {

@@ -464,9 +464,6 @@ class AppLocalizationsMr extends AppLocalizations {
   String get cameraTakePhoto => 'फोटो काढा';
 
   @override
-  String get cameraSwitch => 'कॅमेरा बदला';
-
-  @override
   String get cameraDenied =>
       'कॅमेरा ब्लॉक आहे. ब्राउझर किंवा फोन सेटिंग्जमध्ये तो चालू करा आणि पुन्हा प्रयत्न करा.';
 

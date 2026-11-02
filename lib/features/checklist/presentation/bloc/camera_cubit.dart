@@ -42,8 +42,6 @@ class CameraCubit extends Cubit<CameraState> {
     );
   }
 
-  Future<void> switchCamera() => camera.switchCamera();
-
   /// [stamp] is built at the moment of capture so its time is exact.
   Future<void> capture(List<String> Function() stamp) async {
     if (state.status != CameraStatus.ready) return;

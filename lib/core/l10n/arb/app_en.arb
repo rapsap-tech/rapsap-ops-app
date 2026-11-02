@@ -304,7 +304,6 @@
   "cameraOnly": "Camera only · gallery is off",
   "cameraClose": "Close camera",
   "cameraTakePhoto": "Take photo",
-  "cameraSwitch": "Switch camera",
   "cameraDenied": "Camera is blocked. Turn it on in your browser or phone settings and try again.",
   "cameraUnavailable": "No camera found on this device.",
   "resultConfirmed": "Confirmed",

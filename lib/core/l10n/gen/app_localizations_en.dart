@@ -464,9 +464,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cameraTakePhoto => 'Take photo';
 
   @override
-  String get cameraSwitch => 'Switch camera';
-
-  @override
   String get cameraDenied =>
       'Camera is blocked. Turn it on in your browser or phone settings and try again.';
 

@@ -36,7 +36,7 @@ Figma variables defined in the file: `Schemes/On Primary` = `#FFFFFF`, `Static/T
 | X-screens: background / title / body / card border | `#FAFBFE` / `#191C2B` / `#667085` / `#DFE4F0` | `resultBackground` / `resultTitle` / `resultBody` / `resultCardBorder` |
 | X-screens: "Action needed" badge bg / text | `#FFF1DB` / `#975E00` | `warningSurface` / `warningText` |
 | X-screens: secondary button bg / text | `#F0F3FF` / `#435BF0` | `secondaryButton` / `secondaryButtonText` |
-| Camera: background / subtitle / frame guide / switch border | `#00030C` / `#C9CDE0` / white 70% / white 40% | `cameraBackground` / `cameraSubtitle` / `cameraFrame` / `cameraSwitchBorder` |
+| Camera: background / subtitle / frame guide | `#00030C` / `#C9CDE0` / white 70% | `cameraBackground` / `cameraSubtitle` / `cameraFrame` |
 | Photo stamp background | `rgba(0,3,12,0.65)` | `stampBackground` |
 | Photo placeholder gradient | `#D9DDE8` → `#B9C0D4` | `photoPlaceholder` |
 

@@ -844,12 +844,6 @@ abstract class AppLocalizations {
   /// **'Take photo'**
   String get cameraTakePhoto;
 
-  /// No description provided for @cameraSwitch.
-  ///
-  /// In en, this message translates to:
-  /// **'Switch camera'**
-  String get cameraSwitch;
-
   /// No description provided for @cameraDenied.
   ///
   /// In en, this message translates to:

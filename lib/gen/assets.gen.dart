@@ -51,10 +51,6 @@ class $AssetsIconsGen {
   /// File path: assets/icons/photo_add.svg
   SvgGenImage get photoAdd => const SvgGenImage('assets/icons/photo_add.svg');
 
-  /// File path: assets/icons/switch_camera.svg
-  SvgGenImage get switchCamera =>
-      const SvgGenImage('assets/icons/switch_camera.svg');
-
   /// List of all assets
   List<SvgGenImage> get values => [
     back,
@@ -68,7 +64,6 @@ class $AssetsIconsGen {
     navHome,
     navSales,
     photoAdd,
-    switchCamera,
   ];
 }
 

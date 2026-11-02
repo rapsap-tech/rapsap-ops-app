@@ -41,7 +41,6 @@ class AppColors {
   static const Color cameraBackground = Color(0xFF00030C);
   static const Color cameraSubtitle = Color(0xFFC9CDE0);
   static const Color cameraFrame = Color(0xB3FFFFFF);
-  static const Color cameraSwitchBorder = Color(0x66FFFFFF);
   static const Color stampBackground = Color(0xA600030C);
   static const Color photoPlaceholder = Color(0xFFD9DDE8);
   static const Color transparentBorder = Color(0x00000000);

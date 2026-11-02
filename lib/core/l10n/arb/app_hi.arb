@@ -124,7 +124,6 @@
   "cameraOnly": "सिर्फ़ कैमरा · गैलरी बंद",
   "cameraClose": "कैमरा बंद करें",
   "cameraTakePhoto": "फ़ोटो लें",
-  "cameraSwitch": "कैमरा बदलें",
   "cameraDenied": "कैमरा ब्लॉक है. ब्राउज़र या फ़ोन की सेटिंग में इसे चालू करें और फिर से कोशिश करें.",
   "cameraUnavailable": "इस डिवाइस पर कैमरा नहीं मिला.",
   "resultConfirmed": "पुष्टि हुई",
