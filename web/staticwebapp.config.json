@@ -1,0 +1,15 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/assets/*", "/icons/*", "/canvaskit/*", "*.{js,json,png,wasm,ttf,otf}"]
+  },
+  "routes": [
+    { "route": "/index.html", "headers": { "cache-control": "no-cache" } },
+    { "route": "/flutter_service_worker.js", "headers": { "cache-control": "no-cache" } },
+    { "route": "/manifest.json", "headers": { "cache-control": "no-cache" } }
+  ],
+  "mimeTypes": {
+    ".wasm": "application/wasm",
+    ".json": "application/json"
+  }
+}

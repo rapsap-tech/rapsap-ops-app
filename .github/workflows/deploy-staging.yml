@@ -1,0 +1,39 @@
+name: Deploy PWA to staging
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.47.7
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Write env file
+        run: printf '%s' "$ENV_JSON" > env/env.json
+        env:
+          ENV_JSON: ${{ secrets.ENV_JSON_STAGING }}
+
+      - run: flutter build web --release --dart-define-from-file=env/env.json
+
+      - uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: upload
+          app_location: build/web
+          skip_app_build: true
+          deployment_environment: staging
