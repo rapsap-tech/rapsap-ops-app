@@ -32,6 +32,10 @@
   <title>Rapsap Ops</title>
   <meta name="theme-color" content="#4866EC">
   <link rel="manifest" href="manifest.json">
+  <!-- iOS zooms the page when a focused input is under 16px; Flutter's hidden inputs copy the field's font size. -->
+  <style>
+    input, textarea { font-size: 16px !important; }
+  </style>
 </head>
 <body>
   <!-- Captured before Flutter loads; read by install_service_web.dart. -->
