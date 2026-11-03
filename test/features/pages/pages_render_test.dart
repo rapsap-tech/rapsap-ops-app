@@ -13,6 +13,7 @@ import 'package:rapsap_ops_app/core/di/injection.dart';
 import 'package:rapsap_ops_app/core/services/install/install_service.dart';
 import 'package:rapsap_ops_app/core/services/permissions/permission_service.dart';
 import 'package:rapsap_ops_app/features/auth/domain/usecases/accept_consent.dart';
+import 'package:rapsap_ops_app/features/auth/domain/usecases/get_unsent_proof_owner.dart';
 import 'package:rapsap_ops_app/features/auth/domain/usecases/send_otp.dart';
 import 'package:rapsap_ops_app/features/auth/domain/usecases/verify_otp.dart';
 import 'package:rapsap_ops_app/features/auth/presentation/bloc/first_sign_in_cubit.dart';
@@ -43,10 +44,15 @@ import 'package:rapsap_ops_app/features/notifications/presentation/bloc/notifica
 import 'package:rapsap_ops_app/features/notifications/presentation/pages/notifications_page.dart';
 import 'package:rapsap_ops_app/features/profile/presentation/pages/profile_page.dart';
 import 'package:rapsap_ops_app/features/settings/presentation/pages/settings_page.dart';
+import 'package:rapsap_ops_app/features/uploads/domain/usecases/find_saved_proof.dart';
+import 'package:rapsap_ops_app/features/uploads/domain/usecases/remove_upload.dart';
+import 'package:rapsap_ops_app/features/uploads/domain/usecases/save_upload.dart';
 
+import '../../helpers/always_online.dart';
 import '../../helpers/fixtures.dart';
 import '../../helpers/pump_page.dart';
 import '../../helpers/register_app_cubits.dart';
+import '../../helpers/test_outbox.dart';
 
 class _MockSession extends MockCubit<SessionState> implements SessionCubit;
 
@@ -67,6 +73,8 @@ class _MockInstall extends Mock implements InstallService;
 
 class _MockGetToday extends Mock implements GetTodayChecklist;
 
+class _MockUnsentProof extends Mock implements GetUnsentProofOwner;
+
 void main() {
   late _MockSession session;
   late _MockLocale locale;
@@ -75,14 +83,18 @@ void main() {
   final taskIds = <String, String>{};
 
   Future<void> registerTaskCubit() async {
-    final fake = FakeChecklistRemoteDataSource();
+    final fake = FakeChecklistRemoteDataSource(const AlwaysOnline());
     final repository = ChecklistRepositoryImpl(fake);
+    final outbox = await openTestOutbox();
     getIt.registerFactory(
       () => TaskCubit(
         GetTaskDetail(repository),
         StartCapture(repository),
         SubmitTaskPhoto(repository),
         SubmitTaskNotDone(repository),
+        FindSavedProof(outbox),
+        SaveUpload(outbox),
+        RemoveUpload(outbox),
       ),
     );
     final today = (await fake.today()).toEntity();
@@ -112,19 +124,23 @@ void main() {
     when(() => install.mode).thenReturn(InstallMode.iosGuide);
     when(() => install.modeChanges).thenAnswer((_) => const Stream.empty());
     final getToday = _MockGetToday();
-    final today = (await FakeChecklistRemoteDataSource().today()).toEntity();
+    final today = (await FakeChecklistRemoteDataSource(
+      const AlwaysOnline(),
+    ).today()).toEntity();
     when(getToday.call).thenAnswer((_) async => Right(today));
     checklist = TodayChecklistCubit(getToday);
     await checklist.load();
 
+    final noUnsentProof = _MockUnsentProof();
+    when(noUnsentProof.call).thenReturn(null);
     await getIt.reset();
     getIt
-      ..registerFactory(() => LoginCubit(_MockSendOtp()))
+      ..registerFactory(() => LoginCubit(_MockSendOtp(), noUnsentProof))
       ..registerFactory(() => OtpCubit(_MockVerifyOtp(), _MockSendOtp()))
       ..registerFactory(() => FirstSignInCubit(permissions, _MockAccept()))
       ..registerFactory(() => InstallCubit(install));
     await registerTaskCubit();
-    registerAppCubits(session);
+    await registerAppCubits(session);
   });
 
   tearDown(() => unawaited(checklist.close()));

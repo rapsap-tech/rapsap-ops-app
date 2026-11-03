@@ -1,8 +1,8 @@
-import 'dart:typed_data';
-
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/error/exceptions.dart';
+import 'package:rapsap_ops_app/core/network/network_info.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/checklist/data/datasources/checklist_remote_data_source.dart';
 import 'package:rapsap_ops_app/features/checklist/data/models/capture_session_model.dart';
 import 'package:rapsap_ops_app/features/checklist/data/models/submission_result_model.dart';
@@ -14,6 +14,11 @@ import 'package:rapsap_ops_app/features/checklist/data/models/today_checklist_mo
 @fakeApi
 @LazySingleton(as: ChecklistRemoteDataSource)
 class FakeChecklistRemoteDataSource implements ChecklistRemoteDataSource {
+  new(this._network);
+
+  /// Uploads fail with no device network, like the real API.
+  final NetworkInfo _network;
+
   static const Duration _latency = Duration(milliseconds: 500);
   static const int _uploadSteps = 5;
   static const String _manager = 'Rahul';
@@ -92,14 +97,16 @@ class FakeChecklistRemoteDataSource implements ChecklistRemoteDataSource {
   @override
   Future<SubmissionResultModel> submitPhoto({
     required String taskId,
-    required Uint8List photo,
+    required String clientId,
+    required MediaFile media,
     required String captureToken,
     required String remarks,
     required void Function(int sent, int total) onProgress,
   }) async {
+    if (!await _network.isConnected) throw const NoInternetException();
     for (var step = 1; step <= _uploadSteps; step++) {
       await Future<void>.delayed(_latency ~/ _uploadSteps);
-      onProgress(photo.length * step ~/ _uploadSteps, photo.length);
+      onProgress(media.bytes.length * step ~/ _uploadSteps, media.bytes.length);
     }
     return _complete(taskId, 'submitted');
   }

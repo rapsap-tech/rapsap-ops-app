@@ -1,7 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:fpdart/fpdart.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/chat/domain/entities/chat_message.dart';
 import 'package:rapsap_ops_app/features/chat/domain/entities/conversation.dart';
 
@@ -19,10 +18,10 @@ abstract class ChatRepository {
     required String clientId,
     required String text,
   });
-  Future<Either<Failure, ChatMessage>> sendPhoto(
+  Future<Either<Failure, ChatMessage>> sendMedia(
     String conversationId, {
     required String clientId,
-    required Uint8List photo,
+    required MediaFile media,
   });
   Future<Either<Failure, Unit>> report(String messageId);
   Future<Either<Failure, Unit>> setMuted(

@@ -1,8 +1,7 @@
-import 'dart:typed_data';
-
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/entities/submission_result.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/repositories/checklist_repository.dart';
 
@@ -14,13 +13,15 @@ class SubmitTaskPhoto {
 
   Future<Either<Failure, SubmissionResult>> call({
     required String taskId,
-    required Uint8List photo,
+    required String clientId,
+    required MediaFile media,
     required String captureToken,
     required String remarks,
     required void Function(double progress) onProgress,
   }) => _repository.submitPhoto(
     taskId: taskId,
-    photo: photo,
+    clientId: clientId,
+    media: media,
     captureToken: captureToken,
     remarks: remarks.trim(),
     onProgress: onProgress,

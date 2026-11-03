@@ -172,6 +172,12 @@ abstract class AppLocalizations {
   /// **'Something went wrong. Please try again.'**
   String get errorUnknown;
 
+  /// No description provided for @errorVideoTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'This video is too big to send. Record a shorter one.'**
+  String get errorVideoTooLarge;
+
   /// No description provided for @pageNotFoundTitle.
   ///
   /// In en, this message translates to:
@@ -309,6 +315,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No login found for this number. Check the number or ask your store manager for help.'**
   String get loginNoAccount;
+
+  /// No description provided for @loginUnsentProof.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} has {count} unsent proof on this phone. If someone else signs in, it will be deleted.'**
+  String loginUnsentProof(String name, int count);
 
   /// No description provided for @loginGetOtp.
   ///
@@ -691,7 +703,7 @@ abstract class AppLocalizations {
   /// No description provided for @taskPhotoProof.
   ///
   /// In en, this message translates to:
-  /// **'Photo proof*'**
+  /// **'Photo or video proof*'**
   String get taskPhotoProof;
 
   /// No description provided for @taskTapToOpenCamera.
@@ -751,7 +763,7 @@ abstract class AppLocalizations {
   /// No description provided for @taskTakePhotoFirst.
   ///
   /// In en, this message translates to:
-  /// **'Take photo first'**
+  /// **'Take photo or video first'**
   String get taskTakePhotoFirst;
 
   /// No description provided for @taskSubmit.
@@ -843,6 +855,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Take photo'**
   String get cameraTakePhoto;
+
+  /// No description provided for @cameraModePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get cameraModePhoto;
+
+  /// No description provided for @cameraModeVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Video'**
+  String get cameraModeVideo;
 
   /// No description provided for @cameraDenied.
   ///
@@ -1747,7 +1771,7 @@ abstract class AppLocalizations {
   /// No description provided for @editNewPhoto.
   ///
   /// In en, this message translates to:
-  /// **'New photo*'**
+  /// **'New photo or video*'**
   String get editNewPhoto;
 
   /// No description provided for @editWhy.
@@ -2524,23 +2548,23 @@ abstract class AppLocalizations {
   /// **'Floor + back store · due {time}'**
   String walkthroughSubtitle(String time);
 
-  /// No description provided for @walkthroughRec.
+  /// No description provided for @cameraRec.
   ///
   /// In en, this message translates to:
   /// **'● REC {elapsed} / {limit}'**
-  String walkthroughRec(String elapsed, String limit);
+  String cameraRec(String elapsed, String limit);
 
-  /// No description provided for @walkthroughStop.
+  /// No description provided for @cameraStopRecording.
   ///
   /// In en, this message translates to:
   /// **'Stop recording'**
-  String get walkthroughStop;
+  String get cameraStopRecording;
 
-  /// No description provided for @walkthroughStart.
+  /// No description provided for @cameraStartRecording.
   ///
   /// In en, this message translates to:
   /// **'Start recording'**
-  String get walkthroughStart;
+  String get cameraStartRecording;
 
   /// No description provided for @walkthroughReviewTitle.
   ///
@@ -2554,11 +2578,41 @@ abstract class AppLocalizations {
   /// **'Check that the floor and back store are clearly visible before sending.'**
   String get walkthroughReviewBody;
 
-  /// No description provided for @walkthroughPlay.
+  /// No description provided for @videoPlay.
   ///
   /// In en, this message translates to:
   /// **'Play or pause the video'**
-  String get walkthroughPlay;
+  String get videoPlay;
+
+  /// No description provided for @videoPlayButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Play'**
+  String get videoPlayButton;
+
+  /// No description provided for @videoPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get videoPause;
+
+  /// No description provided for @videoMute.
+  ///
+  /// In en, this message translates to:
+  /// **'Mute'**
+  String get videoMute;
+
+  /// No description provided for @videoUnmute.
+  ///
+  /// In en, this message translates to:
+  /// **'Unmute'**
+  String get videoUnmute;
+
+  /// No description provided for @videoExitFullscreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit full screen'**
+  String get videoExitFullscreen;
 
   /// No description provided for @walkthroughMeta.
   ///

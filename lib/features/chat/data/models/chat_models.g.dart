@@ -45,6 +45,7 @@ _ChatMessageModel _$ChatMessageModelFromJson(Map<String, dynamic> json) =>
       senderRole: json['sender_role'] as String?,
       text: json['text'] as String?,
       photoUrl: json['photo_url'] as String?,
+      videoUrl: json['video_url'] as String?,
       seenBy: (json['seen_by'] as num?)?.toInt() ?? 0,
     );
 
@@ -57,6 +58,7 @@ Map<String, dynamic> _$ChatMessageModelToJson(_ChatMessageModel instance) =>
       'sender_role': instance.senderRole,
       'text': instance.text,
       'photo_url': instance.photoUrl,
+      'video_url': instance.videoUrl,
       'seen_by': instance.seenBy,
     };
 

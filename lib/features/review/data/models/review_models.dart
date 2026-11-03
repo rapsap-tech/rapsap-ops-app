@@ -137,6 +137,7 @@ abstract class ReviewDetailModel with _$ReviewDetailModel {
   const factory({
     required ReviewItemModel item,
     String? photoUrl,
+    String? videoUrl,
     String? remarks,
     DateTime? lockedAt,
     @Default(30) int unlockMinutes,
@@ -150,6 +151,7 @@ abstract class ReviewDetailModel with _$ReviewDetailModel {
   ReviewDetail toEntity() => ReviewDetail(
     item: item.toEntity(),
     photoUrl: photoUrl,
+    videoUrl: videoUrl,
     remarks: remarks,
     lockedAt: lockedAt,
     unlockMinutes: unlockMinutes,

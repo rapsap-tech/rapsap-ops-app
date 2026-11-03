@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/bloc/load_cubit.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/entities/capture_session.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/usecases/start_capture.dart';
 import 'package:rapsap_ops_app/features/section_reports/domain/entities/closing_form.dart';
@@ -20,7 +20,7 @@ class ClosingState extends Equatable {
     this.form,
     this.closedBy = const {},
     this.session,
-    this.photo,
+    this.media,
     this.status = ClosingStatus.idle,
     this.failure,
   });
@@ -29,19 +29,19 @@ class ClosingState extends Equatable {
   final ClosingForm? form;
   final Set<String> closedBy;
   final CaptureSession? session;
-  final Uint8List? photo;
+  final MediaFile? media;
   final ClosingStatus status;
   final Failure? failure;
 
   bool get canSubmit =>
-      closedBy.isNotEmpty && photo != null && status == ClosingStatus.idle;
+      closedBy.isNotEmpty && media != null && status == ClosingStatus.idle;
 
   ClosingState copyWith({
     LoadStatus? load,
     ClosingForm? form,
     Set<String>? closedBy,
     CaptureSession? session,
-    Uint8List? photo,
+    MediaFile? media,
     ClosingStatus? status,
     Failure? failure,
   }) => ClosingState(
@@ -49,7 +49,7 @@ class ClosingState extends Equatable {
     form: form ?? this.form,
     closedBy: closedBy ?? this.closedBy,
     session: session ?? this.session,
-    photo: photo ?? this.photo,
+    media: media ?? this.media,
     status: status ?? this.status,
     failure: failure,
   );
@@ -60,13 +60,13 @@ class ClosingState extends Equatable {
     form,
     closedBy,
     session,
-    photo,
+    media,
     status,
     failure,
   ];
 }
 
-/// C16 · Closing report: who closed + shutter photo (CK-31, CK-32).
+/// C16 · Closing report: who closed + shutter photo or video (CK-31, CK-32).
 @injectable
 class ClosingCubit extends Cubit<ClosingState> {
   new(this._form, this._capture, this._submit) : super(const ClosingState()) {
@@ -110,21 +110,21 @@ class ClosingCubit extends Cubit<ClosingState> {
     );
   }
 
-  void photoTaken(Uint8List? photo) =>
-      emit(state.copyWith(status: ClosingStatus.idle, photo: photo));
+  void mediaTaken(MediaFile? media) =>
+      emit(state.copyWith(status: ClosingStatus.idle, media: media));
 
   Future<void> submit() async {
     final form = state.form;
-    final photo = state.photo;
+    final media = state.media;
     final session = state.session;
-    if (!state.canSubmit || form == null || photo == null || session == null) {
+    if (!state.canSubmit || form == null || media == null || session == null) {
       return;
     }
     emit(state.copyWith(status: ClosingStatus.sending));
     final result = await _submit(
       taskId: form.taskId,
       closedBy: state.closedBy.toList(),
-      photo: photo,
+      media: media,
       captureToken: session.token,
     );
     if (isClosed) return;

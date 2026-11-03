@@ -1,7 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:fpdart/fpdart.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/review/domain/entities/manager_dashboard.dart';
 import 'package:rapsap_ops_app/features/review/domain/entities/review_detail.dart';
 import 'package:rapsap_ops_app/features/review/domain/entities/review_item.dart';
@@ -16,7 +15,7 @@ abstract class ReviewRepository {
   Future<Either<Failure, Unit>> sendBack(String taskId, String reason);
   Future<Either<Failure, Unit>> editEntry({
     required String taskId,
-    required Uint8List photo,
+    required MediaFile media,
     required String captureToken,
     required EditReason reason,
     required String remarks,

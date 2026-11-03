@@ -23,3 +23,8 @@ extension MoneyX on num {
 extension MonthX on DateTime {
   String monthName(String locale) => DateFormat.MMMM(locale).format(this);
 }
+
+extension ClockX on int {
+  /// Seconds as m:ss, e.g. 0:27.
+  String get clock => '${this ~/ 60}:${(this % 60).toString().padLeft(2, '0')}';
+}

@@ -1,9 +1,8 @@
-import 'dart:typed_data';
-
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/error/error_mapper.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/checklist/data/datasources/checklist_remote_data_source.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/entities/capture_session.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/entities/submission_result.dart';
@@ -32,14 +31,16 @@ class ChecklistRepositoryImpl implements ChecklistRepository {
   @override
   Future<Either<Failure, SubmissionResult>> submitPhoto({
     required String taskId,
-    required Uint8List photo,
+    required String clientId,
+    required MediaFile media,
     required String captureToken,
     required String remarks,
     required void Function(double progress) onProgress,
   }) => guardFailure(() async {
     final result = await _remote.submitPhoto(
       taskId: taskId,
-      photo: photo,
+      clientId: clientId,
+      media: media,
       captureToken: captureToken,
       remarks: remarks,
       onProgress: (sent, total) {

@@ -39,6 +39,7 @@ import 'package:rapsap_ops_app/core/services/permissions/permission_service.dart
     as _i269;
 import 'package:rapsap_ops_app/core/services/socket/chat_socket_service.dart'
     as _i572;
+import 'package:rapsap_ops_app/core/services/storage/local_db.dart' as _i936;
 import 'package:rapsap_ops_app/core/services/storage/local_storage_service.dart'
     as _i560;
 import 'package:rapsap_ops_app/core/services/storage/secure_storage_service.dart'
@@ -55,6 +56,8 @@ import 'package:rapsap_ops_app/features/auth/domain/usecases/accept_consent.dart
     as _i976;
 import 'package:rapsap_ops_app/features/auth/domain/usecases/get_current_user.dart'
     as _i298;
+import 'package:rapsap_ops_app/features/auth/domain/usecases/get_unsent_proof_owner.dart'
+    as _i743;
 import 'package:rapsap_ops_app/features/auth/domain/usecases/log_out.dart'
     as _i355;
 import 'package:rapsap_ops_app/features/auth/domain/usecases/send_otp.dart'
@@ -198,7 +201,7 @@ import 'package:rapsap_ops_app/features/review/domain/usecases/verify_entry.dart
 import 'package:rapsap_ops_app/features/review/presentation/bloc/edit_entry_cubit.dart'
     as _i744;
 import 'package:rapsap_ops_app/features/review/presentation/bloc/manager_dashboard_cubit.dart'
-    as _i525;
+    as _i527;
 import 'package:rapsap_ops_app/features/review/presentation/bloc/review_detail_cubit.dart'
     as _i402;
 import 'package:rapsap_ops_app/features/review/presentation/bloc/review_queue_cubit.dart'
@@ -234,7 +237,7 @@ import 'package:rapsap_ops_app/features/section_reports/domain/usecases/submit_w
 import 'package:rapsap_ops_app/features/section_reports/presentation/bloc/closing_cubit.dart'
     as _i638;
 import 'package:rapsap_ops_app/features/section_reports/presentation/bloc/daily_summary_cubit.dart'
-    as _i936;
+    as _i937;
 import 'package:rapsap_ops_app/features/section_reports/presentation/bloc/section_reports_cubit.dart'
     as _i603;
 import 'package:rapsap_ops_app/features/section_reports/presentation/bloc/snapshot_cubit.dart'
@@ -287,6 +290,18 @@ import 'package:rapsap_ops_app/features/team/presentation/bloc/member_detail_cub
     as _i541;
 import 'package:rapsap_ops_app/features/team/presentation/bloc/team_cubit.dart'
     as _i839;
+import 'package:rapsap_ops_app/features/uploads/data/datasources/upload_outbox_local_data_source.dart'
+    as _i525;
+import 'package:rapsap_ops_app/features/uploads/data/repositories/upload_outbox_repository_impl.dart'
+    as _i237;
+import 'package:rapsap_ops_app/features/uploads/domain/repositories/upload_outbox_repository.dart'
+    as _i643;
+import 'package:rapsap_ops_app/features/uploads/domain/usecases/find_saved_proof.dart'
+    as _i438;
+import 'package:rapsap_ops_app/features/uploads/domain/usecases/remove_upload.dart'
+    as _i360;
+import 'package:rapsap_ops_app/features/uploads/domain/usecases/save_upload.dart'
+    as _i606;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 const String _real = 'real';
@@ -306,6 +321,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     await gh.factoryAsync<_i655.PackageInfo>(
       () => registerModule.packageInfo,
+      preResolve: true,
+    );
+    await gh.factoryAsync<_i936.LocalDb>(
+      () => registerModule.localDb,
       preResolve: true,
     );
     gh.factory<_i869.CameraService>(() => _i869.CameraService());
@@ -334,11 +353,27 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i524.DeviceNetworkInfo(gh<_i895.Connectivity>()),
       registerFor: {_fake},
     );
+    gh.lazySingleton<_i461.ChecklistRemoteDataSource>(
+      () => _i870.FakeChecklistRemoteDataSource(gh<_i524.NetworkInfo>()),
+      registerFor: {_fake},
+    );
     gh.lazySingleton<_i814.SecureStorageService>(
       () => _i814.SecureStorageService(gh<_i558.FlutterSecureStorage>()),
     );
+    gh.lazySingleton<_i104.ReportRemoteDataSource>(
+      () => _i979.FakeReportRemoteDataSource(
+        gh<_i461.ChecklistRemoteDataSource>(),
+      ),
+      registerFor: {_fake},
+    );
     gh.factory<_i585.InstallCubit>(
       () => _i585.InstallCubit(gh<_i600.InstallService>()),
+    );
+    gh.lazySingleton<_i931.ReviewRemoteDataSource>(
+      () => _i125.FakeReviewRemoteDataSource(
+        gh<_i461.ChecklistRemoteDataSource>(),
+      ),
+      registerFor: {_fake},
     );
     gh.lazySingleton<_i932.TeamRemoteDataSource>(
       () => _i1035.FakeTeamRemoteDataSource(),
@@ -359,12 +394,11 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i349.FakeAppConfigSource(),
       registerFor: {_fake},
     );
-    gh.lazySingleton<_i461.ChecklistRemoteDataSource>(
-      () => _i870.FakeChecklistRemoteDataSource(),
-      registerFor: {_fake},
-    );
     gh.factory<_i685.ConnectivityCubit>(
       () => _i685.ConnectivityCubit(gh<_i524.NetworkInfo>()),
+    );
+    gh.lazySingleton<_i525.UploadOutboxLocalDataSource>(
+      () => _i525.UploadOutboxLocalDataSource(gh<_i936.LocalDb>()),
     );
     gh.factory<_i239.CameraCubit>(
       () => _i239.CameraCubit(
@@ -379,6 +413,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i726.SettingsRemoteDataSource>(
       () => _i726.FakeSettingsRemoteDataSource(),
       registerFor: {_fake},
+    );
+    gh.lazySingleton<_i643.UploadOutboxRepository>(
+      () => _i237.UploadOutboxRepositoryImpl(
+        gh<_i525.UploadOutboxLocalDataSource>(),
+      ),
     );
     gh.lazySingleton<_i754.ProfileRemoteDataSource>(
       () => _i754.FakeProfileRemoteDataSource(),
@@ -403,10 +442,20 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i621.NetworkEvents>(),
         gh<_i655.PackageInfo>(),
       ),
+      dispose: (i) => i.dispose(),
     );
     gh.lazySingleton<_i58.AuthRemoteDataSource>(
       () => _i58.AuthRemoteDataSourceImpl(gh<_i1055.DioClient>()),
       registerFor: {_real},
+    );
+    gh.factory<_i438.FindSavedProof>(
+      () => _i438.FindSavedProof(gh<_i643.UploadOutboxRepository>()),
+    );
+    gh.factory<_i360.RemoveUpload>(
+      () => _i360.RemoveUpload(gh<_i643.UploadOutboxRepository>()),
+    );
+    gh.factory<_i606.SaveUpload>(
+      () => _i606.SaveUpload(gh<_i643.UploadOutboxRepository>()),
     );
     gh.lazySingleton<_i435.NotificationRemoteDataSource>(
       () => _i435.NotificationRemoteDataSourceImpl(gh<_i1055.DioClient>()),
@@ -436,12 +485,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i932.TeamRemoteDataSourceImpl(gh<_i1055.DioClient>()),
       registerFor: {_real},
     );
-    gh.lazySingleton<_i104.ReportRemoteDataSource>(
-      () => _i979.FakeReportRemoteDataSource(
-        gh<_i461.ChecklistRemoteDataSource>(),
-      ),
-      registerFor: {_fake},
-    );
     gh.lazySingleton<_i349.AppConfigSource>(
       () => _i349.RemoteAppConfigSource(gh<_i1055.DioClient>()),
       registerFor: {_real},
@@ -456,15 +499,17 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i610.ChatRemoteDataSourceImpl(gh<_i1055.DioClient>()),
       registerFor: {_real},
     );
+    gh.lazySingleton<_i763.AuthRepository>(
+      () => _i186.AuthRepositoryImpl(
+        gh<_i58.AuthRemoteDataSource>(),
+        gh<_i814.SecureStorageService>(),
+        gh<_i936.LocalDb>(),
+        gh<_i621.NetworkEvents>(),
+      ),
+    );
     gh.lazySingleton<_i726.SettingsRemoteDataSource>(
       () => _i726.SettingsRemoteDataSourceImpl(gh<_i1055.DioClient>()),
       registerFor: {_real},
-    );
-    gh.lazySingleton<_i931.ReviewRemoteDataSource>(
-      () => _i125.FakeReviewRemoteDataSource(
-        gh<_i461.ChecklistRemoteDataSource>(),
-      ),
-      registerFor: {_fake},
     );
     gh.lazySingleton<_i77.ChatRepository>(
       () => _i677.ChatRepositoryImpl(
@@ -538,14 +583,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i871.SettingsRepository>(
       () => _i1000.SettingsRepositoryImpl(gh<_i726.SettingsRemoteDataSource>()),
     );
+    gh.factory<_i743.GetUnsentProofOwner>(
+      () => _i743.GetUnsentProofOwner(
+        gh<_i763.AuthRepository>(),
+        gh<_i643.UploadOutboxRepository>(),
+      ),
+    );
     gh.lazySingleton<_i128.ReviewRepository>(
       () => _i336.ReviewRepositoryImpl(gh<_i931.ReviewRemoteDataSource>()),
-    );
-    gh.lazySingleton<_i763.AuthRepository>(
-      () => _i186.AuthRepositoryImpl(
-        gh<_i58.AuthRemoteDataSource>(),
-        gh<_i814.SecureStorageService>(),
-      ),
     );
     gh.lazySingleton<_i921.ProfileRepository>(
       () => _i145.ProfileRepositoryImpl(gh<_i754.ProfileRemoteDataSource>()),
@@ -667,8 +712,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i797.VerifyOtp>(
       () => _i797.VerifyOtp(gh<_i763.AuthRepository>()),
     );
-    gh.factory<_i936.DailySummaryCubit>(
-      () => _i936.DailySummaryCubit(
+    gh.factory<_i937.DailySummaryCubit>(
+      () => _i937.DailySummaryCubit(
         gh<_i515.GetDailySummaryForm>(),
         gh<_i161.SubmitDailySummary>(),
       ),
@@ -688,10 +733,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i880.ResendInvite>(),
       ),
     );
-    gh.factory<_i525.ManagerDashboardCubit>(
-      () => _i525.ManagerDashboardCubit(gh<_i395.GetManagerDashboard>()),
+    gh.factory<_i527.ManagerDashboardCubit>(
+      () => _i527.ManagerDashboardCubit(gh<_i395.GetManagerDashboard>()),
     );
-    gh.factory<_i762.LoginCubit>(() => _i762.LoginCubit(gh<_i439.SendOtp>()));
     gh.factory<_i839.InviteCubit>(
       () => _i839.InviteCubit(gh<_i880.ResendInvite>()),
     );
@@ -700,12 +744,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i603.SubmitReportCubit>(
       () => _i603.SubmitReportCubit(gh<_i783.SubmitSectionReport>()),
-    );
-    gh.factory<_i984.WalkthroughCubit>(
-      () => _i984.WalkthroughCubit(
-        gh<_i869.CameraService>(),
-        gh<_i36.SubmitWalkthrough>(),
-      ),
     );
     gh.factory<_i221.NotificationsCubit>(
       () => _i221.NotificationsCubit(
@@ -716,14 +754,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i628.ManagerChatCubit>(
       () => _i628.ManagerChatCubit(gh<_i1042.GetManagerConversation>()),
-    );
-    gh.factory<_i284.TaskCubit>(
-      () => _i284.TaskCubit(
-        gh<_i545.GetTaskDetail>(),
-        gh<_i511.StartCapture>(),
-        gh<_i509.SubmitTaskPhoto>(),
-        gh<_i273.SubmitTaskNotDone>(),
-      ),
     );
     gh.factory<_i629.GetProfile>(
       () => _i629.GetProfile(gh<_i921.ProfileRepository>()),
@@ -757,6 +787,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i684.SubmitClosingReport>(),
       ),
     );
+    gh.factory<_i762.LoginCubit>(
+      () => _i762.LoginCubit(
+        gh<_i439.SendOtp>(),
+        gh<_i743.GetUnsentProofOwner>(),
+      ),
+    );
     gh.factory<_i940.SnapshotCubit>(
       () => _i940.SnapshotCubit(
         gh<_i327.GetReportSnapshot>(),
@@ -770,8 +806,26 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i138.SaveNotificationPrefs>(
       () => _i138.SaveNotificationPrefs(gh<_i871.SettingsRepository>()),
     );
+    gh.factory<_i984.WalkthroughCubit>(
+      () => _i984.WalkthroughCubit(
+        gh<_i869.CameraService>(),
+        gh<_i511.StartCapture>(),
+        gh<_i36.SubmitWalkthrough>(),
+      ),
+    );
     gh.factory<_i474.TodayChecklistCubit>(
       () => _i474.TodayChecklistCubit(gh<_i222.GetTodayChecklist>()),
+    );
+    gh.factory<_i284.TaskCubit>(
+      () => _i284.TaskCubit(
+        gh<_i545.GetTaskDetail>(),
+        gh<_i511.StartCapture>(),
+        gh<_i509.SubmitTaskPhoto>(),
+        gh<_i273.SubmitTaskNotDone>(),
+        gh<_i438.FindSavedProof>(),
+        gh<_i606.SaveUpload>(),
+        gh<_i360.RemoveUpload>(),
+      ),
     );
     gh.factory<_i1026.CheckDsrFile>(
       () => _i1026.CheckDsrFile(gh<_i280.DsrRepository>()),

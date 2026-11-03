@@ -1,4 +1,6 @@
 import 'package:rapsap_ops_app/core/config/env_config.dart';
+import 'package:rapsap_ops_app/core/constants/app_constants.dart';
+import 'package:rapsap_ops_app/core/error/exceptions.dart';
 
 class ApiConstants {
   new _();
@@ -67,10 +69,10 @@ class ChecklistEndpoints {
 class TaskEndpoints {
   const new _();
   String get _base => '${ApiConstants._prefix}/tasks';
-  String byId(String id) => '$_base/$id';
-  String captureToken(String id) => '$_base/$id/capture-token';
-  String submit(String id) => '$_base/$id/submit';
-  String notDone(String id) => '$_base/$id/not-done';
+  String byId(String id) => '$_base/${_id(id)}';
+  String captureToken(String id) => '$_base/${_id(id)}/capture-token';
+  String submit(String id) => '$_base/${_id(id)}/submit';
+  String notDone(String id) => '$_base/${_id(id)}/not-done';
 }
 
 class MeEndpoints {
@@ -84,7 +86,7 @@ class NotificationEndpoints {
   const new _();
   String get list => '${ApiConstants._prefix}/notifications';
   String get readAll => '$list/read-all';
-  String read(String id) => '$list/$id/read';
+  String read(String id) => '$list/${_id(id)}/read';
 }
 
 class ChatEndpoints {
@@ -92,11 +94,11 @@ class ChatEndpoints {
   String get _base => '${ApiConstants._prefix}/chat';
   String get conversations => '$_base/conversations';
   String get managerConversation => '$conversations/my-manager';
-  String conversation(String id) => '$conversations/$id';
+  String conversation(String id) => '$conversations/${_id(id)}';
   String messages(String id) => '${conversation(id)}/messages';
   String photo(String id) => '${conversation(id)}/photos';
   String mute(String id) => '${conversation(id)}/mute';
-  String report(String messageId) => '$_base/messages/$messageId/report';
+  String report(String messageId) => '$_base/messages/${_id(messageId)}/report';
 
   /// Token goes in the first frame, never in the URL (it would end up in logs).
   String get socket => '${ApiConstants.wsUrl}/chat/ws';
@@ -107,19 +109,19 @@ class ReviewEndpoints {
   String get _base => '${ApiConstants._prefix}/review';
   String get dashboard => '${ApiConstants._prefix}/manager/dashboard';
   String get queue => '$_base/queue';
-  String detail(String taskId) => '$_base/$taskId';
-  String verify(String taskId) => '$_base/$taskId/verify';
-  String sendBack(String taskId) => '$_base/$taskId/send-back';
-  String edit(String taskId) => '$_base/$taskId/edit';
-  String unlock(String taskId) => '$_base/$taskId/unlock';
-  String takeOver(String taskId) => '$_base/$taskId/take-over';
+  String detail(String taskId) => '$_base/${_id(taskId)}';
+  String verify(String taskId) => '$_base/${_id(taskId)}/verify';
+  String sendBack(String taskId) => '$_base/${_id(taskId)}/send-back';
+  String edit(String taskId) => '$_base/${_id(taskId)}/edit';
+  String unlock(String taskId) => '$_base/${_id(taskId)}/unlock';
+  String takeOver(String taskId) => '$_base/${_id(taskId)}/take-over';
 }
 
 class TeamEndpoints {
   const new _();
   String get members => '${ApiConstants._prefix}/team/members';
   String get catalog => '${ApiConstants._prefix}/team/catalog';
-  String member(String id) => '$members/$id';
+  String member(String id) => '$members/${_id(id)}';
   String resendInvite(String id) => '${member(id)}/resend-invite';
   String roles(String id) => '${member(id)}/roles';
   String numberChange(String id) => '${member(id)}/number-change';
@@ -131,8 +133,8 @@ class ReportEndpoints {
   const new _();
   String get _base => '${ApiConstants._prefix}/section-reports';
   String get today => '$_base/today';
-  String submit(String id) => '$_base/$id/submit';
-  String snapshot(String id) => '$_base/$id/snapshot';
+  String submit(String id) => '$_base/${_id(id)}/submit';
+  String snapshot(String id) => '$_base/${_id(id)}/snapshot';
   String post(String id) => '${snapshot(id)}/post';
   String get dailySummary => '$_base/daily-summary';
   String get closing => '$_base/closing';
@@ -152,4 +154,11 @@ class AppEndpoints {
   const new _();
   String get config => '${ApiConstants._prefix}/app/config';
   String get health => '${ApiConstants._prefix}/health';
+}
+
+/// Ids come from routes and links, so they are untrusted: only a plain id
+/// may become part of a URL path (no `/`, `..` or `?`).
+String _id(String id) {
+  if (!AppConstants.idPattern.hasMatch(id)) throw const NotFoundException();
+  return id;
 }

@@ -1,7 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:equatable/equatable.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 
 enum MessageStatus { sending, sent, failed, blocked }
 
@@ -14,7 +13,8 @@ class ChatMessage extends Equatable {
     this.senderRole,
     this.text,
     this.photoUrl,
-    this.localPhoto,
+    this.videoUrl,
+    this.localMedia,
     this.status = MessageStatus.sent,
     this.seenBy = 0,
     this.blockReason,
@@ -28,9 +28,10 @@ class ChatMessage extends Equatable {
   final DateTime sentAt;
   final String? text;
   final String? photoUrl;
+  final String? videoUrl;
 
-  /// Photo bytes kept until the upload succeeds, for "tap to retry".
-  final Uint8List? localPhoto;
+  /// Photo or clip kept until the upload succeeds, for "tap to retry".
+  final MediaFile? localMedia;
   final MessageStatus status;
   final int seenBy;
 
@@ -46,7 +47,8 @@ class ChatMessage extends Equatable {
         sentAt: sentAt,
         text: text,
         photoUrl: photoUrl,
-        localPhoto: localPhoto,
+        videoUrl: videoUrl,
+        localMedia: localMedia,
         status: status,
         seenBy: seenBy,
         blockReason: blockReason,
@@ -61,7 +63,8 @@ class ChatMessage extends Equatable {
     sentAt,
     text,
     photoUrl,
-    localPhoto,
+    videoUrl,
+    localMedia,
     status,
     seenBy,
     blockReason,

@@ -39,6 +39,7 @@ class DailySummaryFormView extends StatelessWidget {
       child: AppTextField(
         label: label,
         keyboardType: TextInputType.numberWithOptions(decimal: decimal),
+        maxLength: AppConstants.summaryNumberMaxLength,
         inputFormatters: [
           FilteringTextInputFormatter.allow(
             decimal ? AppConstants.decimalInput : AppConstants.integerInput,
@@ -72,9 +73,38 @@ class DailySummaryFormView extends StatelessWidget {
           decimal: true,
           validator: (v) => Validators.numberInRange(v, 0, 100, l10n),
         ),
-        number(SummaryField.complaints, l10n.summaryComplaints),
-        number(SummaryField.damages, l10n.summaryDamages, decimal: true),
-        number(SummaryField.shrinkage, l10n.summaryShrinkage, decimal: true),
+        number(
+          SummaryField.complaints,
+          l10n.summaryComplaints,
+          validator: (v) => Validators.numberInRange(
+            v,
+            0,
+            AppConstants.summaryMaxCount,
+            l10n,
+          ),
+        ),
+        number(
+          SummaryField.damages,
+          l10n.summaryDamages,
+          decimal: true,
+          validator: (v) => Validators.numberInRange(
+            v,
+            0,
+            AppConstants.summaryMaxAmount,
+            l10n,
+          ),
+        ),
+        number(
+          SummaryField.shrinkage,
+          l10n.summaryShrinkage,
+          decimal: true,
+          validator: (v) => Validators.numberInRange(
+            v,
+            0,
+            AppConstants.summaryMaxAmount,
+            l10n,
+          ),
+        ),
         number(
           SummaryField.manpower,
           l10n.summaryManpower(form.staffTotal),

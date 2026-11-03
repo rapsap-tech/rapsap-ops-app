@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/bloc/load_cubit.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/chat/domain/entities/chat_message.dart';
 import 'package:rapsap_ops_app/features/chat/domain/entities/conversation.dart';
 import 'package:rapsap_ops_app/features/chat/domain/usecases/get_older_messages.dart';
@@ -103,14 +103,14 @@ class ConversationBloc extends Bloc<ConversationEvent, ConversationState> {
     Emitter<ConversationState> emit,
   ) async {
     final text = event.text?.trim();
-    if ((text == null || text.isEmpty) && event.photo == null) return;
+    if ((text == null || text.isEmpty) && event.media == null) return;
     final draft = ChatMessage(
       id: 'local-${DateTime.now().microsecondsSinceEpoch}',
       senderName: '',
       isMine: true,
       sentAt: DateTime.now(),
       text: text,
-      localPhoto: event.photo,
+      localMedia: event.media,
       status: MessageStatus.sending,
     );
     emit(state.copyWith(messages: [...state.messages, draft]));

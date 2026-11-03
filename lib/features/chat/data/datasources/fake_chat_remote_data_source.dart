@@ -1,8 +1,7 @@
-import 'dart:typed_data';
-
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/error/exceptions.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/chat/data/datasources/chat_remote_data_source.dart';
 import 'package:rapsap_ops_app/features/chat/data/models/chat_models.dart';
 
@@ -78,10 +77,10 @@ class FakeChatRemoteDataSource implements ChatRemoteDataSource {
   }
 
   @override
-  Future<ChatMessageModel> sendPhoto(
+  Future<ChatMessageModel> sendMedia(
     String id,
     String clientId,
-    Uint8List photo,
+    MediaFile media,
   ) async {
     await Future<void>.delayed(_latency);
     _moderate('');

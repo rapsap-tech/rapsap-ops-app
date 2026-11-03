@@ -1,11 +1,10 @@
-import 'dart:typed_data';
-
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/constants/api_constants.dart';
-import 'package:rapsap_ops_app/core/constants/app_constants.dart';
 import 'package:rapsap_ops_app/core/network/dio_client.dart';
+import 'package:rapsap_ops_app/core/network/media_part.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/review/data/models/review_models.dart';
 
 abstract class ReviewRemoteDataSource {
@@ -16,7 +15,7 @@ abstract class ReviewRemoteDataSource {
   Future<void> sendBack(String taskId, String reason);
   Future<void> edit({
     required String taskId,
-    required Uint8List photo,
+    required MediaFile media,
     required String captureToken,
     required String reason,
     required String remarks,
@@ -69,7 +68,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   @override
   Future<void> edit({
     required String taskId,
-    required Uint8List photo,
+    required MediaFile media,
     required String captureToken,
     required String reason,
     required String remarks,
@@ -79,11 +78,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
       'capture_token': captureToken,
       'reason': reason,
       'remarks': remarks,
-      'photo': MultipartFile.fromBytes(
-        photo,
-        filename: AppConstants.photoFileName,
-        contentType: DioMediaType('image', 'jpeg'),
-      ),
+      ...mediaPart(media),
     }),
     fromData: (_) {},
   );

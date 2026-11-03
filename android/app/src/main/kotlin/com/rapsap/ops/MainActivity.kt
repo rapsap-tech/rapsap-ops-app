@@ -1,4 +1,4 @@
-package com.example.rapsap_ops_app
+package com.rapsap.ops
 
 import io.flutter.embedding.android.FlutterActivity
 

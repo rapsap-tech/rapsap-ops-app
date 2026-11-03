@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:injectable/injectable.dart';
 
-enum NetworkEvent { sessionExpired, forceUpdateRequired }
+enum NetworkEvent { sessionExpired, signedOut, forceUpdateRequired }
 
 /// App-wide signals raised by the network layer (e.g. refresh failed, 426).
 @lazySingleton

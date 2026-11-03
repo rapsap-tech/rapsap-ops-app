@@ -9,6 +9,9 @@ abstract class AuthRepository {
 
   /// Null when there is no stored session.
   Future<Either<Failure, User?>> currentUser();
+
+  /// The user whose data is kept on this device, signed in or not.
+  User? lastSignedInUser();
   Future<Either<Failure, Unit>> acceptConsent();
 
   /// Single-device logout always clears the local session; all-devices

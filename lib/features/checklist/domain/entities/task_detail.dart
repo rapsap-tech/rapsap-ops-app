@@ -23,6 +23,7 @@ class TaskDetail extends Equatable {
     required this.checklistGroupId,
     this.sendBack,
     this.photoUrl,
+    this.videoUrl,
     this.remarks,
     this.lockedAt,
   });
@@ -37,8 +38,9 @@ class TaskDetail extends Equatable {
   final String checklistGroupId;
   final SendBackNote? sendBack;
 
-  /// Last submitted proof photo, if any.
+  /// Last submitted proof photo or video, if any.
   final String? photoUrl;
+  final String? videoUrl;
   final String? remarks;
   final DateTime? lockedAt;
 
@@ -52,6 +54,7 @@ class TaskDetail extends Equatable {
     checklistGroupId,
     sendBack,
     photoUrl,
+    videoUrl,
     remarks,
     lockedAt,
   ];

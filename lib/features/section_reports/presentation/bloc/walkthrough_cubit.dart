@@ -9,6 +9,7 @@ import 'package:rapsap_ops_app/core/constants/app_constants.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
 import 'package:rapsap_ops_app/core/services/media/camera_service.dart';
 import 'package:rapsap_ops_app/core/utils/logger.dart';
+import 'package:rapsap_ops_app/features/checklist/domain/usecases/start_capture.dart';
 import 'package:rapsap_ops_app/features/section_reports/domain/usecases/submit_walkthrough.dart';
 
 enum WalkStatus {
@@ -27,6 +28,7 @@ class WalkthroughState extends Equatable {
     this.status = WalkStatus.starting,
     this.seconds = 0,
     this.clip,
+    this.captureToken,
     this.progress = 0,
     this.failure,
   });
@@ -34,6 +36,9 @@ class WalkthroughState extends Equatable {
   final WalkStatus status;
   final int seconds;
   final XFile? clip;
+
+  /// Server token fetched as recording starts, sent with the clip.
+  final String? captureToken;
   final double progress;
   final Failure? failure;
 
@@ -41,26 +46,37 @@ class WalkthroughState extends Equatable {
     WalkStatus? status,
     int? seconds,
     XFile? clip,
+    String? captureToken,
     double? progress,
     Failure? failure,
   }) => WalkthroughState(
     status: status ?? this.status,
     seconds: seconds ?? this.seconds,
     clip: clip ?? this.clip,
+    captureToken: captureToken ?? this.captureToken,
     progress: progress ?? this.progress,
     failure: failure,
   );
 
   @override
-  List<Object?> get props => [status, seconds, clip?.path, progress, failure];
+  List<Object?> get props => [
+    status,
+    seconds,
+    clip?.path,
+    captureToken,
+    progress,
+    failure,
+  ];
 }
 
 /// C15 record (stops at 45 s) → X9 review → upload (CK-30).
 @injectable
 class WalkthroughCubit extends Cubit<WalkthroughState> {
-  new(this.camera, this._submit) : super(const WalkthroughState());
+  new(this.camera, this._capture, this._submit)
+    : super(const WalkthroughState());
 
   final CameraService camera;
+  final StartCapture _capture;
   final SubmitWalkthrough _submit;
   Timer? _ticker;
 
@@ -81,9 +97,17 @@ class WalkthroughCubit extends Cubit<WalkthroughState> {
     );
   }
 
-  Future<void> record() async {
+  Future<void> record(String taskId) async {
     if (state.status != WalkStatus.ready || _busy) return;
     _busy = true;
+    final session = await _capture(taskId);
+    if (isClosed) return;
+    final token = session.match((_) => null, (s) => s.token);
+    if (token == null) {
+      _busy = false;
+      emit(state.copyWith(failure: session.getLeft().toNullable()));
+      return;
+    }
     try {
       await camera.startVideo();
     } on Object catch (error, stackTrace) {
@@ -98,13 +122,19 @@ class WalkthroughCubit extends Cubit<WalkthroughState> {
     }
     _busy = false;
     if (isClosed) return;
-    emit(state.copyWith(status: WalkStatus.recording, seconds: 0));
+    emit(
+      state.copyWith(
+        status: WalkStatus.recording,
+        seconds: 0,
+        captureToken: token,
+      ),
+    );
     _ticker?.cancel();
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
       if (isClosed) return;
       final next = state.seconds + 1;
       emit(state.copyWith(seconds: next));
-      if (next >= AppConstants.walkthroughVideoSeconds) unawaited(stop());
+      if (next >= AppConstants.maxVideoSeconds) unawaited(stop());
     });
   }
 
@@ -114,6 +144,17 @@ class WalkthroughCubit extends Cubit<WalkthroughState> {
     _ticker?.cancel();
     try {
       final clip = await camera.stopVideo();
+      if (await clip.length() > AppConstants.videoMaxBytes) {
+        if (!isClosed) {
+          emit(
+            state.copyWith(
+              status: WalkStatus.ready,
+              failure: const MediaTooLargeFailure(),
+            ),
+          );
+        }
+        return;
+      }
       if (!isClosed) {
         emit(state.copyWith(status: WalkStatus.review, clip: clip));
       }
@@ -123,7 +164,14 @@ class WalkthroughCubit extends Cubit<WalkthroughState> {
         error: error,
         stackTrace: stackTrace,
       );
-      if (!isClosed) emit(state.copyWith(status: WalkStatus.ready));
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: WalkStatus.ready,
+            failure: const UnknownFailure(),
+          ),
+        );
+      }
     } finally {
       _busy = false;
     }
@@ -133,7 +181,10 @@ class WalkthroughCubit extends Cubit<WalkthroughState> {
 
   Future<void> send(String taskId) async {
     final clip = state.clip;
-    if (clip == null || state.status == WalkStatus.sending) return;
+    final token = state.captureToken;
+    if (clip == null || token == null || state.status == WalkStatus.sending) {
+      return;
+    }
     emit(state.copyWith(status: WalkStatus.sending, progress: 0));
     final Uint8List video;
     try {
@@ -154,6 +205,7 @@ class WalkthroughCubit extends Cubit<WalkthroughState> {
       taskId: taskId,
       video: video,
       fileName: clip.name,
+      captureToken: token,
       onProgress: (p) {
         if (!isClosed) emit(state.copyWith(progress: p));
       },

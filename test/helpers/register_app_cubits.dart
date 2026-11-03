@@ -1,6 +1,7 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:rapsap_ops_app/core/bloc/session_cubit.dart';
 import 'package:rapsap_ops_app/core/di/injection.dart';
+import 'package:rapsap_ops_app/core/network/network_events.dart';
 import 'package:rapsap_ops_app/core/services/socket/chat_socket_service.dart';
 import 'package:rapsap_ops_app/core/services/storage/secure_storage_service.dart';
 import 'package:rapsap_ops_app/features/auth/data/datasources/fake_auth_remote_data_source.dart';
@@ -37,10 +38,12 @@ import 'package:rapsap_ops_app/features/settings/domain/usecases/get_notificatio
 import 'package:rapsap_ops_app/features/settings/domain/usecases/save_notification_prefs.dart';
 import 'package:rapsap_ops_app/features/settings/presentation/bloc/settings_cubit.dart';
 
+import 'test_local_db.dart';
+
 class _MockStorage extends Mock implements SecureStorageService;
 
 /// Registers fake-backed cubits for the slice-2 pages in widget tests.
-void registerAppCubits(SessionCubit session) {
+Future<void> registerAppCubits(SessionCubit session) async {
   final chat = ChatRepositoryImpl(
     FakeChatRemoteDataSource(),
     FakeChatSocketService(),
@@ -51,7 +54,12 @@ void registerAppCubits(SessionCubit session) {
   final settings = SettingsRepositoryImpl(FakeSettingsRemoteDataSource());
   final storage = _MockStorage();
   when(storage.clear).thenAnswer((_) async {});
-  final auth = AuthRepositoryImpl(FakeAuthRemoteDataSource(storage), storage);
+  final auth = AuthRepositoryImpl(
+    FakeAuthRemoteDataSource(storage),
+    storage,
+    await openTestLocalDb(),
+    NetworkEvents(),
+  );
   getIt
     ..registerFactory(() => ManagerChatCubit(GetManagerConversation(chat)))
     ..registerFactory(() => ChatListCubit(GetConversations(chat)))

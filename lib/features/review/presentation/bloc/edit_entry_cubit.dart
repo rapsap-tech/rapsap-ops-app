@@ -1,9 +1,8 @@
-import 'dart:typed_data';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/entities/capture_session.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/usecases/start_capture.dart';
 import 'package:rapsap_ops_app/features/review/domain/repositories/review_repository.dart';
@@ -15,7 +14,7 @@ class EditEntryState extends Equatable {
   const new({
     this.status = EditStatus.idle,
     this.session,
-    this.photo,
+    this.media,
     this.reason,
     this.remarks = '',
     this.failure,
@@ -23,35 +22,35 @@ class EditEntryState extends Equatable {
 
   final EditStatus status;
   final CaptureSession? session;
-  final Uint8List? photo;
+  final MediaFile? media;
   final EditReason? reason;
   final String remarks;
   final Failure? failure;
 
   bool get canSave =>
-      photo != null && reason != null && status != EditStatus.saving;
+      media != null && reason != null && status != EditStatus.saving;
 
   EditEntryState copyWith({
     EditStatus? status,
     CaptureSession? session,
-    Uint8List? photo,
+    MediaFile? media,
     EditReason? reason,
     String? remarks,
     Failure? failure,
   }) => EditEntryState(
     status: status ?? this.status,
     session: session ?? this.session,
-    photo: photo ?? this.photo,
+    media: media ?? this.media,
     reason: reason ?? this.reason,
     remarks: remarks ?? this.remarks,
     failure: failure,
   );
 
   @override
-  List<Object?> get props => [status, session, photo, reason, remarks, failure];
+  List<Object?> get props => [status, session, media, reason, remarks, failure];
 }
 
-/// C5 · SM replaces a staff entry with a new stamped photo (SM-20).
+/// C5 · SM replaces a staff entry with a new stamped photo or a video (SM-20).
 @injectable
 class EditEntryCubit extends Cubit<EditEntryState> {
   new(this._startCapture, this._edit) : super(const EditEntryState());
@@ -72,24 +71,24 @@ class EditEntryCubit extends Cubit<EditEntryState> {
     );
   }
 
-  void photoTaken(Uint8List? photo) =>
-      emit(state.copyWith(status: EditStatus.idle, photo: photo));
+  void mediaTaken(MediaFile? media) =>
+      emit(state.copyWith(status: EditStatus.idle, media: media));
 
   void reasonPicked(EditReason reason) => emit(state.copyWith(reason: reason));
 
   void remarksChanged(String value) => emit(state.copyWith(remarks: value));
 
   Future<void> save(String taskId) async {
-    final photo = state.photo;
+    final media = state.media;
     final session = state.session;
     final reason = state.reason;
-    if (!state.canSave || photo == null || session == null || reason == null) {
+    if (!state.canSave || media == null || session == null || reason == null) {
       return;
     }
     emit(state.copyWith(status: EditStatus.saving));
     final result = await _edit(
       taskId: taskId,
-      photo: photo,
+      media: media,
       captureToken: session.token,
       reason: reason,
       remarks: state.remarks,

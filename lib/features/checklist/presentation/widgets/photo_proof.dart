@@ -1,16 +1,17 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/core/theme/app_colors.dart';
 import 'package:rapsap_ops_app/core/theme/app_text_styles.dart';
 import 'package:rapsap_ops_app/core/theme/dimens.dart';
 import 'package:rapsap_ops_app/core/widgets/app_svg_icon.dart';
+import 'package:rapsap_ops_app/core/widgets/media_preview.dart';
+import 'package:rapsap_ops_app/core/widgets/video_box.dart';
 import 'package:rapsap_ops_app/features/checklist/presentation/bloc/task_cubit.dart';
 import 'package:rapsap_ops_app/gen/assets.gen.dart';
 
-/// "Photo proof*": a tap-to-open-camera box, or the taken photo + Retake.
+/// "Photo or video proof*": a tap-to-open-camera box, or the capture + Retake.
 class PhotoProof extends StatelessWidget {
   const new({required this.hint, super.key});
 
@@ -19,7 +20,7 @@ class PhotoProof extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final photo = context.select<TaskCubit, Uint8List?>((c) => c.state.photo);
+    final media = context.select<TaskCubit, MediaFile?>((c) => c.state.media);
     final cubit = context.read<TaskCubit>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +33,7 @@ class PhotoProof extends StatelessWidget {
                 style: AppTextStyles.base.s14.w600,
               ),
             ),
-            if (photo != null)
+            if (media != null)
               TextButton(
                 onPressed: cubit.openCamera,
                 child: Text(
@@ -45,19 +46,10 @@ class PhotoProof extends StatelessWidget {
           ],
         ),
         8.hSpace,
-        if (photo == null)
+        if (media == null)
           _EmptyBox(hint: hint, onTap: cubit.openCamera)
         else
-          ClipRRect(
-            borderRadius: BorderRadius.circular(Dimens.radius12),
-            child: Image.memory(
-              photo,
-              height: Dimens.photoPreviewHeight,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              semanticLabel: l10n.taskYourPhoto,
-            ),
-          ),
+          MediaPreview(media: media, semanticLabel: l10n.taskYourPhoto),
       ],
     );
   }
@@ -117,11 +109,13 @@ class _EmptyBox extends StatelessWidget {
   }
 }
 
-/// A photo already on the server, or a neutral placeholder when there is none.
+/// A proof photo or video already on the server, or a neutral placeholder
+/// when there is none.
 class StoredPhoto extends StatelessWidget {
-  const new({required this.url, super.key});
+  const new({required this.url, this.videoUrl, super.key});
 
   final String? url;
+  final String? videoUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -131,9 +125,12 @@ class StoredPhoto extends StatelessWidget {
       color: AppColors.photoPlaceholder,
     );
     final url = this.url;
+    final videoUrl = this.videoUrl;
     return ClipRRect(
       borderRadius: BorderRadius.circular(Dimens.radius12),
-      child: url == null
+      child: videoUrl != null
+          ? VideoBox.network(videoUrl, height: Dimens.photoPreviewHeight)
+          : url == null
           ? placeholder
           : Image.network(
               url,

@@ -10,10 +10,14 @@ import 'package:rapsap_ops_app/core/services/storage/secure_storage_service.dart
 
 class _MockStorage extends Mock implements SecureStorageService;
 
-/// Accepts only the "new" token; counts refresh calls.
+enum _Refresh { ok, rejected, serverError, offline }
+
+/// Accepts only the "new" token; counts refresh calls and what it received.
 class _FakeServer implements HttpClientAdapter {
   int refreshCalls = 0;
-  bool refreshFails = false;
+  _Refresh refresh = _Refresh.ok;
+  final List<String?> authHeaders = [];
+  int uploadsReceived = 0;
 
   @override
   Future<ResponseBody> fetch(
@@ -23,11 +27,23 @@ class _FakeServer implements HttpClientAdapter {
   ) async {
     if (options.path.endsWith('/auth/refresh')) {
       refreshCalls++;
-      if (refreshFails) return _json(401, {'success': false});
-      return _json(200, {
-        'success': true,
-        'data': {'access_token': 'new', 'refresh_token': 'r2'},
-      });
+      return switch (refresh) {
+        _Refresh.ok => _json(200, {
+          'success': true,
+          'data': {'access_token': 'new', 'refresh_token': 'r2'},
+        }),
+        _Refresh.rejected => _json(401, {'success': false}),
+        _Refresh.serverError => _json(503, {'success': false}),
+        _Refresh.offline => throw DioException.connectionError(
+          requestOptions: options,
+          reason: 'offline',
+        ),
+      };
+    }
+    authHeaders.add(options.headers['Authorization'] as String?);
+    if (requestStream != null) {
+      await requestStream.drain<void>();
+      uploadsReceived++;
     }
     final ok = options.headers['Authorization'] == 'Bearer new';
     return ok ? _json(200, {'success': true}) : _json(401, {});
@@ -50,6 +66,7 @@ void main() {
   late _FakeServer server;
   late NetworkEvents events;
   late Dio dio;
+  late int generation;
   String? access;
 
   setUp(() {
@@ -57,15 +74,21 @@ void main() {
     server = _FakeServer();
     events = NetworkEvents();
     access = 'old';
+    generation = 0;
     when(() => storage.accessToken).thenAnswer((_) async => access);
     when(() => storage.refreshToken).thenAnswer((_) async => 'r1');
+    when(() => storage.generation).thenAnswer((_) => generation);
     when(
       () => storage.saveTokens(
         accessToken: any(named: 'accessToken'),
         refreshToken: any(named: 'refreshToken'),
+        generation: any(named: 'generation'),
       ),
     ).thenAnswer((invocation) async {
+      final from = invocation.namedArguments[#generation] as int?;
+      if (from != null && from != generation) return false;
       access = invocation.namedArguments[#accessToken] as String;
+      return true;
     });
     when(storage.clear).thenAnswer((_) async {});
 
@@ -92,8 +115,20 @@ void main() {
     expect(server.refreshCalls, 1);
   });
 
-  test('clears session and emits sessionExpired when refresh fails', () async {
-    server.refreshFails = true;
+  test('a multipart upload is re-sent after the refresh', () async {
+    final form = FormData.fromMap({
+      'photo': MultipartFile.fromBytes([1, 2, 3], filename: 'p.jpg'),
+    });
+
+    final response = await dio.post<dynamic>('/upload', data: form);
+
+    expect(response.statusCode, 200);
+    expect(server.uploadsReceived, 2);
+  });
+
+  test('clears session and emits sessionExpired when the server rejects '
+      'the refresh token', () async {
+    server.refresh = _Refresh.rejected;
     final emitted = expectLater(
       events.stream,
       emits(NetworkEvent.sessionExpired),
@@ -103,9 +138,36 @@ void main() {
     verify(storage.clear).called(1);
   });
 
+  for (final failure in [_Refresh.offline, _Refresh.serverError]) {
+    test('keeps the session when the refresh fails with $failure', () async {
+      server.refresh = failure;
+      await expectLater(dio.get<dynamic>('/a'), throwsA(isA<DioException>()));
+      verifyNever(storage.clear);
+    });
+  }
+
+  test('a refresh that finishes after logout saves nothing', () async {
+    when(() => storage.refreshToken).thenAnswer((_) async {
+      generation++;
+      return 'r1';
+    });
+    await expectLater(dio.get<dynamic>('/a'), throwsA(isA<DioException>()));
+    expect(access, 'old');
+  });
+
   test('does not refresh when no token was sent', () async {
     access = null;
     await expectLater(dio.get<dynamic>('/a'), throwsA(isA<DioException>()));
     expect(server.refreshCalls, 0);
+  });
+
+  test('sends the token only to our API host', () async {
+    access = 'new';
+    await dio.get<dynamic>('/a');
+    await expectLater(
+      dio.get<dynamic>('https://storage.example.com/photo.jpg'),
+      throwsA(isA<DioException>()),
+    );
+    expect(server.authHeaders, ['Bearer new', null]);
   });
 }

@@ -50,6 +50,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorUnknown => 'Something went wrong. Please try again.';
 
   @override
+  String get errorVideoTooLarge =>
+      'This video is too big to send. Record a shorter one.';
+
+  @override
   String get pageNotFoundTitle => 'Page not found';
 
   @override
@@ -132,6 +136,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get loginNoAccount =>
       'No login found for this number. Check the number or ask your store manager for help.';
+
+  @override
+  String loginUnsentProof(String name, int count) {
+    return '$name has $count unsent proof on this phone. If someone else signs in, it will be deleted.';
+  }
 
   @override
   String get loginGetOtp => 'Get OTP';
@@ -373,7 +382,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get taskPhotoProof => 'Photo proof*';
+  String get taskPhotoProof => 'Photo or video proof*';
 
   @override
   String get taskTapToOpenCamera => 'Tap to open camera';
@@ -405,7 +414,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get taskTakePhotoFirst => 'Take photo first';
+  String get taskTakePhotoFirst => 'Take photo or video first';
 
   @override
   String get taskSubmit => 'Submit';
@@ -462,6 +471,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cameraTakePhoto => 'Take photo';
+
+  @override
+  String get cameraModePhoto => 'Photo';
+
+  @override
+  String get cameraModeVideo => 'Video';
 
   @override
   String get cameraDenied =>
@@ -1003,7 +1018,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Their original photo and remark stay in history and they are notified.';
 
   @override
-  String get editNewPhoto => 'New photo*';
+  String get editNewPhoto => 'New photo or video*';
 
   @override
   String get editWhy => 'Why are you editing?*';
@@ -1482,15 +1497,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String walkthroughRec(String elapsed, String limit) {
+  String cameraRec(String elapsed, String limit) {
     return '● REC $elapsed / $limit';
   }
 
   @override
-  String get walkthroughStop => 'Stop recording';
+  String get cameraStopRecording => 'Stop recording';
 
   @override
-  String get walkthroughStart => 'Start recording';
+  String get cameraStartRecording => 'Start recording';
 
   @override
   String get walkthroughReviewTitle => 'Review your walkthrough';
@@ -1500,7 +1515,22 @@ class AppLocalizationsEn extends AppLocalizations {
       'Check that the floor and back store are clearly visible before sending.';
 
   @override
-  String get walkthroughPlay => 'Play or pause the video';
+  String get videoPlay => 'Play or pause the video';
+
+  @override
+  String get videoPlayButton => 'Play';
+
+  @override
+  String get videoPause => 'Pause';
+
+  @override
+  String get videoMute => 'Mute';
+
+  @override
+  String get videoUnmute => 'Unmute';
+
+  @override
+  String get videoExitFullscreen => 'Exit full screen';
 
   @override
   String walkthroughMeta(String time) {

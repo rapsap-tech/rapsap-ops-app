@@ -1,9 +1,8 @@
-import 'dart:typed_data';
-
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/error/error_mapper.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/core/services/socket/chat_socket_service.dart';
 import 'package:rapsap_ops_app/core/utils/logger.dart';
 import 'package:rapsap_ops_app/features/chat/data/datasources/chat_remote_data_source.dart';
@@ -54,13 +53,13 @@ class ChatRepositoryImpl implements ChatRepository {
   );
 
   @override
-  Future<Either<Failure, ChatMessage>> sendPhoto(
+  Future<Either<Failure, ChatMessage>> sendMedia(
     String conversationId, {
     required String clientId,
-    required Uint8List photo,
+    required MediaFile media,
   }) => guardFailure(
     () async =>
-        (await _remote.sendPhoto(conversationId, clientId, photo)).toEntity(),
+        (await _remote.sendMedia(conversationId, clientId, media)).toEntity(),
   );
 
   @override

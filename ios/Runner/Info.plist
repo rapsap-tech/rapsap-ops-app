@@ -4,12 +4,14 @@
 <dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Rapsap Ops uses the camera to take task proof photos.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Rapsap Ops records sound with task proof and walkthrough videos.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Rapsap Ops App</string>
+	<string>Rapsap Ops</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

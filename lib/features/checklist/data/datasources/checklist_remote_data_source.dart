@@ -1,11 +1,10 @@
-import 'dart:typed_data';
-
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/constants/api_constants.dart';
-import 'package:rapsap_ops_app/core/constants/app_constants.dart';
 import 'package:rapsap_ops_app/core/network/dio_client.dart';
+import 'package:rapsap_ops_app/core/network/media_part.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/checklist/data/models/capture_session_model.dart';
 import 'package:rapsap_ops_app/features/checklist/data/models/submission_result_model.dart';
 import 'package:rapsap_ops_app/features/checklist/data/models/task_detail_model.dart';
@@ -17,7 +16,8 @@ abstract class ChecklistRemoteDataSource {
   Future<CaptureSessionModel> startCapture(String taskId);
   Future<SubmissionResultModel> submitPhoto({
     required String taskId,
-    required Uint8List photo,
+    required String clientId,
+    required MediaFile media,
     required String captureToken,
     required String remarks,
     required void Function(int sent, int total) onProgress,
@@ -58,20 +58,18 @@ class ChecklistRemoteDataSourceImpl implements ChecklistRemoteDataSource {
   @override
   Future<SubmissionResultModel> submitPhoto({
     required String taskId,
-    required Uint8List photo,
+    required String clientId,
+    required MediaFile media,
     required String captureToken,
     required String remarks,
     required void Function(int sent, int total) onProgress,
   }) => _client.upload(
     ApiConstants.tasks.submit(taskId),
     formData: FormData.fromMap({
+      'client_id': clientId,
       'capture_token': captureToken,
       'remarks': remarks,
-      'photo': MultipartFile.fromBytes(
-        photo,
-        filename: AppConstants.photoFileName,
-        contentType: DioMediaType('image', 'jpeg'),
-      ),
+      ...mediaPart(media),
     }),
     onSendProgress: onProgress,
     fromData: (data) => SubmissionResultModel.fromJson(_json(data)),

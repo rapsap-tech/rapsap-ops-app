@@ -53,6 +53,7 @@ abstract class ChatMessageModel with _$ChatMessageModel {
     String? senderRole,
     String? text,
     String? photoUrl,
+    String? videoUrl,
     @Default(0) int seenBy,
   }) = _ChatMessageModel;
 
@@ -69,6 +70,7 @@ abstract class ChatMessageModel with _$ChatMessageModel {
     sentAt: sentAt,
     text: text,
     photoUrl: photoUrl,
+    videoUrl: videoUrl,
     seenBy: seenBy,
   );
 }

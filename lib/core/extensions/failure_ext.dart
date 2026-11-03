@@ -36,6 +36,7 @@ extension FailureMessageX on Failure {
     CancelledFailure() => l10n.errorCancelled,
     ForceUpdateFailure() => l10n.errorForceUpdate,
     StorageFailure() => l10n.errorStorage,
+    MediaTooLargeFailure() => l10n.errorVideoTooLarge,
     UnknownFailure() => l10n.errorUnknown,
   };
 }

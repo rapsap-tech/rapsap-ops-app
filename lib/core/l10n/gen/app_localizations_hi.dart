@@ -51,6 +51,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get errorUnknown => 'कुछ गड़बड़ हो गई. कृपया फिर से कोशिश करें.';
 
   @override
+  String get errorVideoTooLarge =>
+      'यह वीडियो भेजने के लिए बहुत बड़ा है. छोटा वीडियो रिकॉर्ड करें.';
+
+  @override
   String get pageNotFoundTitle => 'पेज नहीं मिला';
 
   @override
@@ -133,6 +137,11 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get loginNoAccount =>
       'इस नंबर का कोई लॉगिन नहीं मिला. नंबर जाँचें या अपने स्टोर मैनेजर से मदद लें.';
+
+  @override
+  String loginUnsentProof(String name, int count) {
+    return 'इस फ़ोन पर $name के $count सबूत अभी भेजे नहीं गए हैं. कोई और साइन इन करेगा तो वे हट जाएँगे.';
+  }
 
   @override
   String get loginGetOtp => 'OTP पाएँ';
@@ -375,7 +384,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get taskPhotoProof => 'फ़ोटो सबूत*';
+  String get taskPhotoProof => 'फ़ोटो या वीडियो सबूत*';
 
   @override
   String get taskTapToOpenCamera => 'कैमरा खोलने के लिए टैप करें';
@@ -407,7 +416,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get taskTakePhotoFirst => 'पहले फ़ोटो लें';
+  String get taskTakePhotoFirst => 'पहले फ़ोटो या वीडियो लें';
 
   @override
   String get taskSubmit => 'सबमिट करें';
@@ -464,6 +473,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get cameraTakePhoto => 'फ़ोटो लें';
+
+  @override
+  String get cameraModePhoto => 'फ़ोटो';
+
+  @override
+  String get cameraModeVideo => 'वीडियो';
 
   @override
   String get cameraDenied =>
@@ -1005,7 +1020,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'उनकी मूल फ़ोटो और टिप्पणी इतिहास में रहती है और उन्हें बताया जाता है.';
 
   @override
-  String get editNewPhoto => 'नई फ़ोटो*';
+  String get editNewPhoto => 'नई फ़ोटो या वीडियो*';
 
   @override
   String get editWhy => 'आप क्यों बदल रहे हैं?*';
@@ -1482,15 +1497,15 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String walkthroughRec(String elapsed, String limit) {
+  String cameraRec(String elapsed, String limit) {
     return '● REC $elapsed / $limit';
   }
 
   @override
-  String get walkthroughStop => 'रिकॉर्डिंग रोकें';
+  String get cameraStopRecording => 'रिकॉर्डिंग रोकें';
 
   @override
-  String get walkthroughStart => 'रिकॉर्डिंग शुरू करें';
+  String get cameraStartRecording => 'रिकॉर्डिंग शुरू करें';
 
   @override
   String get walkthroughReviewTitle => 'अपना वॉकथ्रू जाँचें';
@@ -1500,7 +1515,22 @@ class AppLocalizationsHi extends AppLocalizations {
       'भेजने से पहले देखें कि फ़्लोर और बैक स्टोर साफ़ दिख रहे हैं.';
 
   @override
-  String get walkthroughPlay => 'वीडियो चलाएँ या रोकें';
+  String get videoPlay => 'वीडियो चलाएँ या रोकें';
+
+  @override
+  String get videoPlayButton => 'चलाएँ';
+
+  @override
+  String get videoPause => 'रोकें';
+
+  @override
+  String get videoMute => 'आवाज़ बंद करें';
+
+  @override
+  String get videoUnmute => 'आवाज़ चालू करें';
+
+  @override
+  String get videoExitFullscreen => 'पूरी स्क्रीन से बाहर निकलें';
 
   @override
   String walkthroughMeta(String time) {

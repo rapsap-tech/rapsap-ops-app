@@ -36,7 +36,7 @@ class TaskFooter extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (state.photo != null && !state.notDoneMode) ...[
+        if (state.media != null && !state.notDoneMode) ...[
           _AutoPostNote(group: detail.checklistGroup),
           12.hSpace,
         ],
@@ -84,7 +84,7 @@ class _MainButton extends StatelessWidget {
             : null,
       );
     }
-    if (state.photo != null) {
+    if (state.media != null) {
       return AppButton(
         label: l10n.taskSubmit,
         isLoading: loading,

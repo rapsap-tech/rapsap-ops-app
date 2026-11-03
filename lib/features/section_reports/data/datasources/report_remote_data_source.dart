@@ -6,6 +6,8 @@ import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/constants/api_constants.dart';
 import 'package:rapsap_ops_app/core/constants/app_constants.dart';
 import 'package:rapsap_ops_app/core/network/dio_client.dart';
+import 'package:rapsap_ops_app/core/network/media_part.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/section_reports/data/models/report_models.dart';
 
 abstract class ReportRemoteDataSource {
@@ -19,13 +21,14 @@ abstract class ReportRemoteDataSource {
   Future<void> submitClosing({
     required String taskId,
     required List<String> closedBy,
-    required Uint8List photo,
+    required MediaFile media,
     required String captureToken,
   });
   Future<void> submitWalkthrough({
     required String taskId,
     required Uint8List video,
     required String fileName,
+    required String captureToken,
     required void Function(int sent, int total) onProgress,
   });
 }
@@ -101,7 +104,7 @@ class ReportRemoteDataSourceImpl implements ReportRemoteDataSource {
   Future<void> submitClosing({
     required String taskId,
     required List<String> closedBy,
-    required Uint8List photo,
+    required MediaFile media,
     required String captureToken,
   }) => _client.upload(
     ApiConstants.reports.closing,
@@ -109,7 +112,7 @@ class ReportRemoteDataSourceImpl implements ReportRemoteDataSource {
       'task_id': taskId,
       'closed_by': closedBy,
       'capture_token': captureToken,
-      'photo': _jpeg(photo),
+      ...mediaPart(media),
     }),
     fromData: (_) {},
   );
@@ -119,12 +122,14 @@ class ReportRemoteDataSourceImpl implements ReportRemoteDataSource {
     required String taskId,
     required Uint8List video,
     required String fileName,
+    required String captureToken,
     required void Function(int sent, int total) onProgress,
   }) => _client.upload(
     ApiConstants.reports.walkthrough,
     formData: FormData.fromMap({
       'task_id': taskId,
-      'video': MultipartFile.fromBytes(video, filename: fileName),
+      'capture_token': captureToken,
+      ...mediaPart(MediaFile.video(video, name: fileName, path: null)),
     }),
     onSendProgress: onProgress,
     fromData: (_) {},

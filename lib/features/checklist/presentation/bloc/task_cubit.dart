@@ -1,10 +1,9 @@
-import 'dart:typed_data';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/entities/capture_session.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/entities/submission_result.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/entities/task_detail.dart';
@@ -12,6 +11,10 @@ import 'package:rapsap_ops_app/features/checklist/domain/usecases/get_task_detai
 import 'package:rapsap_ops_app/features/checklist/domain/usecases/start_capture.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/usecases/submit_task_not_done.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/usecases/submit_task_photo.dart';
+import 'package:rapsap_ops_app/features/uploads/domain/entities/pending_upload.dart';
+import 'package:rapsap_ops_app/features/uploads/domain/usecases/find_saved_proof.dart';
+import 'package:rapsap_ops_app/features/uploads/domain/usecases/remove_upload.dart';
+import 'package:rapsap_ops_app/features/uploads/domain/usecases/save_upload.dart';
 
 enum TaskLoadStatus { loading, success, failure }
 
@@ -31,7 +34,7 @@ class TaskState extends Equatable {
     this.detail,
     this.action = TaskAction.idle,
     this.session,
-    this.photo,
+    this.media,
     this.remarks = '',
     this.notDoneMode = false,
     this.reason = '',
@@ -44,7 +47,7 @@ class TaskState extends Equatable {
   final TaskDetail? detail;
   final TaskAction action;
   final CaptureSession? session;
-  final Uint8List? photo;
+  final MediaFile? media;
   final String remarks;
   final bool notDoneMode;
   final String reason;
@@ -60,7 +63,7 @@ class TaskState extends Equatable {
     TaskDetail? detail,
     TaskAction? action,
     CaptureSession? session,
-    Uint8List? photo,
+    MediaFile? media,
     String? remarks,
     bool? notDoneMode,
     String? reason,
@@ -72,7 +75,7 @@ class TaskState extends Equatable {
     detail: detail ?? this.detail,
     action: action ?? this.action,
     session: session ?? this.session,
-    photo: photo ?? this.photo,
+    media: media ?? this.media,
     remarks: remarks ?? this.remarks,
     notDoneMode: notDoneMode ?? this.notDoneMode,
     reason: reason ?? this.reason,
@@ -87,7 +90,7 @@ class TaskState extends Equatable {
     detail,
     action,
     session,
-    photo,
+    media,
     remarks,
     notDoneMode,
     reason,
@@ -98,7 +101,9 @@ class TaskState extends Equatable {
 }
 
 /// One task: load it, open the camera with a server capture token, then
-/// submit the photo (or a not-done reason). Uploads are never auto-retried.
+/// submit the photo or video (or a not-done reason). Proof is saved on the
+/// device before it is sent and kept there if the connection drops, so it
+/// survives a reload (X4).
 @injectable
 class TaskCubit extends Cubit<TaskState> {
   new(
@@ -106,26 +111,48 @@ class TaskCubit extends Cubit<TaskState> {
     this._startCapture,
     this._submitPhoto,
     this._submitNotDone,
+    this._findSavedProof,
+    this._saveUpload,
+    this._removeUpload,
   ) : super(const TaskState());
 
   final GetTaskDetail _getDetail;
   final StartCapture _startCapture;
   final SubmitTaskPhoto _submitPhoto;
   final SubmitTaskNotDone _submitNotDone;
+  final FindSavedProof _findSavedProof;
+  final SaveUpload _saveUpload;
+  final RemoveUpload _removeUpload;
   late String _taskId;
+
+  /// The device copy of the proof in [TaskState.media], once saved.
+  SavedProof? _saved;
 
   Future<void> load(String taskId) async {
     _taskId = taskId;
     emit(state.copyWith(load: TaskLoadStatus.loading));
     final result = await _getDetail(taskId);
+    final saved = (await _findSavedProof(taskId)).getOrElse((_) => null);
     if (isClosed) return;
     emit(
       result.match(
         (failure) =>
             state.copyWith(load: TaskLoadStatus.failure, failure: failure),
-        (detail) =>
-            state.copyWith(load: TaskLoadStatus.success, detail: detail),
+        (detail) => _restore(
+          state.copyWith(load: TaskLoadStatus.success, detail: detail),
+          saved,
+        ),
       ),
+    );
+  }
+
+  TaskState _restore(TaskState loaded, SavedProof? saved) {
+    if (saved == null) return loaded;
+    _saved = saved;
+    return loaded.copyWith(
+      action: TaskAction.interrupted,
+      media: saved.media,
+      remarks: saved.upload.remarks,
     );
   }
 
@@ -146,10 +173,10 @@ class TaskCubit extends Cubit<TaskState> {
     );
   }
 
-  void photoTaken(Uint8List? photo) {
+  void mediaTaken(MediaFile? media) {
     if (state.action == TaskAction.submitting) return;
     emit(
-      state.copyWith(action: TaskAction.idle, photo: photo, notDoneMode: false),
+      state.copyWith(action: TaskAction.idle, media: media, notDoneMode: false),
     );
   }
 
@@ -163,42 +190,102 @@ class TaskCubit extends Cubit<TaskState> {
   }
 
   Future<void> submit() async {
-    final photo = state.photo;
-    final session = state.session;
-    if (state.isBusy || photo == null || session == null) return;
+    final media = state.media;
+    if (state.isBusy || media == null) return;
+    final upload = _uploadFor(media);
+    if (upload == null) return;
     emit(state.copyWith(action: TaskAction.submitting, progress: 0));
+    await _keepOnDevice(upload, media);
     final result = await _submitPhoto(
       taskId: _taskId,
-      photo: photo,
-      captureToken: session.token,
-      remarks: state.remarks,
+      clientId: upload.id,
+      media: media,
+      captureToken: upload.captureToken,
+      remarks: upload.remarks,
       onProgress: (progress) {
         if (!isClosed) emit(state.copyWith(progress: progress));
       },
     );
-    _finish(result, keepPhotoOnDrop: true);
+    if (result.isRight() || _isRefused(result)) await _forget();
+    _finish(result, keepMediaOnDrop: true);
   }
+
+  /// Reuses the saved record (and its `client_id`) while the media is the
+  /// same; new media needs the token from a new camera session.
+  PendingUpload? _uploadFor(MediaFile media) {
+    final saved = _saved;
+    final remarks = state.remarks.trim();
+    if (saved != null && identical(saved.media, media)) {
+      return saved.upload.withRemarks(remarks);
+    }
+    final session = state.session;
+    final task = state.detail?.task;
+    if (session == null || task == null) return null;
+    return PendingUpload(
+      id: 'local-${DateTime.now().microsecondsSinceEpoch}',
+      kind: UploadKind.taskProof,
+      targetId: _taskId,
+      taskNumber: task.number,
+      taskTitle: task.title,
+      isVideo: media.isVideo,
+      videoName: media.name,
+      captureToken: session.token,
+      remarks: remarks,
+      savedAt: DateTime.now(),
+    );
+  }
+
+  /// A save failure is already logged; the upload is still tried.
+  Future<void> _keepOnDevice(PendingUpload upload, MediaFile media) async {
+    final previous = _saved;
+    if (previous != null && previous.upload.id != upload.id) await _forget();
+    final result = await _saveUpload(upload, media);
+    if (result.isRight()) _saved = (upload: upload, media: media);
+  }
+
+  Future<void> _forget() async {
+    final saved = _saved;
+    if (saved == null) return;
+    _saved = null;
+    await _removeUpload(saved.upload.id);
+  }
+
+  /// The server said no to this proof; anything else (offline, cancelled,
+  /// unknown) keeps the saved copy so nothing is lost.
+  static bool _isRefused(Either<Failure, Object> result) => result.match(
+    (failure) => switch (failure) {
+      MessageBlockedFailure() ||
+      ValidationFailure() ||
+      ForbiddenFailure() ||
+      NotFoundFailure() => true,
+      _ => false,
+    },
+    (_) => false,
+  );
+
+  static bool _isDropped(Either<Failure, Object> result) => result.match(
+    (failure) => failure is NoInternetFailure || failure is TimeoutFailure,
+    (_) => false,
+  );
 
   Future<void> submitNotDone() async {
     if (state.isBusy) return;
     emit(state.copyWith(action: TaskAction.submitting, progress: 0));
     final result = await _submitNotDone(taskId: _taskId, reason: state.reason);
-    _finish(result, keepPhotoOnDrop: false);
+    _finish(result, keepMediaOnDrop: false);
   }
 
   void backToTask() => emit(state.copyWith(action: TaskAction.idle));
 
   void _finish(
     Either<Failure, SubmissionResult> result, {
-    required bool keepPhotoOnDrop,
+    required bool keepMediaOnDrop,
   }) {
     if (isClosed) return;
     emit(
       result.match((failure) {
-        final dropped =
-            failure is NoInternetFailure || failure is TimeoutFailure;
         return state.copyWith(
-          action: dropped && keepPhotoOnDrop
+          action: _isDropped(result) && keepMediaOnDrop
               ? TaskAction.interrupted
               : TaskAction.failure,
           failure: failure,

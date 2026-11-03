@@ -1,8 +1,7 @@
-import 'dart:typed_data';
-
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/error/exceptions.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/checklist/data/datasources/checklist_remote_data_source.dart';
 import 'package:rapsap_ops_app/features/checklist/data/datasources/fake_checklist_remote_data_source.dart';
 import 'package:rapsap_ops_app/features/checklist/data/models/today_checklist_model.dart';
@@ -149,7 +148,7 @@ class FakeReviewRemoteDataSource implements ReviewRemoteDataSource {
   @override
   Future<void> edit({
     required String taskId,
-    required Uint8List photo,
+    required MediaFile media,
     required String captureToken,
     required String reason,
     required String remarks,

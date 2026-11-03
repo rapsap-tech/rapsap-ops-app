@@ -21,6 +21,7 @@ _TaskDetailModel _$TaskDetailModelFromJson(Map<String, dynamic> json) =>
               json['send_back'] as Map<String, dynamic>,
             ),
       photoUrl: json['photo_url'] as String?,
+      videoUrl: json['video_url'] as String?,
       remarks: json['remarks'] as String?,
       lockedAt: json['locked_at'] == null
           ? null
@@ -38,6 +39,7 @@ Map<String, dynamic> _$TaskDetailModelToJson(_TaskDetailModel instance) =>
       'checklist_group_id': instance.checklistGroupId,
       'send_back': instance.sendBack?.toJson(),
       'photo_url': instance.photoUrl,
+      'video_url': instance.videoUrl,
       'remarks': instance.remarks,
       'locked_at': instance.lockedAt?.toIso8601String(),
     };

@@ -30,6 +30,7 @@ import 'package:rapsap_ops_app/features/team/presentation/pages/create_login_pag
 import 'package:rapsap_ops_app/features/team/presentation/pages/member_detail_page.dart';
 import 'package:rapsap_ops_app/features/team/presentation/pages/team_page.dart';
 
+import '../../helpers/always_online.dart';
 import '../../helpers/pump_page.dart';
 import '../../helpers/register_manager_cubits.dart';
 
@@ -67,7 +68,7 @@ void main() {
     when(() => locale.state).thenReturn(const Locale('en'));
     when(() => connectivity.state).thenReturn(ConnectivityStatus.online);
     await getIt.reset();
-    final checklist = FakeChecklistRemoteDataSource();
+    final checklist = FakeChecklistRemoteDataSource(const AlwaysOnline());
     registerManagerCubits(checklist);
     FakeReportRemoteDataSource.todaysDsr = (sales: 64210, bills: 412);
     final queue = getIt<ReviewQueueCubit>();

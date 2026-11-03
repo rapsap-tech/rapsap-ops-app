@@ -104,6 +104,7 @@ _ReviewDetailModel _$ReviewDetailModelFromJson(Map<String, dynamic> json) =>
     _ReviewDetailModel(
       item: ReviewItemModel.fromJson(json['item'] as Map<String, dynamic>),
       photoUrl: json['photo_url'] as String?,
+      videoUrl: json['video_url'] as String?,
       remarks: json['remarks'] as String?,
       lockedAt: json['locked_at'] == null
           ? null
@@ -115,6 +116,7 @@ Map<String, dynamic> _$ReviewDetailModelToJson(_ReviewDetailModel instance) =>
     <String, dynamic>{
       'item': instance.item.toJson(),
       'photo_url': instance.photoUrl,
+      'video_url': instance.videoUrl,
       'remarks': instance.remarks,
       'locked_at': instance.lockedAt?.toIso8601String(),
       'unlock_minutes': instance.unlockMinutes,

@@ -67,6 +67,7 @@ class _LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final cubit = context.read<LoginCubit>();
+    final unsent = cubit.unsentProof;
     final loading = context.select<LoginCubit, bool>(
       (c) => c.state.status == LoginStatus.loading,
     );
@@ -98,6 +99,10 @@ class _LoginForm extends StatelessWidget {
             l10n.loginHelper,
             style: AppTextStyles.base.s13.secondaryTextColor(),
           ),
+          if (unsent != null) ...[
+            16.hSpace,
+            MessageBanner(l10n.loginUnsentProof(unsent.name, unsent.count)),
+          ],
         ],
       ),
     );

@@ -5,8 +5,10 @@ import 'package:rapsap_ops_app/core/network/network_events.dart';
 import 'package:rapsap_ops_app/core/services/storage/secure_storage_service.dart';
 import 'package:rapsap_ops_app/core/utils/logger.dart';
 
-/// Adds the bearer token and refreshes it once on 401. Queued, so concurrent
-/// 401s wait for the first refresh and then retry with the new token.
+/// Adds the bearer token (to our API host only) and refreshes it once on 401.
+/// Queued, so concurrent 401s wait for the first refresh and then retry with
+/// the new token. Only a server rejection of the refresh token ends the
+/// session; network errors leave it in place.
 class AuthInterceptor extends QueuedInterceptor {
   new({
     required this._storage,
@@ -27,7 +29,9 @@ class AuthInterceptor extends QueuedInterceptor {
   ) async {
     try {
       final token = await _storage.accessToken;
-      if (token != null) options.headers['Authorization'] = 'Bearer $token';
+      if (token != null && _isOurApi(options)) {
+        options.headers['Authorization'] = 'Bearer $token';
+      }
       handler.next(options);
     } on Object catch (error) {
       handler.reject(DioException(requestOptions: options, error: error));
@@ -59,6 +63,9 @@ class AuthInterceptor extends QueuedInterceptor {
       request
         ..headers['Authorization'] = 'Bearer $token'
         ..extra[_retriedKey] = true;
+      // A multipart body can only be sent once.
+      final data = request.data;
+      if (data is FormData) request.data = data.clone();
       handler.resolve(await _refreshDio.fetch<dynamic>(request));
     } on DioException catch (retryError) {
       handler.next(retryError);
@@ -67,6 +74,16 @@ class AuthInterceptor extends QueuedInterceptor {
     }
   }
 
+  static bool _isRejected(DioException error) => const {
+    HttpStatusCodes.badRequest,
+    HttpStatusCodes.unauthorized,
+    HttpStatusCodes.forbidden,
+  }.contains(error.response?.statusCode);
+
+  /// An absolute URL to another host (e.g. a storage link) gets no token.
+  static bool _isOurApi(RequestOptions options) =>
+      options.uri.host == Uri.parse(options.baseUrl).host;
+
   String? _bearer(RequestOptions request) =>
       (request.headers['Authorization'] as String?)?.replaceFirst(
         'Bearer ',
@@ -74,6 +91,7 @@ class AuthInterceptor extends QueuedInterceptor {
       );
 
   Future<String?> _refresh() async {
+    final generation = _storage.generation;
     final refreshToken = await _storage.refreshToken;
     if (refreshToken == null) {
       await _expire();
@@ -89,13 +107,15 @@ class AuthInterceptor extends QueuedInterceptor {
         (data) => data! as Map<String, dynamic>,
       );
       final access = tokens['access_token'] as String;
-      await _storage.saveTokens(
+      final saved = await _storage.saveTokens(
         accessToken: access,
         refreshToken: tokens['refresh_token'] as String,
+        generation: generation,
       );
-      return access;
-    } on Object catch (error) {
-      appLogger.w('Token refresh failed', error: error.runtimeType);
+      return saved ? access : null;
+    } on DioException catch (error) {
+      if (!_isRejected(error)) rethrow;
+      appLogger.w('Refresh token rejected', error: error.runtimeType);
       await _expire();
       return null;
     }

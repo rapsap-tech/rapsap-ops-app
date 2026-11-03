@@ -50,3 +50,5 @@ app.*.map.json
 # Env files (only example.json is committed)
 /env/*.json
 !/env/example.json
+
+.certs/

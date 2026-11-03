@@ -50,6 +50,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get errorUnknown => 'काहीतरी चूक झाली. कृपया पुन्हा प्रयत्न करा.';
 
   @override
+  String get errorVideoTooLarge =>
+      'हा व्हिडिओ पाठवण्यासाठी खूप मोठा आहे. छोटा व्हिडिओ रेकॉर्ड करा.';
+
+  @override
   String get pageNotFoundTitle => 'पेज सापडले नाही';
 
   @override
@@ -132,6 +136,11 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get loginNoAccount =>
       'या नंबरसाठी लॉगिन सापडले नाही. नंबर तपासा किंवा तुमच्या स्टोअर मॅनेजरची मदत घ्या.';
+
+  @override
+  String loginUnsentProof(String name, int count) {
+    return 'या फोनवर $name यांचे $count पुरावे अजून पाठवलेले नाहीत. दुसऱ्या व्यक्तीने साइन इन केल्यास ते हटवले जातील.';
+  }
 
   @override
   String get loginGetOtp => 'OTP मिळवा';
@@ -373,7 +382,7 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get taskPhotoProof => 'फोटो पुरावा*';
+  String get taskPhotoProof => 'फोटो किंवा व्हिडिओ पुरावा*';
 
   @override
   String get taskTapToOpenCamera => 'कॅमेरा उघडण्यासाठी टॅप करा';
@@ -405,7 +414,7 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get taskTakePhotoFirst => 'आधी फोटो काढा';
+  String get taskTakePhotoFirst => 'आधी फोटो किंवा व्हिडिओ घ्या';
 
   @override
   String get taskSubmit => 'सबमिट करा';
@@ -462,6 +471,12 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get cameraTakePhoto => 'फोटो काढा';
+
+  @override
+  String get cameraModePhoto => 'फोटो';
+
+  @override
+  String get cameraModeVideo => 'व्हिडिओ';
 
   @override
   String get cameraDenied =>
@@ -1002,7 +1017,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'त्यांचा मूळ फोटो आणि टिप्पणी इतिहासात राहते आणि त्यांना कळवले जाते.';
 
   @override
-  String get editNewPhoto => 'नवीन फोटो*';
+  String get editNewPhoto => 'नवीन फोटो किंवा व्हिडिओ*';
 
   @override
   String get editWhy => 'तुम्ही का बदलत आहात?*';
@@ -1479,15 +1494,15 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String walkthroughRec(String elapsed, String limit) {
+  String cameraRec(String elapsed, String limit) {
     return '● REC $elapsed / $limit';
   }
 
   @override
-  String get walkthroughStop => 'रेकॉर्डिंग थांबवा';
+  String get cameraStopRecording => 'रेकॉर्डिंग थांबवा';
 
   @override
-  String get walkthroughStart => 'रेकॉर्डिंग सुरू करा';
+  String get cameraStartRecording => 'रेकॉर्डिंग सुरू करा';
 
   @override
   String get walkthroughReviewTitle => 'तुमचा वॉकथ्रू तपासा';
@@ -1497,7 +1512,22 @@ class AppLocalizationsMr extends AppLocalizations {
       'पाठवण्यापूर्वी फ्लोअर आणि बॅक स्टोअर स्पष्ट दिसत आहेत का ते पाहा.';
 
   @override
-  String get walkthroughPlay => 'व्हिडिओ चालू किंवा थांबवा';
+  String get videoPlay => 'व्हिडिओ चालू किंवा थांबवा';
+
+  @override
+  String get videoPlayButton => 'चालू करा';
+
+  @override
+  String get videoPause => 'थांबवा';
+
+  @override
+  String get videoMute => 'आवाज बंद करा';
+
+  @override
+  String get videoUnmute => 'आवाज चालू करा';
+
+  @override
+  String get videoExitFullscreen => 'पूर्ण स्क्रीनमधून बाहेर पडा';
 
   @override
   String walkthroughMeta(String time) {

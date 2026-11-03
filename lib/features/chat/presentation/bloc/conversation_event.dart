@@ -20,12 +20,12 @@ class OlderRequested extends ConversationEvent {
 }
 
 class MessageSubmitted extends ConversationEvent {
-  const new({this.text, this.photo});
+  const new({this.text, this.media});
   final String? text;
-  final Uint8List? photo;
+  final MediaFile? media;
 
   @override
-  List<Object?> get props => [text, photo];
+  List<Object?> get props => [text, media];
 }
 
 class MessageRetried extends ConversationEvent {

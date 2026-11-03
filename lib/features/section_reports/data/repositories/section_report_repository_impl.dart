@@ -4,6 +4,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/error/error_mapper.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/section_reports/data/datasources/report_remote_data_source.dart';
 import 'package:rapsap_ops_app/features/section_reports/domain/entities/closing_form.dart';
 import 'package:rapsap_ops_app/features/section_reports/domain/entities/daily_summary.dart';
@@ -70,13 +71,13 @@ class SectionReportRepositoryImpl implements SectionReportRepository {
   Future<Either<Failure, Unit>> submitClosing({
     required String taskId,
     required List<String> closedBy,
-    required Uint8List photo,
+    required MediaFile media,
     required String captureToken,
   }) => _run(
     () => _remote.submitClosing(
       taskId: taskId,
       closedBy: closedBy,
-      photo: photo,
+      media: media,
       captureToken: captureToken,
     ),
   );
@@ -86,12 +87,14 @@ class SectionReportRepositoryImpl implements SectionReportRepository {
     required String taskId,
     required Uint8List video,
     required String fileName,
+    required String captureToken,
     required void Function(double progress) onProgress,
   }) => _run(
     () => _remote.submitWalkthrough(
       taskId: taskId,
       video: video,
       fileName: fileName,
+      captureToken: captureToken,
       onProgress: (sent, total) {
         if (total > 0) onProgress(sent / total);
       },

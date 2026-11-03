@@ -62,7 +62,9 @@ class MessageBubble extends StatelessWidget {
               style: AppTextStyles.base.s13.errorColor(),
             ),
           ] else ...[
-            if (message.photoUrl != null || message.localPhoto != null)
+            if (message.photoUrl != null ||
+                message.videoUrl != null ||
+                message.localMedia != null)
               MessagePhoto(message: message),
             if (text != null && text.isNotEmpty)
               Text(text, style: AppTextStyles.base.s15),

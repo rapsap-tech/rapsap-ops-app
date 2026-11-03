@@ -13,7 +13,17 @@ class EnvConfig {
     if (baseUrl.isEmpty) {
       throw StateError('BASE_URL missing: run with --dart-define-from-file');
     }
+    if (!kReleaseMode) return;
+    if (!_hasScheme(baseUrl, 'https')) {
+      throw StateError('BASE_URL must use https');
+    }
+    if (!useFakeApi && !_hasScheme(wsUrl, 'wss')) {
+      throw StateError('WS_URL must use wss');
+    }
   }
+
+  static bool _hasScheme(String url, String scheme) =>
+      Uri.tryParse(url)?.scheme == scheme;
 
   String get baseUrl => const String.fromEnvironment('BASE_URL');
   String get wsUrl => const String.fromEnvironment('WS_URL');

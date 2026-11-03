@@ -1,9 +1,8 @@
-import 'dart:typed_data';
-
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/error/error_mapper.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/review/data/datasources/review_remote_data_source.dart';
 import 'package:rapsap_ops_app/features/review/domain/entities/manager_dashboard.dart';
 import 'package:rapsap_ops_app/features/review/domain/entities/review_detail.dart';
@@ -53,14 +52,14 @@ class ReviewRepositoryImpl implements ReviewRepository {
   @override
   Future<Either<Failure, Unit>> editEntry({
     required String taskId,
-    required Uint8List photo,
+    required MediaFile media,
     required String captureToken,
     required EditReason reason,
     required String remarks,
   }) => _run(
     () => _remote.edit(
       taskId: taskId,
-      photo: photo,
+      media: media,
       captureToken: captureToken,
       reason: _reasons[reason]!,
       remarks: remarks,

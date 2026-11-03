@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:fpdart/fpdart.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/section_reports/domain/entities/closing_form.dart';
 import 'package:rapsap_ops_app/features/section_reports/domain/entities/daily_summary.dart';
 import 'package:rapsap_ops_app/features/section_reports/domain/entities/report_snapshot.dart';
@@ -22,7 +23,7 @@ abstract class SectionReportRepository {
   Future<Either<Failure, Unit>> submitClosing({
     required String taskId,
     required List<String> closedBy,
-    required Uint8List photo,
+    required MediaFile media,
     required String captureToken,
   });
 
@@ -31,6 +32,7 @@ abstract class SectionReportRepository {
     required String taskId,
     required Uint8List video,
     required String fileName,
+    required String captureToken,
     required void Function(double progress) onProgress,
   });
 }

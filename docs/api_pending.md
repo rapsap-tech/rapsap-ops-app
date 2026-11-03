@@ -35,9 +35,9 @@ All paths are under `/ops/api/v1`. Bodies use snake_case. "multipart" = `FormDat
 | Me | `/me/profile` | GET | — | `{ name, tags[], employee_id, phone, store_name, reports_to, on_time_percent, done_this_month, missed_this_month, emergency_contact? }` |
 | Me | `/me/notification-settings` | GET / PUT | `{ chat_messages, announcements }` | same |
 | Checklist | `/checklist/today` | GET | — | `{ date, shift, sections: [{ name, opens_at, closes_at?, tasks: [task] }] }` |
-| Task | `/tasks/{id}` | GET | — | `{ task, section, assigned_to, photo_hint, manager_name, checklist_group, checklist_group_id, send_back?, photo_url?, remarks?, locked_at? }` |
+| Task | `/tasks/{id}` | GET | — | `{ task, section, assigned_to, photo_hint, manager_name, checklist_group, checklist_group_id, send_back?, photo_url?, video_url?, remarks?, locked_at? }` |
 | Task | `/tasks/{id}/capture-token` | POST | — | `{ token, server_time, store_code, store_name, staff_name, task_number }` (stamp uses server time, CK-12) |
-| Task | `/tasks/{id}/submit` | POST multipart | `capture_token, remarks, photo (jpeg ≤300 KB, ≤1280 px)` | `{ submitted_at, on_time }`; 400 `message_blocked` for abusive remarks |
+| Task | `/tasks/{id}/submit` | POST multipart | `capture_token, remarks`, and `photo` (jpeg ≤300 KB, ≤1280 px) or `video` (≤45 s, as recorded) | `{ submitted_at, on_time }`; 400 `message_blocked` for abusive remarks |
 | Task | `/tasks/{id}/not-done` | POST | `{ reason }` | `{ submitted_at, on_time }` |
 | Notifications | `/notifications` | GET | — | `[{ id, title, subtitle, created_at, read, target_type: task\|conversation, target_id }]` (title/subtitle already localised) |
 | Notifications | `/notifications/{id}/read`, `/notifications/read-all` | POST | — | — |
@@ -45,16 +45,16 @@ All paths are under `/ops/api/v1`. Bodies use snake_case. "multipart" = `FormDat
 | Chat | `/chat/conversations/{id}` | GET | — | `{ id, title, kind: group\|direct\|announcements, member_count, unread, muted, can_post, last_preview?, last_at?, pinned_text? }` |
 | Chat | `/chat/conversations/my-manager` | GET | — | the staff member's 1:1 with their SM |
 | Chat | `/chat/conversations/{id}/messages` | GET / POST | GET `?limit&before`; POST `{ client_id, text }` | `{ messages: [message], has_more }` / `message`; 400 `message_blocked` `{ reason: abuse\|link\|flood\|sensitive\|muted, muted_until? }` |
-| Chat | `/chat/conversations/{id}/photos` | POST multipart | `client_id, photo` | `message` |
+| Chat | `/chat/conversations/{id}/photos` | POST multipart | `client_id`, and `photo` or `video` (≤45 s) | `message` |
 | Chat | `/chat/conversations/{id}/mute` | PUT | `{ muted }` | — |
 | Chat | `/chat/messages/{id}/report` | POST | — | — |
 | Chat | `wss://…/chat/ws` | WebSocket | first frame `{ type: auth, token }` | events `{ type: message, conversation_id, message }` |
 | Review (SM) | `/manager/dashboard` | GET | — | `{ date, done, total, to_review, missed, not_done, sections: [{ id, name, status, done, total, missed }], sales?: { month, sales_mtd, target, dsr_due_at } }` |
 | Review (SM) | `/review/queue` | GET | — | `[{ task_id, number, title, section, staff_name, staff_role, kind: needs_review\|missed\|not_done\|open_now, at, reason? }]` |
-| Review (SM) | `/review/{taskId}` | GET | — | `{ item, photo_url?, remarks?, locked_at?, unlock_minutes }` |
+| Review (SM) | `/review/{taskId}` | GET | — | `{ item, photo_url?, video_url?, remarks?, locked_at?, unlock_minutes }` |
 | Review (SM) | `/review/{taskId}/verify`, `/unlock`, `/take-over` | POST | — | — |
 | Review (SM) | `/review/{taskId}/send-back` | POST | `{ reason }` | — |
-| Review (SM) | `/review/{taskId}/edit` | POST multipart | `capture_token, reason: photo_unclear\|wrong_photo\|remark_missing\|other, remarks, photo` | — |
+| Review (SM) | `/review/{taskId}/edit` | POST multipart | `capture_token, reason: photo_unclear\|wrong_photo\|remark_missing\|other, remarks`, and `photo` or `video` (≤45 s) | — |
 | Team (SM) | `/team/members` | GET / POST | POST `{ phone, name, role_ids[], extra_task_ids[] }` | `[member]` / `{ id, sms_sent }`; 400 `errors.phone` = number already has a login |
 | Team (SM) | `/team/members/{id}` | GET | — | `{ id, name, status: active\|invited\|deactivated, phone, roles[], since? }` |
 | Team (SM) | `/team/catalog` | GET | — | `{ roles: [{ id, name }], tasks: [{ id, number, title, role_ids[] }] }` |
@@ -68,7 +68,7 @@ All paths are under `/ops/api/v1`. Bodies use snake_case. "multipart" = `FormDat
 | Reports (SM) | `/section-reports/{id}/snapshot` | GET | — | `{ report_id, title, store_name, date, opens_at, closes_at, done, total, lines[], photo_urls[], targets: [{ conversation_id, name }], sent_at? }` |
 | Reports (SM) | `/section-reports/{id}/snapshot/post` | POST multipart | `conversation_ids[], image` | — (the app renders the snapshot image, SM-32) |
 | Reports (SM) | `/section-reports/daily-summary` | GET / POST | POST `{ margin_percent, complaints, damages, shrinkage, manpower_present, key_issues }` | GET `{ staff_total, sales?, bills? }` (null sales = DSR missing, X12) |
-| Reports (SM) | `/section-reports/closing` | GET / POST multipart | POST `task_id, closed_by[], capture_token, photo` | GET `{ task_id, walkthrough_task_id, due_at, early_before, staff: [{ id, name }] }` |
+| Reports (SM) | `/section-reports/closing` | GET / POST multipart | POST `task_id, closed_by[], capture_token`, and `photo` or `video` (≤45 s) | GET `{ task_id, walkthrough_task_id, due_at, early_before, staff: [{ id, name }] }` |
 | Reports (SM) | `/section-reports/walkthrough` | POST multipart | `task_id, video` (45 s) | — |
 | DSR (SM) | `/dsr/overview` | GET | `?period=1M\|3M\|6M\|1Y` | `{ date, due_at, sales_mtd, target, need_per_day, trend: [{ day, current, previous? }], change_percent, history[], todays_posting? }` |
 | DSR (SM) | `/dsr/check` | POST multipart | `file` (.xlsx ≤5 MB) | `{ upload_id, file_name, size, lines: [{ field, value, ok }], warnings[], replaces_existing }`; 400 `dsr_rejected` `{ reason: wrong_store\|unreadable_date\|no_sales\|too_large\|has_macros, detected_store? }` |
@@ -95,8 +95,34 @@ Section names, task titles, notification texts and DSR warnings are shown as sen
 | `FakeNotificationRemoteDataSource`, `FakeProfileRemoteDataSource`, `FakeSettingsRemoteDataSource`, `FakeAppConfigSource` | Static sample data. |
 | `DeviceNetworkInfo` | Checks only the device network (there is no server to ping). |
 
+## Offline uploads (backend changes needed)
+
+The app is getting offline proof capture and an upload outbox that retries when the connection returns (plan: `tasks/plan.md`). The server needs to:
+
+- **Ignore duplicate uploads.** Accept a `client_id` field on `/tasks/{id}/submit`, `/review/{taskId}/edit`, `/section-reports/closing` and `/section-reports/walkthrough`. A repeat `client_id` returns the first result instead of creating a second submission (as chat messages already do).
+- **Decide on proof that arrives after the lock.** A proof taken before the 2-minute lock may reach the server later. Accept it when its capture token (or offline capture time) is before the lock, or reject it as missed.
+- **State how long a capture token stays valid**, so the app knows whether a saved proof can still use it.
+- **Accept proof captured offline**, sent without `capture_token` and with `captured_offline=true`, `captured_at` (ISO 8601) and `time_source`:
+  - `server_offset`: last server time plus the time elapsed on a monotonic clock; the phone clock was not used.
+  - `device`: the phone clock, used only after an app restart while offline. It can be wrong or changed, so the server should flag these proofs for SM review.
+
+## Security (backend changes needed)
+
+From the security audit (2026-11-03). The app can't enforce these; the server must:
+
+- **Capture tokens:** make them single-use, short-lived, and tied to the task and user, and record the server's own receive time. The drawn photo stamp is client-made, so treat it as display only.
+- **Walkthrough:** the app now gets a token from `/tasks/{walkthrough_task_id}/capture-token` when recording starts, and sends `capture_token` with `/section-reports/walkthrough`. Validate it the same way as task proof.
+- **Uploads:** check the content type (`image/jpeg`, `video/mp4`, `video/webm`), size (photo ≤300 KB; video ≤50 MB, the app's cap) and duration (≤45 s). Strip metadata on the server too.
+- **Refresh:** reject an invalid or expired refresh token with 400, 401 or 403. The app signs the user out only on those; any other error keeps the session. Rotate refresh tokens on use, detect reuse, and keep lifetimes short (on web they live in browser storage). Logout must revoke the refresh token.
+- **OTP and login:** rate-limit `/auth/otp/send` and `/auth/otp/verify` per number and per IP, and enforce the 5-try lock. The A3 "No login" screen shows whether a number has an account (kept by product decision), so rate limits are what stop number scanning.
+- **Roles:** check the store-manager role on every `/review`, `/team`, `/section-reports` and `/dsr` endpoint. The app's route guards are only for UX.
+- **Ids:** the app sends only ids matching `^[A-Za-z0-9_-]{1,64}$` and rejects anything else as not found. Keep server ids within that shape.
+- **Media links:** serve `photo_url` / `video_url` as signed, expiring links. The app loads them without an auth header.
+
 ## Other assumptions to confirm
 
 - Chat delete-for-everyone, reply and pin are not built yet (no endpoints agreed).
-- Walkthrough videos are uploaded as recorded (no compression); 45 s caps the size.
+- Walkthrough and proof videos are uploaded as recorded (no compression); 45 s caps the size. Web records WebM or MP4 depending on the browser; the file name keeps the recorded extension.
+- Proof videos have no burnt-in stamp (photos do); the `capture_token` is still sent so the server knows the capture time.
+- A chat message with a clip comes back with `video_url` instead of `photo_url`.
 - The snapshot image (section report, DSR) is rendered by the app and uploaded as JPEG.

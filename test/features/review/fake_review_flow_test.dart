@@ -9,12 +9,14 @@ import 'package:rapsap_ops_app/features/review/domain/usecases/unlock_task.dart'
 import 'package:rapsap_ops_app/features/review/domain/usecases/verify_entry.dart';
 import 'package:rapsap_ops_app/features/review/presentation/bloc/review_detail_cubit.dart';
 
+import '../../helpers/always_online.dart';
+
 void main() {
   late FakeChecklistRemoteDataSource checklist;
   late ReviewRepositoryImpl repository;
 
   setUp(() {
-    checklist = FakeChecklistRemoteDataSource();
+    checklist = FakeChecklistRemoteDataSource(const AlwaysOnline());
     repository = ReviewRepositoryImpl(FakeReviewRemoteDataSource(checklist));
   });
 

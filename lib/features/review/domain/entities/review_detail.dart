@@ -6,6 +6,7 @@ class ReviewDetail extends Equatable {
   const new({
     required this.item,
     this.photoUrl,
+    this.videoUrl,
     this.remarks,
     this.lockedAt,
     this.unlockMinutes = 30,
@@ -13,10 +14,18 @@ class ReviewDetail extends Equatable {
 
   final ReviewItem item;
   final String? photoUrl;
+  final String? videoUrl;
   final String? remarks;
   final DateTime? lockedAt;
   final int unlockMinutes;
 
   @override
-  List<Object?> get props => [item, photoUrl, remarks, lockedAt, unlockMinutes];
+  List<Object?> get props => [
+    item,
+    photoUrl,
+    videoUrl,
+    remarks,
+    lockedAt,
+    unlockMinutes,
+  ];
 }

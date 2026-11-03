@@ -12,6 +12,7 @@
   "errorForceUpdate": "Please update the app to continue.",
   "errorStorage": "Couldn't save data on this device. Please try again.",
   "errorUnknown": "Something went wrong. Please try again.",
+  "errorVideoTooLarge": "This video is too big to send. Record a shorter one.",
   "pageNotFoundTitle": "Page not found",
   "pageNotFoundAction": "Go to start",
   "languageEnglishShort": "EN",
@@ -35,6 +36,13 @@
   "loginPhoneHint": "98765 43210",
   "loginHelper": "No sign-up here. Your store manager creates your login.",
   "loginNoAccount": "No login found for this number. Check the number or ask your store manager for help.",
+  "loginUnsentProof": "{name} has {count} unsent proof on this phone. If someone else signs in, it will be deleted.",
+  "@loginUnsentProof": {
+    "placeholders": {
+      "name": { "type": "String" },
+      "count": { "type": "int" }
+    }
+  },
   "loginGetOtp": "Get OTP",
   "otpTitle": "Enter OTP",
   "otpSentTo": "Sent to {countryCode} {phone}. Valid for {minutes} minutes.",
@@ -278,7 +286,7 @@
   "taskDueAt": "Due {time}",
   "taskDueSoonLeft": "Due soon · {minutes} min left",
   "taskReopenedLeft": "Reopened · {minutes} min left",
-  "taskPhotoProof": "Photo proof*",
+  "taskPhotoProof": "Photo or video proof*",
   "taskTapToOpenCamera": "Tap to open camera",
   "taskRetake": "Retake",
   "taskRemarks": "Remarks",
@@ -288,7 +296,7 @@
   "taskNotDoneReason": "Why can't you take a photo?*",
   "taskNotDoneHint": "Tell your SM what's stopping you",
   "taskAutoPosted": "Your photo is also posted to {group} automatically.",
-  "taskTakePhotoFirst": "Take photo first",
+  "taskTakePhotoFirst": "Take photo or video first",
   "taskSubmit": "Submit",
   "taskSubmitNotDone": "Submit as not done",
   "taskRetakePhoto": "Retake photo",
@@ -304,6 +312,8 @@
   "cameraOnly": "Camera only · gallery is off",
   "cameraClose": "Close camera",
   "cameraTakePhoto": "Take photo",
+  "cameraModePhoto": "Photo",
+  "cameraModeVideo": "Video",
   "cameraDenied": "Camera is blocked. Turn it on in your browser or phone settings and try again.",
   "cameraUnavailable": "No camera found on this device.",
   "resultConfirmed": "Confirmed",
@@ -682,7 +692,7 @@
   "editRemarkMissing": "Remark missing",
   "editOther": "Other",
   "editBody": "Their original photo and remark stay in history and they are notified.",
-  "editNewPhoto": "New photo*",
+  "editNewPhoto": "New photo or video*",
   "editWhy": "Why are you editing?*",
   "editSave": "Save changes",
   "@managerToReview": {
@@ -1114,12 +1124,17 @@
   "walkthroughSent": "Walkthrough video sent.",
   "walkthroughTitle": "#46 Store walkthrough",
   "walkthroughSubtitle": "Floor + back store · due {time}",
-  "walkthroughRec": "● REC {elapsed} / {limit}",
-  "walkthroughStop": "Stop recording",
-  "walkthroughStart": "Start recording",
+  "cameraRec": "● REC {elapsed} / {limit}",
+  "cameraStopRecording": "Stop recording",
+  "cameraStartRecording": "Start recording",
   "walkthroughReviewTitle": "Review your walkthrough",
   "walkthroughReviewBody": "Check that the floor and back store are clearly visible before sending.",
-  "walkthroughPlay": "Play or pause the video",
+  "videoPlay": "Play or pause the video",
+  "videoPlayButton": "Play",
+  "videoPause": "Pause",
+  "videoMute": "Mute",
+  "videoUnmute": "Unmute",
+  "videoExitFullscreen": "Exit full screen",
   "walkthroughMeta": "Task #46 · Today, {time}",
   "walkthroughSend": "Send video",
   "@listSeparatorJoin": {
@@ -1272,7 +1287,7 @@
       }
     }
   },
-  "@walkthroughRec": {
+  "@cameraRec": {
     "placeholders": {
       "elapsed": {
         "type": "String"

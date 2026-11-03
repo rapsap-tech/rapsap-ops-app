@@ -10,6 +10,7 @@ import 'package:rapsap_ops_app/core/bloc/session_cubit.dart';
 import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/di/injection.dart';
 import 'package:rapsap_ops_app/core/utils/logger.dart';
+import 'package:rapsap_ops_app/core/utils/sentry_scrubber.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> bootstrap() async {
@@ -40,7 +41,10 @@ Future<void> bootstrap() async {
     (options) => options
       ..dsn = dsn
       ..environment = kReleaseMode ? 'release' : 'debug'
-      ..sendDefaultPii = false,
+      ..sendDefaultPii = false
+      ..enablePrintBreadcrumbs = false
+      ..beforeSend = scrubSentryEvent
+      ..beforeBreadcrumb = scrubSentryBreadcrumb,
     appRunner: () => runApp(SentryWidget(child: const App())),
   );
 }

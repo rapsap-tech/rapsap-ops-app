@@ -1,11 +1,11 @@
-import 'dart:typed_data';
-
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/constants/api_constants.dart';
 import 'package:rapsap_ops_app/core/constants/app_constants.dart';
 import 'package:rapsap_ops_app/core/network/dio_client.dart';
+import 'package:rapsap_ops_app/core/network/media_part.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/features/chat/data/models/chat_models.dart';
 
 abstract class ChatRemoteDataSource {
@@ -14,10 +14,10 @@ abstract class ChatRemoteDataSource {
   Future<ConversationModel> managerConversation();
   Future<MessagePageModel> messages(String id, {String? beforeId});
   Future<ChatMessageModel> sendText(String id, String clientId, String text);
-  Future<ChatMessageModel> sendPhoto(
+  Future<ChatMessageModel> sendMedia(
     String id,
     String clientId,
-    Uint8List photo,
+    MediaFile media,
   );
   Future<void> report(String messageId);
   Future<void> setMuted(String id, {required bool muted});
@@ -70,20 +70,13 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
       );
 
   @override
-  Future<ChatMessageModel> sendPhoto(
+  Future<ChatMessageModel> sendMedia(
     String id,
     String clientId,
-    Uint8List photo,
+    MediaFile media,
   ) => _client.upload(
     ApiConstants.chat.photo(id),
-    formData: FormData.fromMap({
-      'client_id': clientId,
-      'photo': MultipartFile.fromBytes(
-        photo,
-        filename: AppConstants.photoFileName,
-        contentType: DioMediaType('image', 'jpeg'),
-      ),
-    }),
+    formData: FormData.fromMap({'client_id': clientId, ...mediaPart(media)}),
     fromData: (data) => ChatMessageModel.fromJson(_json(data)),
   );
 

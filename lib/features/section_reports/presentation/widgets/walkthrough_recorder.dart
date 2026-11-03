@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rapsap_ops_app/core/constants/app_constants.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
 import 'package:rapsap_ops_app/core/extensions/date_ext.dart';
+import 'package:rapsap_ops_app/core/extensions/num_ext.dart';
 import 'package:rapsap_ops_app/core/theme/app_colors.dart';
 import 'package:rapsap_ops_app/core/theme/app_text_styles.dart';
 import 'package:rapsap_ops_app/core/theme/dimens.dart';
 import 'package:rapsap_ops_app/core/widgets/app_loader.dart';
+import 'package:rapsap_ops_app/core/widgets/record_button.dart';
 import 'package:rapsap_ops_app/features/checklist/presentation/widgets/camera_top_bar.dart';
 import 'package:rapsap_ops_app/features/section_reports/domain/entities/closing_form.dart';
 import 'package:rapsap_ops_app/features/section_reports/presentation/bloc/walkthrough_cubit.dart';
@@ -55,9 +57,9 @@ class WalkthroughRecorder extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(top: Dimens.space12),
                 child: Text(
-                  l10n.walkthroughRec(
-                    _clock(state.seconds),
-                    _clock(AppConstants.walkthroughVideoSeconds),
+                  l10n.cameraRec(
+                    state.seconds.clock,
+                    AppConstants.maxVideoSeconds.clock,
                   ),
                   style: AppTextStyles.base.s15.w700.copyWith(
                     color: AppColors.error,
@@ -68,14 +70,16 @@ class WalkthroughRecorder extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: Dimens.paddingLarge),
               child: Semantics(
                 button: true,
-                label: recording ? l10n.walkthroughStop : l10n.walkthroughStart,
+                label: recording
+                    ? l10n.cameraStopRecording
+                    : l10n.cameraStartRecording,
                 child: GestureDetector(
                   onTap: recording
                       ? cubit.stop
                       : state.status == WalkStatus.ready
-                      ? cubit.record
+                      ? () => cubit.record(form.walkthroughTaskId)
                       : null,
-                  child: _RecordButton(recording: recording),
+                  child: RecordButton(recording: recording),
                 ),
               ),
             ),
@@ -84,38 +88,6 @@ class WalkthroughRecorder extends StatelessWidget {
       ),
     );
   }
-
-  static String _clock(int seconds) =>
-      '${seconds ~/ 60}:${(seconds % 60).toString().padLeft(2, '0')}';
-}
-
-class _RecordButton extends StatelessWidget {
-  const new({required this.recording});
-
-  final bool recording;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    width: Dimens.shutterSize,
-    height: Dimens.shutterSize,
-    alignment: Alignment.center,
-    decoration: BoxDecoration(
-      shape: BoxShape.circle,
-      border: Border.all(
-        color: AppColors.onPrimary,
-        width: Dimens.shutterBorder,
-      ),
-    ),
-    child: Container(
-      width: recording ? Dimens.iconMedium : Dimens.shutterInnerSize,
-      height: recording ? Dimens.iconMedium : Dimens.shutterInnerSize,
-      decoration: BoxDecoration(
-        color: AppColors.error,
-        shape: recording ? BoxShape.rectangle : BoxShape.circle,
-        borderRadius: recording ? BorderRadius.circular(Dimens.radius6) : null,
-      ),
-    ),
-  );
 }
 
 class _Message extends StatelessWidget {

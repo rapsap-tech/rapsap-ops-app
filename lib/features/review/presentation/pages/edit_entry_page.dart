@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,8 +7,10 @@ import 'package:rapsap_ops_app/core/constants/app_constants.dart';
 import 'package:rapsap_ops_app/core/di/injection.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
 import 'package:rapsap_ops_app/core/extensions/failure_ext.dart';
+import 'package:rapsap_ops_app/core/extensions/navigation_ext.dart';
 import 'package:rapsap_ops_app/core/router/route_names.dart';
 import 'package:rapsap_ops_app/core/router/route_paths.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/core/theme/app_text_styles.dart';
 import 'package:rapsap_ops_app/core/theme/dimens.dart';
 import 'package:rapsap_ops_app/core/utils/validators.dart';
@@ -17,13 +18,15 @@ import 'package:rapsap_ops_app/core/widgets/app_button.dart';
 import 'package:rapsap_ops_app/core/widgets/app_scaffold.dart';
 import 'package:rapsap_ops_app/core/widgets/app_text_field.dart';
 import 'package:rapsap_ops_app/core/widgets/filter_chip_button.dart';
+import 'package:rapsap_ops_app/core/widgets/media_preview.dart';
 import 'package:rapsap_ops_app/core/widgets/message_banner.dart';
 import 'package:rapsap_ops_app/core/widgets/page_header.dart';
 import 'package:rapsap_ops_app/features/checklist/presentation/pages/camera_page.dart';
 import 'package:rapsap_ops_app/features/review/domain/repositories/review_repository.dart';
 import 'package:rapsap_ops_app/features/review/presentation/bloc/edit_entry_cubit.dart';
 
-/// C5 · Edit entry: new stamped photo + reason; original stays in history.
+/// C5 · Edit entry: new stamped photo or video + reason; the original stays
+/// in history.
 class EditEntryPage extends StatelessWidget {
   const new({required this.taskId, super.key});
 
@@ -57,7 +60,7 @@ class EditEntryPage extends StatelessWidget {
 
   Future<void> _openCamera(BuildContext context, EditEntryState state) async {
     final cubit = context.read<EditEntryCubit>();
-    final photo = await context.pushNamed<Uint8List>(
+    final media = await context.pushNamedOffHistory<MediaFile>(
       RouteNames.reviewEditCamera,
       pathParameters: {RoutePaths.taskIdParam: taskId},
       extra: CameraPageArgs(
@@ -65,7 +68,7 @@ class EditEntryPage extends StatelessWidget {
         session: state.session,
       ),
     );
-    if (!cubit.isClosed) cubit.photoTaken(photo ?? state.photo);
+    if (!cubit.isClosed) cubit.mediaTaken(media ?? state.media);
   }
 }
 
@@ -79,7 +82,7 @@ class _Form extends StatelessWidget {
     final l10n = context.l10n;
     final state = context.watch<EditEntryCubit>().state;
     final cubit = context.read<EditEntryCubit>();
-    final photo = state.photo;
+    final media = state.media;
     final reasons = {
       EditReason.photoUnclear: l10n.editPhotoUnclear,
       EditReason.wrongPhoto: l10n.editWrongPhoto,
@@ -99,7 +102,7 @@ class _Form extends StatelessWidget {
                 style: AppTextStyles.base.s14.w600,
               ),
             ),
-            if (photo != null)
+            if (media != null)
               TextButton(
                 onPressed: () => unawaited(cubit.openCamera(taskId)),
                 child: Text(l10n.taskRetake),
@@ -107,7 +110,7 @@ class _Form extends StatelessWidget {
           ],
         ),
         8.hSpace,
-        if (photo == null)
+        if (media == null)
           AppButton(
             label: l10n.taskTapToOpenCamera,
             variant: AppButtonVariant.outline,
@@ -115,16 +118,7 @@ class _Form extends StatelessWidget {
             onPressed: () => unawaited(cubit.openCamera(taskId)),
           )
         else
-          ClipRRect(
-            borderRadius: BorderRadius.circular(Dimens.radius12),
-            child: Image.memory(
-              photo,
-              height: Dimens.photoPreviewHeight,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              semanticLabel: l10n.taskYourPhoto,
-            ),
-          ),
+          MediaPreview(media: media, semanticLabel: l10n.taskYourPhoto),
         20.hSpace,
         Text(l10n.editWhy, style: AppTextStyles.base.s14.w600),
         8.hSpace,

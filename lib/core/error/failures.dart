@@ -96,6 +96,11 @@ class StorageFailure extends Failure {
   const new();
 }
 
+/// A recorded clip is over the upload size limit.
+class MediaTooLargeFailure extends Failure {
+  const new();
+}
+
 class UnknownFailure extends Failure {
   const new();
 }

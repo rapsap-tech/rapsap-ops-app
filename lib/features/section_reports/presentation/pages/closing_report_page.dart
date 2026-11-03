@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +6,9 @@ import 'package:rapsap_ops_app/core/di/injection.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
 import 'package:rapsap_ops_app/core/extensions/date_ext.dart';
 import 'package:rapsap_ops_app/core/extensions/failure_ext.dart';
+import 'package:rapsap_ops_app/core/extensions/navigation_ext.dart';
 import 'package:rapsap_ops_app/core/router/route_names.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/core/theme/app_text_styles.dart';
 import 'package:rapsap_ops_app/core/theme/dimens.dart';
 import 'package:rapsap_ops_app/core/widgets/app_button.dart';
@@ -17,6 +17,7 @@ import 'package:rapsap_ops_app/core/widgets/app_loader.dart';
 import 'package:rapsap_ops_app/core/widgets/app_scaffold.dart';
 import 'package:rapsap_ops_app/core/widgets/filter_chip_button.dart';
 import 'package:rapsap_ops_app/core/widgets/info_rows_card.dart';
+import 'package:rapsap_ops_app/core/widgets/media_preview.dart';
 import 'package:rapsap_ops_app/core/widgets/message_banner.dart';
 import 'package:rapsap_ops_app/core/widgets/page_header.dart';
 import 'package:rapsap_ops_app/core/widgets/status_chip.dart';
@@ -57,14 +58,14 @@ class ClosingReportPage extends StatelessWidget {
 
   Future<void> _openCamera(BuildContext context, ClosingState state) async {
     final cubit = context.read<ClosingCubit>();
-    final photo = await context.pushNamed<Uint8List>(
+    final media = await context.pushNamedOffHistory<MediaFile>(
       RouteNames.closingCamera,
       extra: CameraPageArgs(
         title: context.l10n.closingShutter,
         session: state.session,
       ),
     );
-    if (!cubit.isClosed) cubit.photoTaken(photo ?? state.photo);
+    if (!cubit.isClosed) cubit.mediaTaken(media ?? state.media);
   }
 }
 
@@ -89,7 +90,7 @@ class _View extends StatelessWidget {
       footer: form == null
           ? null
           : AppButton(
-              label: state.photo == null
+              label: state.media == null
                   ? l10n.taskTakePhotoFirst
                   : l10n.taskSubmit,
               isLoading: state.status == ClosingStatus.sending,
@@ -114,7 +115,7 @@ class _Form extends StatelessWidget {
     final cubit = context.read<ClosingCubit>();
     final now = DateTime.now();
     final early = now.isBefore(form.earlyBefore);
-    final photo = state.photo;
+    final media = state.media;
     final failure = state.failure;
     return ListView(
       padding: Dimens.pagePadding,
@@ -155,7 +156,7 @@ class _Form extends StatelessWidget {
         20.hSpace,
         Text(l10n.closingShutter, style: AppTextStyles.base.s14.w600),
         8.hSpace,
-        if (photo == null)
+        if (media == null)
           AppButton(
             label: l10n.taskTapToOpenCamera,
             variant: AppButtonVariant.outline,
@@ -165,15 +166,9 @@ class _Form extends StatelessWidget {
         else
           GestureDetector(
             onTap: cubit.openCamera,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(Dimens.radius12),
-              child: Image.memory(
-                photo,
-                height: Dimens.photoPreviewHeight,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                semanticLabel: l10n.closingShutter,
-              ),
+            child: MediaPreview(
+              media: media,
+              semanticLabel: l10n.closingShutter,
             ),
           ),
         12.hSpace,

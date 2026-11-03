@@ -85,7 +85,7 @@ class DoneSection extends StatelessWidget {
         if (detail.task.status != TaskStatus.notDone) ...[
           Text(context.l10n.taskYourPhoto, style: AppTextStyles.base.s14.w600),
           8.hSpace,
-          StoredPhoto(url: detail.photoUrl),
+          StoredPhoto(url: detail.photoUrl, videoUrl: detail.videoUrl),
         ],
         if (remarks != null && remarks.isNotEmpty) ...[
           16.hSpace,

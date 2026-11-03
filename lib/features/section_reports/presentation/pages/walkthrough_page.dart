@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rapsap_ops_app/core/bloc/load_cubit.dart';
 import 'package:rapsap_ops_app/core/di/injection.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
+import 'package:rapsap_ops_app/core/extensions/failure_ext.dart';
 import 'package:rapsap_ops_app/core/theme/app_colors.dart';
 import 'package:rapsap_ops_app/core/widgets/app_loader.dart';
 import 'package:rapsap_ops_app/features/section_reports/domain/entities/closing_form.dart';
@@ -32,19 +33,38 @@ class WalkthroughPage extends StatelessWidget {
         // Only for the #46 task id and due time.
         BlocProvider(create: (_) => getIt<ClosingCubit>()),
       ],
-      child: BlocListener<WalkthroughCubit, WalkthroughState>(
-        listenWhen: (p, n) =>
-            p.status != n.status && n.status == WalkStatus.sent,
-        listener: (context, _) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(context.l10n.walkthroughSent)));
-          context.pop();
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<WalkthroughCubit, WalkthroughState>(
+            listenWhen: (p, n) =>
+                p.status != n.status && n.status == WalkStatus.sent,
+            listener: (context, _) {
+              _showMessage(context, context.l10n.walkthroughSent);
+              context.pop();
+            },
+          ),
+          // The review screen shows its own banner.
+          BlocListener<WalkthroughCubit, WalkthroughState>(
+            listenWhen: (p, n) =>
+                n.failure != null &&
+                p.failure != n.failure &&
+                n.status != WalkStatus.review,
+            listener: (context, state) {
+              final failure = state.failure;
+              if (failure != null) {
+                _showMessage(context, failure.message(context.l10n));
+              }
+            },
+          ),
+        ],
         child: const _View(),
       ),
     );
   }
+
+  void _showMessage(BuildContext context, String message) =>
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
 }
 
 class _View extends StatelessWidget {

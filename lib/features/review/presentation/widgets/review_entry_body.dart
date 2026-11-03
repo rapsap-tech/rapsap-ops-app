@@ -59,7 +59,7 @@ class ReviewEntryBody extends StatelessWidget {
         ] else if (item.kind == ReviewKind.needsReview) ...[
           Text(l10n.taskPhotoProof, style: AppTextStyles.base.s14.w600),
           8.hSpace,
-          StoredPhoto(url: detail.photoUrl),
+          StoredPhoto(url: detail.photoUrl, videoUrl: detail.videoUrl),
         ],
         if (remarks != null) ...[
           16.hSpace,

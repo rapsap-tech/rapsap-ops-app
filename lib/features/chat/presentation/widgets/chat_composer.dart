@@ -1,13 +1,12 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rapsap_ops_app/core/constants/app_constants.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
 import 'package:rapsap_ops_app/core/extensions/date_ext.dart';
+import 'package:rapsap_ops_app/core/extensions/navigation_ext.dart';
 import 'package:rapsap_ops_app/core/router/route_names.dart';
 import 'package:rapsap_ops_app/core/router/route_paths.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/core/theme/app_colors.dart';
 import 'package:rapsap_ops_app/core/theme/app_text_styles.dart';
 import 'package:rapsap_ops_app/core/theme/dimens.dart';
@@ -42,14 +41,14 @@ class _ChatComposerState extends State<ChatComposer> {
     _text.clear();
   }
 
-  Future<void> _photo(Conversation c) async {
+  Future<void> _capture(Conversation c) async {
     final bloc = context.read<ConversationBloc>();
-    final photo = await context.pushNamed<Uint8List>(
+    final media = await context.pushNamedOffHistory<MediaFile>(
       RouteNames.conversationCamera,
       pathParameters: {RoutePaths.conversationIdParam: c.id},
       extra: CameraPageArgs(title: c.title),
     );
-    if (photo != null) bloc.add(MessageSubmitted(photo: photo));
+    if (media != null) bloc.add(MessageSubmitted(media: media));
   }
 
   @override
@@ -74,7 +73,7 @@ class _ChatComposerState extends State<ChatComposer> {
       children: [
         IconButton(
           tooltip: l10n.cameraTakePhoto,
-          onPressed: () => _photo(c),
+          onPressed: () => _capture(c),
           icon: AppSvgIcon(
             Assets.icons.camera,
             size: Dimens.iconSmall,

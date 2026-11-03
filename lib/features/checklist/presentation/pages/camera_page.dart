@@ -2,9 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rapsap_ops_app/core/di/injection.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
+import 'package:rapsap_ops_app/core/extensions/failure_ext.dart';
+import 'package:rapsap_ops_app/core/extensions/navigation_ext.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/core/theme/app_colors.dart';
 import 'package:rapsap_ops_app/core/theme/app_text_styles.dart';
 import 'package:rapsap_ops_app/core/theme/dimens.dart';
@@ -23,8 +25,8 @@ class CameraPageArgs {
   final String title;
 }
 
-/// B4 · In-app camera (camera only, no gallery). Pops with the stamped,
-/// compressed photo bytes.
+/// B4 · In-app camera (camera only, no gallery). Pops with a [MediaFile]:
+/// a stamped, compressed photo or a recorded clip.
 class CameraPage extends StatelessWidget {
   const new({required this.title, this.session, super.key});
 
@@ -39,9 +41,18 @@ class CameraPage extends StatelessWidget {
         unawaited(cubit.start());
         return cubit;
       },
-      child: BlocListener<CameraCubit, CameraState>(
-        listenWhen: (_, next) => next.status == CameraStatus.captured,
-        listener: (context, state) => context.pop(state.photo),
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<CameraCubit, CameraState>(
+            listenWhen: (_, next) => next.status == CameraStatus.captured,
+            listener: (context, state) => context.popOffHistory(state.media),
+          ),
+          BlocListener<CameraCubit, CameraState>(
+            listenWhen: (prev, next) =>
+                next.failure != null && prev.failure != next.failure,
+            listener: _showFailure,
+          ),
+        ],
         child: Scaffold(
           backgroundColor: AppColors.cameraBackground,
           body: SafeArea(
@@ -56,6 +67,13 @@ class CameraPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _showFailure(BuildContext context, CameraState state) {
+    final failure = state.failure;
+    if (failure == null) return;
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(failure.message(context.l10n))));
   }
 }
 
@@ -84,6 +102,7 @@ class _Viewfinder extends StatelessWidget {
                 context.l10n.cameraUnavailable,
               ),
               CameraStatus.ready ||
+              CameraStatus.recording ||
               CameraStatus.processing ||
               CameraStatus.captured => FittedBox(
                 fit: BoxFit.cover,

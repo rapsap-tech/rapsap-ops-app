@@ -1,15 +1,73 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/assets/*", "/icons/*", "/canvaskit/*", "*.{js,json,png,wasm,ttf,otf}"]
+    "exclude": [
+      "/assets/*",
+      "/icons/*",
+      "/canvaskit/*",
+      "*.{js,json,png,wasm,ttf,otf}"
+    ]
   },
   "routes": [
-    { "route": "/index.html", "headers": { "cache-control": "no-cache" } },
-    { "route": "/flutter_service_worker.js", "headers": { "cache-control": "no-cache" } },
-    { "route": "/manifest.json", "headers": { "cache-control": "no-cache" } }
+    {
+      "route": "/index.html",
+      "headers": {
+        "cache-control": "no-cache"
+      }
+    },
+    {
+      "route": "/flutter_service_worker.js",
+      "headers": {
+        "cache-control": "no-cache"
+      }
+    },
+    {
+      "route": "/sw.js",
+      "headers": {
+        "cache-control": "no-cache"
+      }
+    },
+    {
+      "route": "/flutter_bootstrap.js",
+      "headers": {
+        "cache-control": "no-cache"
+      }
+    },
+    {
+      "route": "/main.dart.js",
+      "headers": {
+        "cache-control": "no-cache"
+      }
+    },
+    {
+      "route": "/precache.json",
+      "headers": {
+        "cache-control": "no-cache"
+      }
+    },
+    {
+      "route": "/manifest.json",
+      "headers": {
+        "cache-control": "no-cache"
+      }
+    },
+    {
+      "route": "/pwa.js",
+      "headers": {
+        "cache-control": "no-cache"
+      }
+    }
   ],
   "mimeTypes": {
     ".wasm": "application/wasm",
     ".json": "application/json"
+  },
+  "globalHeaders": {
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob: https:; font-src 'self' data:; connect-src 'self' blob: data: __API_ORIGINS__; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'",
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "camera=(self), microphone=(self), geolocation=(), payment=(), usb=()"
   }
 }

@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TaskDetailModel {
 
- ChecklistTaskModel get task; String get section; String get assignedTo; String get photoHint; String get managerName; String get checklistGroup; String get checklistGroupId; SendBackNoteModel? get sendBack; String? get photoUrl; String? get remarks; DateTime? get lockedAt;
+ ChecklistTaskModel get task; String get section; String get assignedTo; String get photoHint; String get managerName; String get checklistGroup; String get checklistGroupId; SendBackNoteModel? get sendBack; String? get photoUrl; String? get videoUrl; String? get remarks; DateTime? get lockedAt;
 /// Create a copy of TaskDetailModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +30,20 @@ $TaskDetailModelCopyWith<TaskDetailModel> get copyWith => _$TaskDetailModelCopyW
 @override
 bool operator ==(Object other) {
   final _this = this as TaskDetailModel;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TaskDetailModel&&(identical(other.task, _this.task) || other.task == _this.task)&&(identical(other.section, _this.section) || other.section == _this.section)&&(identical(other.assignedTo, _this.assignedTo) || other.assignedTo == _this.assignedTo)&&(identical(other.photoHint, _this.photoHint) || other.photoHint == _this.photoHint)&&(identical(other.managerName, _this.managerName) || other.managerName == _this.managerName)&&(identical(other.checklistGroup, _this.checklistGroup) || other.checklistGroup == _this.checklistGroup)&&(identical(other.checklistGroupId, _this.checklistGroupId) || other.checklistGroupId == _this.checklistGroupId)&&(identical(other.sendBack, _this.sendBack) || other.sendBack == _this.sendBack)&&(identical(other.photoUrl, _this.photoUrl) || other.photoUrl == _this.photoUrl)&&(identical(other.remarks, _this.remarks) || other.remarks == _this.remarks)&&(identical(other.lockedAt, _this.lockedAt) || other.lockedAt == _this.lockedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TaskDetailModel&&(identical(other.task, _this.task) || other.task == _this.task)&&(identical(other.section, _this.section) || other.section == _this.section)&&(identical(other.assignedTo, _this.assignedTo) || other.assignedTo == _this.assignedTo)&&(identical(other.photoHint, _this.photoHint) || other.photoHint == _this.photoHint)&&(identical(other.managerName, _this.managerName) || other.managerName == _this.managerName)&&(identical(other.checklistGroup, _this.checklistGroup) || other.checklistGroup == _this.checklistGroup)&&(identical(other.checklistGroupId, _this.checklistGroupId) || other.checklistGroupId == _this.checklistGroupId)&&(identical(other.sendBack, _this.sendBack) || other.sendBack == _this.sendBack)&&(identical(other.photoUrl, _this.photoUrl) || other.photoUrl == _this.photoUrl)&&(identical(other.videoUrl, _this.videoUrl) || other.videoUrl == _this.videoUrl)&&(identical(other.remarks, _this.remarks) || other.remarks == _this.remarks)&&(identical(other.lockedAt, _this.lockedAt) || other.lockedAt == _this.lockedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as TaskDetailModel;
-  return Object.hash(runtimeType,_this.task,_this.section,_this.assignedTo,_this.photoHint,_this.managerName,_this.checklistGroup,_this.checklistGroupId,_this.sendBack,_this.photoUrl,_this.remarks,_this.lockedAt);
+  return Object.hash(runtimeType,_this.task,_this.section,_this.assignedTo,_this.photoHint,_this.managerName,_this.checklistGroup,_this.checklistGroupId,_this.sendBack,_this.photoUrl,_this.videoUrl,_this.remarks,_this.lockedAt);
 }
 
 @override
 String toString() {
   final _this = this as TaskDetailModel;
-  return 'TaskDetailModel(task: ${_this.task}, section: ${_this.section}, assignedTo: ${_this.assignedTo}, photoHint: ${_this.photoHint}, managerName: ${_this.managerName}, checklistGroup: ${_this.checklistGroup}, checklistGroupId: ${_this.checklistGroupId}, sendBack: ${_this.sendBack}, photoUrl: ${_this.photoUrl}, remarks: ${_this.remarks}, lockedAt: ${_this.lockedAt})';
+  return 'TaskDetailModel(task: ${_this.task}, section: ${_this.section}, assignedTo: ${_this.assignedTo}, photoHint: ${_this.photoHint}, managerName: ${_this.managerName}, checklistGroup: ${_this.checklistGroup}, checklistGroupId: ${_this.checklistGroupId}, sendBack: ${_this.sendBack}, photoUrl: ${_this.photoUrl}, videoUrl: ${_this.videoUrl}, remarks: ${_this.remarks}, lockedAt: ${_this.lockedAt})';
 }
 
 
@@ -54,7 +54,7 @@ abstract mixin class $TaskDetailModelCopyWith<$Res>  {
   factory $TaskDetailModelCopyWith(TaskDetailModel value, $Res Function(TaskDetailModel) _then) = _$TaskDetailModelCopyWithImpl;
 @useResult
 $Res call({
- ChecklistTaskModel task, String section, String assignedTo, String photoHint, String managerName, String checklistGroup, String checklistGroupId, SendBackNoteModel? sendBack, String? photoUrl, String? remarks, DateTime? lockedAt
+ ChecklistTaskModel task, String section, String assignedTo, String photoHint, String managerName, String checklistGroup, String checklistGroupId, SendBackNoteModel? sendBack, String? photoUrl, String? videoUrl, String? remarks, DateTime? lockedAt
 });
 
 
@@ -71,7 +71,7 @@ class _$TaskDetailModelCopyWithImpl<$Res>
 
 /// Create a copy of TaskDetailModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? task = null,Object? section = null,Object? assignedTo = null,Object? photoHint = null,Object? managerName = null,Object? checklistGroup = null,Object? checklistGroupId = null,Object? sendBack = freezed,Object? photoUrl = freezed,Object? remarks = freezed,Object? lockedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? task = null,Object? section = null,Object? assignedTo = null,Object? photoHint = null,Object? managerName = null,Object? checklistGroup = null,Object? checklistGroupId = null,Object? sendBack = freezed,Object? photoUrl = freezed,Object? videoUrl = freezed,Object? remarks = freezed,Object? lockedAt = freezed,}) {
   return _then(TaskDetailModel(
 task: null == task ? _self.task : task // ignore: cast_nullable_to_non_nullable
 as ChecklistTaskModel,section: null == section ? _self.section : section // ignore: cast_nullable_to_non_nullable
@@ -82,6 +82,7 @@ as String,checklistGroup: null == checklistGroup ? _self.checklistGroup : checkl
 as String,checklistGroupId: null == checklistGroupId ? _self.checklistGroupId : checklistGroupId // ignore: cast_nullable_to_non_nullable
 as String,sendBack: freezed == sendBack ? _self.sendBack : sendBack // ignore: cast_nullable_to_non_nullable
 as SendBackNoteModel?,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
+as String?,videoUrl: freezed == videoUrl ? _self.videoUrl : videoUrl // ignore: cast_nullable_to_non_nullable
 as String?,remarks: freezed == remarks ? _self.remarks : remarks // ignore: cast_nullable_to_non_nullable
 as String?,lockedAt: freezed == lockedAt ? _self.lockedAt : lockedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
@@ -190,10 +191,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ChecklistTaskModel task,  String section,  String assignedTo,  String photoHint,  String managerName,  String checklistGroup,  String checklistGroupId,  SendBackNoteModel? sendBack,  String? photoUrl,  String? remarks,  DateTime? lockedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ChecklistTaskModel task,  String section,  String assignedTo,  String photoHint,  String managerName,  String checklistGroup,  String checklistGroupId,  SendBackNoteModel? sendBack,  String? photoUrl,  String? videoUrl,  String? remarks,  DateTime? lockedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TaskDetailModel() when $default != null:
-return $default(_that.task,_that.section,_that.assignedTo,_that.photoHint,_that.managerName,_that.checklistGroup,_that.checklistGroupId,_that.sendBack,_that.photoUrl,_that.remarks,_that.lockedAt);case _:
+return $default(_that.task,_that.section,_that.assignedTo,_that.photoHint,_that.managerName,_that.checklistGroup,_that.checklistGroupId,_that.sendBack,_that.photoUrl,_that.videoUrl,_that.remarks,_that.lockedAt);case _:
   return orElse();
 
 }
@@ -211,10 +212,10 @@ return $default(_that.task,_that.section,_that.assignedTo,_that.photoHint,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ChecklistTaskModel task,  String section,  String assignedTo,  String photoHint,  String managerName,  String checklistGroup,  String checklistGroupId,  SendBackNoteModel? sendBack,  String? photoUrl,  String? remarks,  DateTime? lockedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ChecklistTaskModel task,  String section,  String assignedTo,  String photoHint,  String managerName,  String checklistGroup,  String checklistGroupId,  SendBackNoteModel? sendBack,  String? photoUrl,  String? videoUrl,  String? remarks,  DateTime? lockedAt)  $default,) {final _that = this;
 switch (_that) {
 case _TaskDetailModel():
-return $default(_that.task,_that.section,_that.assignedTo,_that.photoHint,_that.managerName,_that.checklistGroup,_that.checklistGroupId,_that.sendBack,_that.photoUrl,_that.remarks,_that.lockedAt);case _:
+return $default(_that.task,_that.section,_that.assignedTo,_that.photoHint,_that.managerName,_that.checklistGroup,_that.checklistGroupId,_that.sendBack,_that.photoUrl,_that.videoUrl,_that.remarks,_that.lockedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -231,10 +232,10 @@ return $default(_that.task,_that.section,_that.assignedTo,_that.photoHint,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ChecklistTaskModel task,  String section,  String assignedTo,  String photoHint,  String managerName,  String checklistGroup,  String checklistGroupId,  SendBackNoteModel? sendBack,  String? photoUrl,  String? remarks,  DateTime? lockedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ChecklistTaskModel task,  String section,  String assignedTo,  String photoHint,  String managerName,  String checklistGroup,  String checklistGroupId,  SendBackNoteModel? sendBack,  String? photoUrl,  String? videoUrl,  String? remarks,  DateTime? lockedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _TaskDetailModel() when $default != null:
-return $default(_that.task,_that.section,_that.assignedTo,_that.photoHint,_that.managerName,_that.checklistGroup,_that.checklistGroupId,_that.sendBack,_that.photoUrl,_that.remarks,_that.lockedAt);case _:
+return $default(_that.task,_that.section,_that.assignedTo,_that.photoHint,_that.managerName,_that.checklistGroup,_that.checklistGroupId,_that.sendBack,_that.photoUrl,_that.videoUrl,_that.remarks,_that.lockedAt);case _:
   return null;
 
 }
@@ -246,7 +247,7 @@ return $default(_that.task,_that.section,_that.assignedTo,_that.photoHint,_that.
 @JsonSerializable()
 
 class _TaskDetailModel extends TaskDetailModel {
-  const _TaskDetailModel({required this.task, required this.section, required this.assignedTo, required this.photoHint, required this.managerName, required this.checklistGroup, required this.checklistGroupId, this.sendBack, this.photoUrl, this.remarks, this.lockedAt}): super._();
+  const _TaskDetailModel({required this.task, required this.section, required this.assignedTo, required this.photoHint, required this.managerName, required this.checklistGroup, required this.checklistGroupId, this.sendBack, this.photoUrl, this.videoUrl, this.remarks, this.lockedAt}): super._();
   factory _TaskDetailModel.fromJson(Map<String, dynamic> json) => _$TaskDetailModelFromJson(json);
 
 @override final  ChecklistTaskModel task;
@@ -258,6 +259,7 @@ class _TaskDetailModel extends TaskDetailModel {
 @override final  String checklistGroupId;
 @override final  SendBackNoteModel? sendBack;
 @override final  String? photoUrl;
+@override final  String? videoUrl;
 @override final  String? remarks;
 @override final  DateTime? lockedAt;
 
@@ -274,18 +276,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TaskDetailModel&&(identical(other.task, task) || other.task == task)&&(identical(other.section, section) || other.section == section)&&(identical(other.assignedTo, assignedTo) || other.assignedTo == assignedTo)&&(identical(other.photoHint, photoHint) || other.photoHint == photoHint)&&(identical(other.managerName, managerName) || other.managerName == managerName)&&(identical(other.checklistGroup, checklistGroup) || other.checklistGroup == checklistGroup)&&(identical(other.checklistGroupId, checklistGroupId) || other.checklistGroupId == checklistGroupId)&&(identical(other.sendBack, sendBack) || other.sendBack == sendBack)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&(identical(other.remarks, remarks) || other.remarks == remarks)&&(identical(other.lockedAt, lockedAt) || other.lockedAt == lockedAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TaskDetailModel&&(identical(other.task, task) || other.task == task)&&(identical(other.section, section) || other.section == section)&&(identical(other.assignedTo, assignedTo) || other.assignedTo == assignedTo)&&(identical(other.photoHint, photoHint) || other.photoHint == photoHint)&&(identical(other.managerName, managerName) || other.managerName == managerName)&&(identical(other.checklistGroup, checklistGroup) || other.checklistGroup == checklistGroup)&&(identical(other.checklistGroupId, checklistGroupId) || other.checklistGroupId == checklistGroupId)&&(identical(other.sendBack, sendBack) || other.sendBack == sendBack)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&(identical(other.videoUrl, videoUrl) || other.videoUrl == videoUrl)&&(identical(other.remarks, remarks) || other.remarks == remarks)&&(identical(other.lockedAt, lockedAt) || other.lockedAt == lockedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,task,section,assignedTo,photoHint,managerName,checklistGroup,checklistGroupId,sendBack,photoUrl,remarks,lockedAt);
+    return Object.hash(runtimeType,task,section,assignedTo,photoHint,managerName,checklistGroup,checklistGroupId,sendBack,photoUrl,videoUrl,remarks,lockedAt);
 }
 
 @override
 String toString() {
-    return 'TaskDetailModel(task: $task, section: $section, assignedTo: $assignedTo, photoHint: $photoHint, managerName: $managerName, checklistGroup: $checklistGroup, checklistGroupId: $checklistGroupId, sendBack: $sendBack, photoUrl: $photoUrl, remarks: $remarks, lockedAt: $lockedAt)';
+    return 'TaskDetailModel(task: $task, section: $section, assignedTo: $assignedTo, photoHint: $photoHint, managerName: $managerName, checklistGroup: $checklistGroup, checklistGroupId: $checklistGroupId, sendBack: $sendBack, photoUrl: $photoUrl, videoUrl: $videoUrl, remarks: $remarks, lockedAt: $lockedAt)';
 }
 
 
@@ -296,7 +298,7 @@ abstract mixin class _$TaskDetailModelCopyWith<$Res> implements $TaskDetailModel
   factory _$TaskDetailModelCopyWith(_TaskDetailModel value, $Res Function(_TaskDetailModel) _then) = __$TaskDetailModelCopyWithImpl;
 @override @useResult
 $Res call({
- ChecklistTaskModel task, String section, String assignedTo, String photoHint, String managerName, String checklistGroup, String checklistGroupId, SendBackNoteModel? sendBack, String? photoUrl, String? remarks, DateTime? lockedAt
+ ChecklistTaskModel task, String section, String assignedTo, String photoHint, String managerName, String checklistGroup, String checklistGroupId, SendBackNoteModel? sendBack, String? photoUrl, String? videoUrl, String? remarks, DateTime? lockedAt
 });
 
 
@@ -313,7 +315,7 @@ class __$TaskDetailModelCopyWithImpl<$Res>
 
 /// Create a copy of TaskDetailModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? task = null,Object? section = null,Object? assignedTo = null,Object? photoHint = null,Object? managerName = null,Object? checklistGroup = null,Object? checklistGroupId = null,Object? sendBack = freezed,Object? photoUrl = freezed,Object? remarks = freezed,Object? lockedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? task = null,Object? section = null,Object? assignedTo = null,Object? photoHint = null,Object? managerName = null,Object? checklistGroup = null,Object? checklistGroupId = null,Object? sendBack = freezed,Object? photoUrl = freezed,Object? videoUrl = freezed,Object? remarks = freezed,Object? lockedAt = freezed,}) {
   return _then(_TaskDetailModel(
 task: null == task ? _self.task : task // ignore: cast_nullable_to_non_nullable
 as ChecklistTaskModel,section: null == section ? _self.section : section // ignore: cast_nullable_to_non_nullable
@@ -324,6 +326,7 @@ as String,checklistGroup: null == checklistGroup ? _self.checklistGroup : checkl
 as String,checklistGroupId: null == checklistGroupId ? _self.checklistGroupId : checklistGroupId // ignore: cast_nullable_to_non_nullable
 as String,sendBack: freezed == sendBack ? _self.sendBack : sendBack // ignore: cast_nullable_to_non_nullable
 as SendBackNoteModel?,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
+as String?,videoUrl: freezed == videoUrl ? _self.videoUrl : videoUrl // ignore: cast_nullable_to_non_nullable
 as String?,remarks: freezed == remarks ? _self.remarks : remarks // ignore: cast_nullable_to_non_nullable
 as String?,lockedAt: freezed == lockedAt ? _self.lockedAt : lockedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,

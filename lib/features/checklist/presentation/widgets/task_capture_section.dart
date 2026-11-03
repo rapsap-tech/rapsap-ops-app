@@ -23,7 +23,7 @@ class TaskCaptureSection extends StatelessWidget {
     final cubit = context.read<TaskCubit>();
     final notDone = context.select<TaskCubit, bool>((c) => c.state.notDoneMode);
     final hasPhoto = context.select<TaskCubit, bool>(
-      (c) => c.state.photo != null,
+      (c) => c.state.media != null,
     );
     final sendBack = detail.sendBack;
     return Column(
@@ -35,7 +35,7 @@ class TaskCaptureSection extends StatelessWidget {
           if (!hasPhoto) ...[
             Text(l10n.taskEarlierPhoto, style: AppTextStyles.base.s14.w600),
             8.hSpace,
-            StoredPhoto(url: detail.photoUrl),
+            StoredPhoto(url: detail.photoUrl, videoUrl: detail.videoUrl),
             16.hSpace,
           ],
         ],

@@ -15,11 +15,13 @@ class SubmitWalkthrough {
     required String taskId,
     required Uint8List video,
     required String fileName,
+    required String captureToken,
     required void Function(double progress) onProgress,
   }) => _repository.submitWalkthrough(
     taskId: taskId,
     video: video,
     fileName: fileName,
+    captureToken: captureToken,
     onProgress: onProgress,
   );
 }

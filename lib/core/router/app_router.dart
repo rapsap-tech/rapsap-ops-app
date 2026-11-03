@@ -77,7 +77,11 @@ class AppRouter {
             // Phone travels in `extra`, never in the URL; a refresh goes back.
             redirect: (_, state) =>
                 state.extra is OtpPageArgs ? null : RoutePaths.login,
-            builder: (_, state) => OtpPage(args: state.extra! as OtpPageArgs),
+            // History can bring this back without its args (browser back).
+            builder: (_, state) => switch (state.extra) {
+              final OtpPageArgs args => OtpPage(args: args),
+              _ => const NotFoundView(),
+            },
           ),
         ],
       ),
@@ -106,10 +110,7 @@ class AppRouter {
                     '/${RoutePaths.taskCamera}',
                     '',
                   ),
-            builder: (_, state) {
-              final args = state.extra! as CameraPageArgs;
-              return CameraPage(session: args.session, title: args.title);
-            },
+            builder: (_, state) => _camera(state),
           ),
         ],
       ),
@@ -138,10 +139,7 @@ class AppRouter {
                         '/${RoutePaths.reviewEditCamera}',
                         '',
                       ),
-                builder: (_, state) {
-                  final args = state.extra! as CameraPageArgs;
-                  return CameraPage(session: args.session, title: args.title);
-                },
+                builder: (_, state) => _camera(state),
               ),
             ],
           ),
@@ -194,10 +192,7 @@ class AppRouter {
                         '/${RoutePaths.closingCamera}',
                         '',
                       ),
-                builder: (_, state) {
-                  final args = state.extra! as CameraPageArgs;
-                  return CameraPage(session: args.session, title: args.title);
-                },
+                builder: (_, state) => _camera(state),
               ),
             ],
           ),
@@ -256,10 +251,7 @@ class AppRouter {
                     '/${RoutePaths.conversationCamera}',
                     '',
                   ),
-            builder: (_, state) {
-              final args = state.extra! as CameraPageArgs;
-              return CameraPage(title: args.title);
-            },
+            builder: (_, state) => _camera(state),
           ),
         ],
       ),
@@ -293,6 +285,16 @@ class AppRouter {
     ],
     errorBuilder: (_, _) => const NotFoundView(),
   );
+
+  /// The camera's args can't be stored in browser history, so a restored
+  /// entry shows "not found" instead of crashing.
+  static Widget _camera(GoRouterState state) => switch (state.extra) {
+    final CameraPageArgs args => CameraPage(
+      session: args.session,
+      title: args.title,
+    ),
+    _ => const NotFoundView(),
+  };
 
   static String _reportId(GoRouterState state) =>
       state.pathParameters[RoutePaths.reportIdParam] ?? '';

@@ -29,7 +29,7 @@ class OtpState extends Equatable {
       status == OtpStatus.verifying || status == OtpStatus.resending;
   bool get canVerify =>
       Validators.isCompleteOtp(otp) && !isBusy && status != OtpStatus.locked;
-  bool get canResend => resendIn == 0 && !isBusy;
+  bool get canResend => resendIn == 0 && !isBusy && status != OtpStatus.locked;
 
   OtpState copyWith({
     String? otp,

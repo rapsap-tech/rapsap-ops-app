@@ -14,6 +14,12 @@ class AppConstants {
 
   static const List<String> supportedLanguageCodes = ['en', 'mr', 'hi'];
   static const String defaultLanguageCode = 'en';
+  static const String localDbName = 'local_db';
+
+  /// Shape of any id that goes into an API path.
+  static final RegExp idPattern = RegExp(r'^[A-Za-z0-9_-]{1,64}$');
+  static const String localDbBlobsName = 'local_db_blobs';
+  static const String savedVideosFolder = 'saved_videos';
   static const String marathiCode = 'mr';
   static const String hindiCode = 'hi';
 
@@ -42,6 +48,7 @@ class AppConstants {
   static const int photoMaxBytes = 300 * 1024;
   static const List<int> photoJpegQualities = [80, 65, 50, 35];
   static const String photoFileName = 'proof.jpg';
+  static const String videoFileName = 'proof.mp4';
   static const String stampBrand = 'RAPSAP';
   static const String stampSeparator = ' · ';
   static const String stampDateFormat = 'd MMM yyyy';
@@ -56,7 +63,11 @@ class AppConstants {
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
   static const String apiDateFormat = 'yyyy-MM-dd';
   static const String dsrGroupId = 'c-dsr';
-  static const int walkthroughVideoSeconds = 45;
+  static const int maxVideoSeconds = 45;
+  static const int summaryMaxCount = 999;
+  static const int summaryMaxAmount = 9999999;
+  static const int summaryNumberMaxLength = 9;
+  static const int videoMaxBytes = 50 * 1024 * 1024;
 
   static const Duration connectivityDebounce = Duration(seconds: 1);
   static const int maxGetRetries = 2;

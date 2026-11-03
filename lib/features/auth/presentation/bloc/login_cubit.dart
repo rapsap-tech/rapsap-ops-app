@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
 import 'package:rapsap_ops_app/core/utils/validators.dart';
 import 'package:rapsap_ops_app/features/auth/domain/entities/otp_ticket.dart';
+import 'package:rapsap_ops_app/features/auth/domain/usecases/get_unsent_proof_owner.dart';
 import 'package:rapsap_ops_app/features/auth/domain/usecases/send_otp.dart';
 
 enum LoginStatus { idle, loading, success, failure }
@@ -30,9 +31,14 @@ class LoginState extends Equatable {
 
 @injectable
 class LoginCubit extends Cubit<LoginState> {
-  new(this._sendOtp) : super(const LoginState());
+  new(this._sendOtp, GetUnsentProofOwner unsentProofOwner)
+    : unsentProof = unsentProofOwner(),
+      super(const LoginState());
 
   final SendOtp _sendOtp;
+
+  /// Set when another user's unsent proof is on this device.
+  final UnsentProofOwner? unsentProof;
 
   void phoneChanged(String phone) => emit(LoginState(phone: phone));
 

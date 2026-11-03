@@ -17,6 +17,7 @@ abstract class TaskDetailModel with _$TaskDetailModel {
     required String checklistGroupId,
     SendBackNoteModel? sendBack,
     String? photoUrl,
+    String? videoUrl,
     String? remarks,
     DateTime? lockedAt,
   }) = _TaskDetailModel;
@@ -35,6 +36,7 @@ abstract class TaskDetailModel with _$TaskDetailModel {
     checklistGroupId: checklistGroupId,
     sendBack: sendBack?.toEntity(),
     photoUrl: photoUrl,
+    videoUrl: videoUrl,
     remarks: remarks,
     lockedAt: lockedAt,
   );

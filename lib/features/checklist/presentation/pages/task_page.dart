@@ -1,14 +1,14 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rapsap_ops_app/core/di/injection.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
 import 'package:rapsap_ops_app/core/extensions/failure_ext.dart';
+import 'package:rapsap_ops_app/core/extensions/navigation_ext.dart';
 import 'package:rapsap_ops_app/core/router/route_names.dart';
 import 'package:rapsap_ops_app/core/router/route_paths.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/core/widgets/app_error_view.dart';
 import 'package:rapsap_ops_app/core/widgets/app_loader.dart';
 import 'package:rapsap_ops_app/core/widgets/app_scaffold.dart';
@@ -42,7 +42,8 @@ class TaskPage extends StatelessWidget {
             listenWhen: (prev, next) =>
                 openCamera &&
                 prev.load != next.load &&
-                next.load == TaskLoadStatus.success,
+                next.load == TaskLoadStatus.success &&
+                next.action != TaskAction.interrupted,
             listener: (context, state) {
               final phase = state.detail?.task.phaseAt(DateTime.now());
               if (phase == TaskPhase.open || phase == TaskPhase.sentBack) {
@@ -66,7 +67,7 @@ class TaskPage extends StatelessWidget {
     final cubit = context.read<TaskCubit>();
     final session = state.session;
     final detail = state.detail;
-    final photo = await context.pushNamed<Uint8List>(
+    final media = await context.pushNamedOffHistory<MediaFile>(
       RouteNames.taskCamera,
       pathParameters: {RoutePaths.taskIdParam: taskId},
       extra: session == null || detail == null
@@ -79,7 +80,7 @@ class TaskPage extends StatelessWidget {
               ),
             ),
     );
-    if (!cubit.isClosed) cubit.photoTaken(photo ?? state.photo);
+    if (!cubit.isClosed) cubit.mediaTaken(media ?? state.media);
   }
 }
 

@@ -87,7 +87,11 @@ class DsrUploadCubit extends Cubit<DsrUploadState> {
     }
     if (file == null || isClosed) return false;
     emit(state.copyWith(stage: DsrStage.checking, file: file));
-    final result = await _check(fileName: file.name, bytes: file.bytes);
+    final result = await _check(
+      fileName: file.name,
+      bytes: file.bytes,
+      size: file.size,
+    );
     if (isClosed) return true;
     emit(
       result.match(

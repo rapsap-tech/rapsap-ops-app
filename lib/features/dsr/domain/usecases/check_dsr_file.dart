@@ -18,8 +18,10 @@ class CheckDsrFile {
   Future<Either<Failure, DsrCheck>> call({
     required String fileName,
     required Uint8List bytes,
+    int? size,
   }) async {
-    if (bytes.length > AppConstants.dsrMaxUploadMb * AppConstants.bytesPerMb) {
+    final length = size ?? bytes.length;
+    if (length > AppConstants.dsrMaxUploadMb * AppConstants.bytesPerMb) {
       return const Left(DsrRejectedFailure(DsrRejection.tooLarge));
     }
     return await _repository.check(fileName: fileName, bytes: bytes);

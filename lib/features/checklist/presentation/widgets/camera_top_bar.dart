@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
+import 'package:rapsap_ops_app/core/extensions/navigation_ext.dart';
+import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/core/theme/app_colors.dart';
 import 'package:rapsap_ops_app/core/theme/app_text_styles.dart';
 import 'package:rapsap_ops_app/core/theme/dimens.dart';
@@ -23,7 +24,7 @@ class CameraTopBar extends StatelessWidget {
         children: [
           IconButton(
             tooltip: context.l10n.cameraClose,
-            onPressed: context.pop,
+            onPressed: () => context.popOffHistory<MediaFile>(),
             icon: AppSvgIcon(
               Assets.icons.close,
               size: Dimens.iconMedium,

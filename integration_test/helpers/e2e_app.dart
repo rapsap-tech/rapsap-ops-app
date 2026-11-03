@@ -5,6 +5,7 @@ import 'package:rapsap_ops_app/core/bloc/session_cubit.dart';
 import 'package:rapsap_ops_app/core/di/injection.dart';
 import 'package:rapsap_ops_app/core/l10n/gen/app_localizations.dart';
 import 'package:rapsap_ops_app/core/services/permissions/permission_service.dart';
+import 'package:rapsap_ops_app/core/services/storage/local_db.dart';
 import 'package:rapsap_ops_app/core/services/storage/secure_storage_service.dart';
 import 'package:rapsap_ops_app/core/widgets/app_otp_field.dart';
 import 'package:rapsap_ops_app/core/widgets/app_phone_field.dart';
@@ -47,6 +48,7 @@ Future<void> startApp(WidgetTester tester) async {
   await (await SharedPreferences.getInstance()).clear();
   await configureDependencies();
   await getIt<SecureStorageService>().clear();
+  await getIt<LocalDb>().clear();
   getIt
     ..unregister<PermissionService>()
     ..registerSingleton<PermissionService>(_GrantedPermissions());

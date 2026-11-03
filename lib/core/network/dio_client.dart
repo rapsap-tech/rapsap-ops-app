@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -18,6 +20,7 @@ import 'package:rapsap_ops_app/core/services/storage/secure_storage_service.dart
 
 /// The single HTTP client: returns parsed data or throws an AppException.
 /// Logs skip headers and bodies so tokens and OTPs never reach the console.
+/// Every request is cancelled when the user signs out or the session ends.
 @lazySingleton
 class DioClient {
   new(
@@ -39,9 +42,25 @@ class DioClient {
       RetryInterceptor(_dio),
       if (EnvConfig.instance.enableLogs) PrettyDioLogger(responseBody: false),
     ]);
+    _sessionEnds = events.stream
+        .where(
+          (e) =>
+              e == NetworkEvent.sessionExpired || e == NetworkEvent.signedOut,
+        )
+        .listen((_) => _cancelSession());
   }
 
   final Dio _dio;
+  CancelToken _session = CancelToken();
+  late final StreamSubscription<NetworkEvent> _sessionEnds;
+
+  void _cancelSession() {
+    _session.cancel();
+    _session = CancelToken();
+  }
+
+  @disposeMethod
+  Future<void> dispose() => _sessionEnds.cancel();
 
   static BaseOptions get _options => BaseOptions(
     baseUrl: ApiConstants.baseUrl,
@@ -59,7 +78,7 @@ class DioClient {
     () => _dio.get<dynamic>(
       path,
       queryParameters: queryParameters,
-      cancelToken: cancelToken,
+      cancelToken: cancelToken ?? _session,
     ),
     fromData,
   );
@@ -70,7 +89,11 @@ class DioClient {
     Object? data,
     CancelToken? cancelToken,
   }) => _send(
-    () => _dio.post<dynamic>(path, data: data, cancelToken: cancelToken),
+    () => _dio.post<dynamic>(
+      path,
+      data: data,
+      cancelToken: cancelToken ?? _session,
+    ),
     fromData,
   );
 
@@ -80,7 +103,11 @@ class DioClient {
     Object? data,
     CancelToken? cancelToken,
   }) => _send(
-    () => _dio.put<dynamic>(path, data: data, cancelToken: cancelToken),
+    () => _dio.put<dynamic>(
+      path,
+      data: data,
+      cancelToken: cancelToken ?? _session,
+    ),
     fromData,
   );
 
@@ -90,7 +117,11 @@ class DioClient {
     Object? data,
     CancelToken? cancelToken,
   }) => _send(
-    () => _dio.delete<dynamic>(path, data: data, cancelToken: cancelToken),
+    () => _dio.delete<dynamic>(
+      path,
+      data: data,
+      cancelToken: cancelToken ?? _session,
+    ),
     fromData,
   );
 
@@ -105,7 +136,7 @@ class DioClient {
       path,
       data: formData,
       onSendProgress: onSendProgress,
-      cancelToken: cancelToken,
+      cancelToken: cancelToken ?? _session,
     ),
     fromData,
   );

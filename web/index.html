@@ -38,19 +38,8 @@
   </style>
 </head>
 <body>
-  <!-- Captured before Flutter loads; read by install_service_web.dart. -->
-  <script>
-    window.addEventListener('beforeinstallprompt', function (event) {
-      event.preventDefault();
-      window.rapsapInstallPrompt = event;
-      window.dispatchEvent(new Event('rapsapinstallchange'));
-    });
-    window.addEventListener('appinstalled', function () {
-      window.rapsapInstallPrompt = null;
-      window.rapsapInstalled = true;
-      window.dispatchEvent(new Event('rapsapinstallchange'));
-    });
-  </script>
+  <!-- Install prompt capture and offline caching (no inline scripts: the CSP blocks them). -->
+  <script src="pwa.js"></script>
   <!--
     You can customize the "flutter_bootstrap.js" script.
     This is useful to provide a custom configuration to the Flutter loader
