@@ -1,6 +1,23 @@
 {
   "version": "0.2.0",
   "configurations": [
-    { "name": "app", "request": "launch", "type": "dart", "program": "lib/main.dart", "args": ["--dart-define-from-file=env/env.json"] }
+    {
+      "name": "app",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--dart-define-from-file=env/env.json"
+      ]
+    },
+    {
+      "name": "app (staging API)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--dart-define-from-file=env/staging.json"
+      ]
+    }
   ]
 }
