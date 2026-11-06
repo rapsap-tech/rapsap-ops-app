@@ -61,17 +61,11 @@ class DsrRemoteDataSourceImpl implements DsrRemoteDataSource {
     DateTime date,
     Uint8List image,
     List<String> conversationIds,
-  ) => _client.upload(
+  ) => _client.post(
     ApiConstants.dsr.post,
-    formData: FormData.fromMap({
-      'date': DateFormat(AppConstants.apiDateFormat).format(date),
-      'conversation_ids': conversationIds,
-      'image': MultipartFile.fromBytes(
-        image,
-        filename: AppConstants.photoFileName,
-        contentType: DioMediaType('image', 'jpeg'),
-      ),
-    }),
+    // shortcut: the server only marks the DSR posted and takes no image or
+    // chat ids yet; send them once /dsr/post delivers to chat.
+    data: {'date': DateFormat(AppConstants.apiDateFormat).format(date)},
     fromData: (_) {},
   );
 }

@@ -15,6 +15,7 @@ import 'package:rapsap_ops_app/core/network/interceptors/headers_interceptor.dar
 import 'package:rapsap_ops_app/core/network/interceptors/retry_interceptor.dart';
 import 'package:rapsap_ops_app/core/network/network_events.dart';
 import 'package:rapsap_ops_app/core/network/network_info.dart';
+import 'package:rapsap_ops_app/core/services/locks/tab_lock.dart';
 import 'package:rapsap_ops_app/core/services/storage/local_storage_service.dart';
 import 'package:rapsap_ops_app/core/services/storage/secure_storage_service.dart';
 
@@ -29,6 +30,7 @@ class DioClient {
     LocalStorageService localStorage,
     NetworkEvents events,
     PackageInfo packageInfo,
+    TabLock tabLock,
   ) : _dio = Dio(_options) {
     _dio.interceptors.addAll([
       ConnectivityInterceptor(networkInfo),
@@ -37,6 +39,7 @@ class DioClient {
         storage: secureStorage,
         events: events,
         refreshDio: Dio(_options),
+        lock: tabLock,
       ),
       ForceUpdateInterceptor(events),
       RetryInterceptor(_dio),

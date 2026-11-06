@@ -30,7 +30,7 @@ class FakeTeamRemoteDataSource implements TeamRemoteDataSource {
     JobRoleModel(id: 'hr', name: 'HR'),
   ];
 
-  static JobRoleModel _role(String id) => _roles.firstWhere((r) => r.id == id);
+  static String _role(String id) => _roles.firstWhere((r) => r.id == id).name;
 
   static const List<TaskTemplateModel> _tasks = [
     TaskTemplateModel(

@@ -76,33 +76,51 @@ Map<String, dynamic> _$ManagerDashboardModelToJson(
 
 _ReviewItemModel _$ReviewItemModelFromJson(Map<String, dynamic> json) =>
     _ReviewItemModel(
-      taskId: json['task_id'] as String,
+      taskId: const IdConverter().fromJson(json['task_id'] as Object),
       number: (json['number'] as num).toInt(),
       title: json['title'] as String,
       section: json['section'] as String,
-      staffName: json['staff_name'] as String,
-      staffRole: json['staff_role'] as String,
       kind: json['kind'] as String,
-      at: DateTime.parse(json['at'] as String),
+      staffName: json['staff_name'] as String? ?? '',
+      staffRole: json['staff_role'] as String? ?? '',
+      at: json['at'] == null ? null : DateTime.parse(json['at'] as String),
       reason: json['reason'] as String?,
     );
 
 Map<String, dynamic> _$ReviewItemModelToJson(_ReviewItemModel instance) =>
     <String, dynamic>{
-      'task_id': instance.taskId,
+      'task_id': const IdConverter().toJson(instance.taskId),
       'number': instance.number,
       'title': instance.title,
       'section': instance.section,
+      'kind': instance.kind,
       'staff_name': instance.staffName,
       'staff_role': instance.staffRole,
-      'kind': instance.kind,
-      'at': instance.at.toIso8601String(),
+      'at': instance.at?.toIso8601String(),
       'reason': instance.reason,
+    };
+
+_ReviewTaskModel _$ReviewTaskModelFromJson(Map<String, dynamic> json) =>
+    _ReviewTaskModel(
+      number: (json['number'] as num).toInt(),
+      title: json['title'] as String,
+      section: json['section'] as String,
+    );
+
+Map<String, dynamic> _$ReviewTaskModelToJson(_ReviewTaskModel instance) =>
+    <String, dynamic>{
+      'number': instance.number,
+      'title': instance.title,
+      'section': instance.section,
     };
 
 _ReviewDetailModel _$ReviewDetailModelFromJson(Map<String, dynamic> json) =>
     _ReviewDetailModel(
-      item: ReviewItemModel.fromJson(json['item'] as Map<String, dynamic>),
+      item: json['item'] == null
+          ? null
+          : ReviewTaskModel.fromJson(json['item'] as Map<String, dynamic>),
+      status: json['status'] as String?,
+      reason: json['reason'] as String?,
       photoUrl: json['photo_url'] as String?,
       videoUrl: json['video_url'] as String?,
       remarks: json['remarks'] as String?,
@@ -114,7 +132,9 @@ _ReviewDetailModel _$ReviewDetailModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ReviewDetailModelToJson(_ReviewDetailModel instance) =>
     <String, dynamic>{
-      'item': instance.item.toJson(),
+      'item': instance.item?.toJson(),
+      'status': instance.status,
+      'reason': instance.reason,
       'photo_url': instance.photoUrl,
       'video_url': instance.videoUrl,
       'remarks': instance.remarks,

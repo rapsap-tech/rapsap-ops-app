@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/di/injection.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
 import 'package:rapsap_ops_app/core/extensions/date_ext.dart';
@@ -121,13 +122,14 @@ class _Posted extends StatelessWidget {
     final l10n = context.l10n;
     final locale = Localizations.localeOf(context).toLanguageTag();
     final saved = state.saved!;
+    final postsToChat = EnvConfig.instance.hasDsrChatPost;
     return ResultView(
       tone: ResultTone.confirmed,
       badge: l10n.resultConfirmed,
-      title: l10n.snapshotSharedTitle,
-      message: l10n.dsrPostedBody,
+      title: postsToChat ? l10n.snapshotSharedTitle : l10n.dsrMarkedPostedTitle,
+      message: postsToChat ? l10n.dsrPostedBody : l10n.dsrMarkedPostedBody,
       details: [
-        l10n.dsrReportsGroup,
+        if (postsToChat) l10n.dsrReportsGroup,
         l10n.listSeparatorJoin(
           saved.date.storeHeaderDate(locale),
           saved.storeName,

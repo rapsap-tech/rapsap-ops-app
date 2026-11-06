@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/error/error_mapper.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
 import 'package:rapsap_ops_app/core/services/media/media_file.dart';
+import 'package:rapsap_ops_app/core/utils/logger.dart';
 import 'package:rapsap_ops_app/features/review/data/datasources/review_remote_data_source.dart';
 import 'package:rapsap_ops_app/features/review/domain/entities/manager_dashboard.dart';
 import 'package:rapsap_ops_app/features/review/domain/entities/review_detail.dart';
@@ -39,7 +40,22 @@ class ReviewRepositoryImpl implements ReviewRepository {
 
   @override
   Future<Either<Failure, ReviewDetail>> detail(String taskId) =>
-      guardFailure(() async => (await _remote.detail(taskId)).toEntity());
+      guardFailure(() async {
+        final detail = await _remote.detail(taskId);
+        return detail.toEntity(taskId, await _queued(taskId));
+      });
+
+  /// The queue row adds staff and time to the detail; without it the
+  /// detail still opens.
+  Future<ReviewItem?> _queued(String taskId) async {
+    try {
+      final queue = await _remote.queue();
+      return queue.where((i) => i.taskId == taskId).firstOrNull?.toEntity();
+    } on Object catch (error) {
+      appLogger.w('Review queue unavailable', error: error.runtimeType);
+      return null;
+    }
+  }
 
   @override
   Future<Either<Failure, Unit>> verify(String taskId) =>
@@ -62,7 +78,7 @@ class ReviewRepositoryImpl implements ReviewRepository {
       media: media,
       captureToken: captureToken,
       reason: _reasons[reason]!,
-      remarks: remarks,
+      remarks: remarks.trim(),
     ),
   );
 

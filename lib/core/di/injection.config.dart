@@ -31,6 +31,7 @@ import 'package:rapsap_ops_app/core/services/files/file_picker_service.dart'
     as _i65;
 import 'package:rapsap_ops_app/core/services/install/install_service.dart'
     as _i600;
+import 'package:rapsap_ops_app/core/services/locks/tab_lock.dart' as _i322;
 import 'package:rapsap_ops_app/core/services/media/camera_service.dart'
     as _i869;
 import 'package:rapsap_ops_app/core/services/media/photo_processor.dart'
@@ -105,7 +106,7 @@ import 'package:rapsap_ops_app/features/chat/presentation/bloc/chat_search_cubit
 import 'package:rapsap_ops_app/features/chat/presentation/bloc/conversation_bloc.dart'
     as _i739;
 import 'package:rapsap_ops_app/features/chat/presentation/bloc/manager_chat_cubit.dart'
-    as _i628;
+    as _i629;
 import 'package:rapsap_ops_app/features/checklist/data/datasources/checklist_remote_data_source.dart'
     as _i461;
 import 'package:rapsap_ops_app/features/checklist/data/datasources/fake_checklist_remote_data_source.dart'
@@ -171,7 +172,7 @@ import 'package:rapsap_ops_app/features/profile/data/repositories/profile_reposi
 import 'package:rapsap_ops_app/features/profile/domain/repositories/profile_repository.dart'
     as _i921;
 import 'package:rapsap_ops_app/features/profile/domain/usecases/get_profile.dart'
-    as _i629;
+    as _i628;
 import 'package:rapsap_ops_app/features/profile/presentation/bloc/profile_cubit.dart'
     as _i1;
 import 'package:rapsap_ops_app/features/review/data/datasources/fake_review_remote_data_source.dart'
@@ -341,6 +342,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i65.FilePickerService>(() => _i65.FilePickerService());
     gh.lazySingleton<_i600.InstallService>(() => _i600.InstallService.create());
+    gh.lazySingleton<_i322.TabLock>(() => _i322.TabLock.create());
     gh.lazySingleton<_i886.PhotoProcessor>(() => _i886.PhotoProcessor());
     gh.lazySingleton<_i269.PermissionService>(
       () => _i269.PermissionService.create(),
@@ -434,20 +436,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i572.FakeChatSocketService(),
       registerFor: {_fake},
     );
-    gh.lazySingleton<_i1055.DioClient>(
-      () => _i1055.DioClient(
-        gh<_i524.NetworkInfo>(),
-        gh<_i814.SecureStorageService>(),
-        gh<_i560.LocalStorageService>(),
-        gh<_i621.NetworkEvents>(),
-        gh<_i655.PackageInfo>(),
-      ),
-      dispose: (i) => i.dispose(),
-    );
-    gh.lazySingleton<_i58.AuthRemoteDataSource>(
-      () => _i58.AuthRemoteDataSourceImpl(gh<_i1055.DioClient>()),
-      registerFor: {_real},
-    );
     gh.factory<_i438.FindSavedProof>(
       () => _i438.FindSavedProof(gh<_i643.UploadOutboxRepository>()),
     );
@@ -456,6 +444,25 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i606.SaveUpload>(
       () => _i606.SaveUpload(gh<_i643.UploadOutboxRepository>()),
+    );
+    gh.lazySingleton<_i1055.DioClient>(
+      () => _i1055.DioClient(
+        gh<_i524.NetworkInfo>(),
+        gh<_i814.SecureStorageService>(),
+        gh<_i560.LocalStorageService>(),
+        gh<_i621.NetworkEvents>(),
+        gh<_i655.PackageInfo>(),
+        gh<_i322.TabLock>(),
+      ),
+      dispose: (i) => i.dispose(),
+    );
+    gh.lazySingleton<_i791.DsrRemoteDataSource>(
+      () => _i791.DsrRemoteDataSourceImpl(gh<_i1055.DioClient>()),
+      registerFor: {_real},
+    );
+    gh.lazySingleton<_i58.AuthRemoteDataSource>(
+      () => _i58.AuthRemoteDataSourceImpl(gh<_i1055.DioClient>()),
+      registerFor: {_real},
     );
     gh.lazySingleton<_i435.NotificationRemoteDataSource>(
       () => _i435.NotificationRemoteDataSourceImpl(gh<_i1055.DioClient>()),
@@ -467,10 +474,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i104.ReportRemoteDataSource>(
       () => _i104.ReportRemoteDataSourceImpl(gh<_i1055.DioClient>()),
-      registerFor: {_real},
-    );
-    gh.lazySingleton<_i572.ChatSocketService>(
-      () => _i572.WebChatSocketService(gh<_i814.SecureStorageService>()),
       registerFor: {_real},
     );
     gh.lazySingleton<_i754.ProfileRemoteDataSource>(
@@ -507,18 +510,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i621.NetworkEvents>(),
       ),
     );
-    gh.lazySingleton<_i726.SettingsRemoteDataSource>(
-      () => _i726.SettingsRemoteDataSourceImpl(gh<_i1055.DioClient>()),
+    gh.lazySingleton<_i572.ChatSocketService>(
+      () => _i572.WebChatSocketService(
+        gh<_i814.SecureStorageService>(),
+        gh<_i1055.DioClient>(),
+        gh<_i621.NetworkEvents>(),
+      ),
       registerFor: {_real},
     );
-    gh.lazySingleton<_i77.ChatRepository>(
-      () => _i677.ChatRepositoryImpl(
-        gh<_i610.ChatRemoteDataSource>(),
-        gh<_i572.ChatSocketService>(),
-      ),
-    );
-    gh.lazySingleton<_i791.DsrRemoteDataSource>(
-      () => _i791.DsrRemoteDataSourceImpl(gh<_i1055.DioClient>()),
+    gh.lazySingleton<_i726.SettingsRemoteDataSource>(
+      () => _i726.SettingsRemoteDataSourceImpl(gh<_i1055.DioClient>()),
       registerFor: {_real},
     );
     gh.lazySingleton<_i904.TeamRepository>(
@@ -527,40 +528,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i626.NotificationRepository>(
       () => _i256.NotificationRepositoryImpl(
         gh<_i435.NotificationRemoteDataSource>(),
-      ),
-    );
-    gh.factory<_i801.GetConversations>(
-      () => _i801.GetConversations(gh<_i77.ChatRepository>()),
-    );
-    gh.factory<_i1042.GetManagerConversation>(
-      () => _i1042.GetManagerConversation(gh<_i77.ChatRepository>()),
-    );
-    gh.factory<_i761.GetOlderMessages>(
-      () => _i761.GetOlderMessages(gh<_i77.ChatRepository>()),
-    );
-    gh.factory<_i832.OpenConversation>(
-      () => _i832.OpenConversation(gh<_i77.ChatRepository>()),
-    );
-    gh.factory<_i299.ReportMessage>(
-      () => _i299.ReportMessage(gh<_i77.ChatRepository>()),
-    );
-    gh.factory<_i866.SendChatMessage>(
-      () => _i866.SendChatMessage(gh<_i77.ChatRepository>()),
-    );
-    gh.factory<_i337.SetConversationMuted>(
-      () => _i337.SetConversationMuted(gh<_i77.ChatRepository>()),
-    );
-    gh.factory<_i833.WatchConversation>(
-      () => _i833.WatchConversation(gh<_i77.ChatRepository>()),
-    );
-    gh.factory<_i739.ConversationBloc>(
-      () => _i739.ConversationBloc(
-        gh<_i832.OpenConversation>(),
-        gh<_i761.GetOlderMessages>(),
-        gh<_i866.SendChatMessage>(),
-        gh<_i299.ReportMessage>(),
-        gh<_i337.SetConversationMuted>(),
-        gh<_i833.WatchConversation>(),
       ),
     );
     gh.factory<_i742.GetNotifications>(
@@ -575,6 +542,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i449.SectionReportRepository>(
       () =>
           _i999.SectionReportRepositoryImpl(gh<_i104.ReportRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i280.DsrRepository>(
+      () => _i292.DsrRepositoryImpl(
+        gh<_i791.DsrRemoteDataSource>(),
+        gh<_i763.AuthRepository>(),
+      ),
     );
     gh.lazySingleton<_i997.ChecklistRepository>(
       () =>
@@ -595,6 +568,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i921.ProfileRepository>(
       () => _i145.ProfileRepositoryImpl(gh<_i754.ProfileRemoteDataSource>()),
     );
+    gh.factory<_i1026.CheckDsrFile>(
+      () => _i1026.CheckDsrFile(gh<_i280.DsrRepository>()),
+    );
+    gh.factory<_i353.GetSalesOverview>(
+      () => _i353.GetSalesOverview(gh<_i280.DsrRepository>()),
+    );
+    gh.factory<_i89.PostDsrSnapshot>(
+      () => _i89.PostDsrSnapshot(gh<_i280.DsrRepository>()),
+    );
+    gh.factory<_i642.SaveDsr>(() => _i642.SaveDsr(gh<_i280.DsrRepository>()));
     gh.factory<_i949.EditEntry>(
       () => _i949.EditEntry(gh<_i128.ReviewRepository>()),
     );
@@ -644,6 +627,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1014.UpdateMemberRoles>(
       () => _i1014.UpdateMemberRoles(gh<_i904.TeamRepository>()),
     );
+    gh.factory<_i155.SalesCubit>(
+      () => _i155.SalesCubit(gh<_i353.GetSalesOverview>()),
+    );
     gh.factory<_i645.ReviewQueueCubit>(
       () => _i645.ReviewQueueCubit(gh<_i947.GetReviewQueue>()),
     );
@@ -683,8 +669,14 @@ extension GetItInjectableX on _i174.GetIt {
       ),
     );
     gh.factory<_i839.TeamCubit>(() => _i839.TeamCubit(gh<_i890.GetTeam>()));
-    gh.lazySingleton<_i280.DsrRepository>(
-      () => _i292.DsrRepositoryImpl(gh<_i791.DsrRemoteDataSource>()),
+    gh.factory<_i605.DsrUploadCubit>(
+      () => _i605.DsrUploadCubit(
+        gh<_i65.FilePickerService>(),
+        gh<_i1026.CheckDsrFile>(),
+        gh<_i642.SaveDsr>(),
+        gh<_i89.PostDsrSnapshot>(),
+        gh<_i886.PhotoProcessor>(),
+      ),
     );
     gh.factory<_i545.GetTaskDetail>(
       () => _i545.GetTaskDetail(gh<_i997.ChecklistRepository>()),
@@ -718,6 +710,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i161.SubmitDailySummary>(),
       ),
     );
+    gh.lazySingleton<_i77.ChatRepository>(
+      () => _i677.ChatRepositoryImpl(
+        gh<_i610.ChatRemoteDataSource>(),
+        gh<_i572.ChatSocketService>(),
+        gh<_i763.AuthRepository>(),
+      ),
+    );
     gh.factory<_i541.MemberDetailCubit>(
       () => _i541.MemberDetailCubit(
         gh<_i1036.GetTeamMember>(),
@@ -739,9 +738,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i839.InviteCubit>(
       () => _i839.InviteCubit(gh<_i880.ResendInvite>()),
     );
-    gh.factory<_i810.ChatListCubit>(
-      () => _i810.ChatListCubit(gh<_i801.GetConversations>()),
-    );
     gh.factory<_i603.SubmitReportCubit>(
       () => _i603.SubmitReportCubit(gh<_i783.SubmitSectionReport>()),
     );
@@ -752,11 +748,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i411.MarkAllNotificationsRead>(),
       ),
     );
-    gh.factory<_i628.ManagerChatCubit>(
-      () => _i628.ManagerChatCubit(gh<_i1042.GetManagerConversation>()),
-    );
-    gh.factory<_i629.GetProfile>(
-      () => _i629.GetProfile(gh<_i921.ProfileRepository>()),
+    gh.factory<_i628.GetProfile>(
+      () => _i628.GetProfile(gh<_i921.ProfileRepository>()),
     );
     gh.lazySingleton<_i1041.SessionCubit>(
       () => _i1041.SessionCubit(
@@ -780,6 +773,30 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i462.ConfirmNumberChange>(),
       ),
     );
+    gh.factory<_i801.GetConversations>(
+      () => _i801.GetConversations(gh<_i77.ChatRepository>()),
+    );
+    gh.factory<_i1042.GetManagerConversation>(
+      () => _i1042.GetManagerConversation(gh<_i77.ChatRepository>()),
+    );
+    gh.factory<_i761.GetOlderMessages>(
+      () => _i761.GetOlderMessages(gh<_i77.ChatRepository>()),
+    );
+    gh.factory<_i832.OpenConversation>(
+      () => _i832.OpenConversation(gh<_i77.ChatRepository>()),
+    );
+    gh.factory<_i299.ReportMessage>(
+      () => _i299.ReportMessage(gh<_i77.ChatRepository>()),
+    );
+    gh.factory<_i866.SendChatMessage>(
+      () => _i866.SendChatMessage(gh<_i77.ChatRepository>()),
+    );
+    gh.factory<_i337.SetConversationMuted>(
+      () => _i337.SetConversationMuted(gh<_i77.ChatRepository>()),
+    );
+    gh.factory<_i833.WatchConversation>(
+      () => _i833.WatchConversation(gh<_i77.ChatRepository>()),
+    );
     gh.factory<_i638.ClosingCubit>(
       () => _i638.ClosingCubit(
         gh<_i574.GetClosingForm>(),
@@ -791,6 +808,16 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i762.LoginCubit(
         gh<_i439.SendOtp>(),
         gh<_i743.GetUnsentProofOwner>(),
+      ),
+    );
+    gh.factory<_i739.ConversationBloc>(
+      () => _i739.ConversationBloc(
+        gh<_i832.OpenConversation>(),
+        gh<_i761.GetOlderMessages>(),
+        gh<_i866.SendChatMessage>(),
+        gh<_i299.ReportMessage>(),
+        gh<_i337.SetConversationMuted>(),
+        gh<_i833.WatchConversation>(),
       ),
     );
     gh.factory<_i940.SnapshotCubit>(
@@ -827,19 +854,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i360.RemoveUpload>(),
       ),
     );
-    gh.factory<_i1026.CheckDsrFile>(
-      () => _i1026.CheckDsrFile(gh<_i280.DsrRepository>()),
-    );
-    gh.factory<_i353.GetSalesOverview>(
-      () => _i353.GetSalesOverview(gh<_i280.DsrRepository>()),
-    );
-    gh.factory<_i89.PostDsrSnapshot>(
-      () => _i89.PostDsrSnapshot(gh<_i280.DsrRepository>()),
-    );
-    gh.factory<_i642.SaveDsr>(() => _i642.SaveDsr(gh<_i280.DsrRepository>()));
-    gh.factory<_i155.SalesCubit>(
-      () => _i155.SalesCubit(gh<_i353.GetSalesOverview>()),
-    );
     gh.factory<_i82.OtpCubit>(
       () => _i82.OtpCubit(gh<_i797.VerifyOtp>(), gh<_i439.SendOtp>()),
     );
@@ -847,15 +861,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i667.FirstSignInCubit(
         gh<_i269.PermissionService>(),
         gh<_i976.AcceptConsent>(),
-      ),
-    );
-    gh.factory<_i605.DsrUploadCubit>(
-      () => _i605.DsrUploadCubit(
-        gh<_i65.FilePickerService>(),
-        gh<_i1026.CheckDsrFile>(),
-        gh<_i642.SaveDsr>(),
-        gh<_i89.PostDsrSnapshot>(),
-        gh<_i886.PhotoProcessor>(),
       ),
     );
     gh.factory<_i663.SettingsCubit>(
@@ -867,8 +872,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i92.LogoutCubit>(
       () => _i92.LogoutCubit(gh<_i355.LogOut>(), gh<_i1041.SessionCubit>()),
     );
+    gh.factory<_i810.ChatListCubit>(
+      () => _i810.ChatListCubit(gh<_i801.GetConversations>()),
+    );
     gh.factory<_i1.ProfileCubit>(
-      () => _i1.ProfileCubit(gh<_i629.GetProfile>()),
+      () => _i1.ProfileCubit(gh<_i628.GetProfile>()),
     );
     gh.lazySingleton<_i288.AppRouter>(
       () => _i288.AppRouter(
@@ -876,6 +884,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i600.InstallService>(),
       ),
       dispose: (i) => i.dispose(),
+    );
+    gh.factory<_i629.ManagerChatCubit>(
+      () => _i629.ManagerChatCubit(gh<_i1042.GetManagerConversation>()),
     );
     return this;
   }

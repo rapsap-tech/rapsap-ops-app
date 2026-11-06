@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
 import 'package:rapsap_ops_app/core/extensions/date_ext.dart';
 import 'package:rapsap_ops_app/core/extensions/failure_ext.dart';
@@ -23,6 +24,9 @@ class DsrSavedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // The server can't deliver the snapshot to chat yet; it only marks the
+    // DSR posted.
+    final postsToChat = EnvConfig.instance.hasDsrChatPost;
     final l10n = context.l10n;
     final locale = Localizations.localeOf(context).toLanguageTag();
     final state = context.watch<DsrUploadCubit>().state;
@@ -72,24 +76,26 @@ class DsrSavedView extends StatelessWidget {
             ),
           ),
         ),
-        20.hSpace,
-        Text(l10n.snapshotPostTo, style: AppTextStyles.base.s14.w600),
-        8.hSpace,
-        Align(
-          alignment: Alignment.centerLeft,
-          child: FilterChipButton(
-            label: l10n.dsrReportsGroup,
-            selected: true,
-            onTap: () {},
+        if (postsToChat) ...[
+          20.hSpace,
+          Text(l10n.snapshotPostTo, style: AppTextStyles.base.s14.w600),
+          8.hSpace,
+          Align(
+            alignment: Alignment.centerLeft,
+            child: FilterChipButton(
+              label: l10n.dsrReportsGroup,
+              selected: true,
+              onTap: () {},
+            ),
           ),
-        ),
+        ],
         if (failure != null) ...[
           16.hSpace,
           MessageBanner(failure.message(l10n)),
         ],
         24.hSpace,
         AppButton(
-          label: l10n.snapshotPost,
+          label: postsToChat ? l10n.snapshotPost : l10n.dsrMarkPosted,
           isLoading: state.stage == DsrStage.posting,
           onPressed: onPost,
         ),

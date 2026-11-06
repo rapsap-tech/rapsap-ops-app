@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rapsap_ops_app/core/bloc/load_cubit.dart';
+import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/di/injection.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
 import 'package:rapsap_ops_app/core/extensions/failure_ext.dart';
@@ -29,7 +30,9 @@ class SettingsPage extends StatelessWidget {
         BlocProvider(
           create: (_) {
             final cubit = getIt<SettingsCubit>();
-            unawaited(cubit.load());
+            if (EnvConfig.instance.hasNotificationSettings) {
+              unawaited(cubit.load());
+            }
             return cubit;
           },
         ),
@@ -37,20 +40,37 @@ class SettingsPage extends StatelessWidget {
       ],
       child: AppScaffold(
         header: PageHeader(title: context.l10n.settingsTitle),
-        body: LoadStateView<SettingsCubit, NotificationPrefs>(
-          builder: (context, prefs) => ListView(
-            padding: Dimens.pagePadding,
-            children: [
-              const LanguageSection(),
-              20.hSpace,
-              NotificationSection(prefs: prefs),
-              const _SaveError(),
-              20.hSpace,
-              const LogoutSection(),
-            ],
-          ),
-        ),
+        body: EnvConfig.instance.hasNotificationSettings
+            ? LoadStateView<SettingsCubit, NotificationPrefs>(
+                builder: (context, prefs) => _SettingsList(prefs: prefs),
+              )
+            : const _SettingsList(),
       ),
+    );
+  }
+}
+
+/// [prefs] is null while the server has no notification settings.
+class _SettingsList extends StatelessWidget {
+  const new({this.prefs});
+
+  final NotificationPrefs? prefs;
+
+  @override
+  Widget build(BuildContext context) {
+    final prefs = this.prefs;
+    return ListView(
+      padding: Dimens.pagePadding,
+      children: [
+        const LanguageSection(),
+        20.hSpace,
+        if (prefs != null) ...[
+          NotificationSection(prefs: prefs),
+          const _SaveError(),
+          20.hSpace,
+        ],
+        const LogoutSection(),
+      ],
     );
   }
 }

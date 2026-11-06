@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DsrPostingModel {
 
- DateTime get date; DateTime get postedAt; bool get onTime;
+ DateTime? get date; DateTime? get postedAt; bool? get onTime;
 /// Create a copy of DsrPostingModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -54,7 +54,7 @@ abstract mixin class $DsrPostingModelCopyWith<$Res>  {
   factory $DsrPostingModelCopyWith(DsrPostingModel value, $Res Function(DsrPostingModel) _then) = _$DsrPostingModelCopyWithImpl;
 @useResult
 $Res call({
- DateTime date, DateTime postedAt, bool onTime
+ DateTime? date, DateTime? postedAt, bool? onTime
 });
 
 
@@ -71,12 +71,12 @@ class _$DsrPostingModelCopyWithImpl<$Res>
 
 /// Create a copy of DsrPostingModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? date = null,Object? postedAt = null,Object? onTime = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? date = freezed,Object? postedAt = freezed,Object? onTime = freezed,}) {
   return _then(DsrPostingModel(
-date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
-as DateTime,postedAt: null == postedAt ? _self.postedAt : postedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,onTime: null == onTime ? _self.onTime : onTime // ignore: cast_nullable_to_non_nullable
-as bool,
+date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as DateTime?,postedAt: freezed == postedAt ? _self.postedAt : postedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,onTime: freezed == onTime ? _self.onTime : onTime // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 
@@ -161,7 +161,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime date,  DateTime postedAt,  bool onTime)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime? date,  DateTime? postedAt,  bool? onTime)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DsrPostingModel() when $default != null:
 return $default(_that.date,_that.postedAt,_that.onTime);case _:
@@ -182,7 +182,7 @@ return $default(_that.date,_that.postedAt,_that.onTime);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime date,  DateTime postedAt,  bool onTime)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime? date,  DateTime? postedAt,  bool? onTime)  $default,) {final _that = this;
 switch (_that) {
 case _DsrPostingModel():
 return $default(_that.date,_that.postedAt,_that.onTime);case _:
@@ -202,7 +202,7 @@ return $default(_that.date,_that.postedAt,_that.onTime);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime date,  DateTime postedAt,  bool onTime)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime? date,  DateTime? postedAt,  bool? onTime)?  $default,) {final _that = this;
 switch (_that) {
 case _DsrPostingModel() when $default != null:
 return $default(_that.date,_that.postedAt,_that.onTime);case _:
@@ -217,12 +217,12 @@ return $default(_that.date,_that.postedAt,_that.onTime);case _:
 @JsonSerializable()
 
 class _DsrPostingModel extends DsrPostingModel {
-  const _DsrPostingModel({required this.date, required this.postedAt, required this.onTime}): super._();
+  const _DsrPostingModel({this.date, this.postedAt, this.onTime}): super._();
   factory _DsrPostingModel.fromJson(Map<String, dynamic> json) => _$DsrPostingModelFromJson(json);
 
-@override final  DateTime date;
-@override final  DateTime postedAt;
-@override final  bool onTime;
+@override final  DateTime? date;
+@override final  DateTime? postedAt;
+@override final  bool? onTime;
 
 /// Create a copy of DsrPostingModel
 /// with the given fields replaced by the non-null parameter values.
@@ -259,7 +259,7 @@ abstract mixin class _$DsrPostingModelCopyWith<$Res> implements $DsrPostingModel
   factory _$DsrPostingModelCopyWith(_DsrPostingModel value, $Res Function(_DsrPostingModel) _then) = __$DsrPostingModelCopyWithImpl;
 @override @useResult
 $Res call({
- DateTime date, DateTime postedAt, bool onTime
+ DateTime? date, DateTime? postedAt, bool? onTime
 });
 
 
@@ -276,12 +276,12 @@ class __$DsrPostingModelCopyWithImpl<$Res>
 
 /// Create a copy of DsrPostingModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? date = null,Object? postedAt = null,Object? onTime = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? date = freezed,Object? postedAt = freezed,Object? onTime = freezed,}) {
   return _then(_DsrPostingModel(
-date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
-as DateTime,postedAt: null == postedAt ? _self.postedAt : postedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,onTime: null == onTime ? _self.onTime : onTime // ignore: cast_nullable_to_non_nullable
-as bool,
+date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
+as DateTime?,postedAt: freezed == postedAt ? _self.postedAt : postedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,onTime: freezed == onTime ? _self.onTime : onTime // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 
@@ -292,7 +292,7 @@ as bool,
 /// @nodoc
 mixin _$TrendPointModel {
 
- int get day; num get current; num? get previous;
+@DayOfMonthConverter() int get day; num get current; num? get previous;
 /// Create a copy of TrendPointModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -330,7 +330,7 @@ abstract mixin class $TrendPointModelCopyWith<$Res>  {
   factory $TrendPointModelCopyWith(TrendPointModel value, $Res Function(TrendPointModel) _then) = _$TrendPointModelCopyWithImpl;
 @useResult
 $Res call({
- int day, num current, num? previous
+@DayOfMonthConverter() int day, num current, num? previous
 });
 
 
@@ -437,7 +437,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int day,  num current,  num? previous)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@DayOfMonthConverter()  int day,  num current,  num? previous)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TrendPointModel() when $default != null:
 return $default(_that.day,_that.current,_that.previous);case _:
@@ -458,7 +458,7 @@ return $default(_that.day,_that.current,_that.previous);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int day,  num current,  num? previous)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@DayOfMonthConverter()  int day,  num current,  num? previous)  $default,) {final _that = this;
 switch (_that) {
 case _TrendPointModel():
 return $default(_that.day,_that.current,_that.previous);case _:
@@ -478,7 +478,7 @@ return $default(_that.day,_that.current,_that.previous);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int day,  num current,  num? previous)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@DayOfMonthConverter()  int day,  num current,  num? previous)?  $default,) {final _that = this;
 switch (_that) {
 case _TrendPointModel() when $default != null:
 return $default(_that.day,_that.current,_that.previous);case _:
@@ -493,10 +493,10 @@ return $default(_that.day,_that.current,_that.previous);case _:
 @JsonSerializable()
 
 class _TrendPointModel extends TrendPointModel {
-  const _TrendPointModel({required this.day, required this.current, this.previous}): super._();
+  const _TrendPointModel({@DayOfMonthConverter() required this.day, required this.current, this.previous}): super._();
   factory _TrendPointModel.fromJson(Map<String, dynamic> json) => _$TrendPointModelFromJson(json);
 
-@override final  int day;
+@override@DayOfMonthConverter() final  int day;
 @override final  num current;
 @override final  num? previous;
 
@@ -535,7 +535,7 @@ abstract mixin class _$TrendPointModelCopyWith<$Res> implements $TrendPointModel
   factory _$TrendPointModelCopyWith(_TrendPointModel value, $Res Function(_TrendPointModel) _then) = __$TrendPointModelCopyWithImpl;
 @override @useResult
 $Res call({
- int day, num current, num? previous
+@DayOfMonthConverter() int day, num current, num? previous
 });
 
 
@@ -898,7 +898,7 @@ $DsrPostingModelCopyWith<$Res>? get todaysPosting {
 /// @nodoc
 mixin _$DsrCheckLineModel {
 
- String get field; String get value; bool get ok;
+ String get field;@IdConverter() String get value; bool get ok;
 /// Create a copy of DsrCheckLineModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -936,7 +936,7 @@ abstract mixin class $DsrCheckLineModelCopyWith<$Res>  {
   factory $DsrCheckLineModelCopyWith(DsrCheckLineModel value, $Res Function(DsrCheckLineModel) _then) = _$DsrCheckLineModelCopyWithImpl;
 @useResult
 $Res call({
- String field, String value, bool ok
+ String field,@IdConverter() String value, bool ok
 });
 
 
@@ -1043,7 +1043,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String field,  String value,  bool ok)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String field, @IdConverter()  String value,  bool ok)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DsrCheckLineModel() when $default != null:
 return $default(_that.field,_that.value,_that.ok);case _:
@@ -1064,7 +1064,7 @@ return $default(_that.field,_that.value,_that.ok);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String field,  String value,  bool ok)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String field, @IdConverter()  String value,  bool ok)  $default,) {final _that = this;
 switch (_that) {
 case _DsrCheckLineModel():
 return $default(_that.field,_that.value,_that.ok);case _:
@@ -1084,7 +1084,7 @@ return $default(_that.field,_that.value,_that.ok);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String field,  String value,  bool ok)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String field, @IdConverter()  String value,  bool ok)?  $default,) {final _that = this;
 switch (_that) {
 case _DsrCheckLineModel() when $default != null:
 return $default(_that.field,_that.value,_that.ok);case _:
@@ -1099,11 +1099,11 @@ return $default(_that.field,_that.value,_that.ok);case _:
 @JsonSerializable()
 
 class _DsrCheckLineModel extends DsrCheckLineModel {
-  const _DsrCheckLineModel({required this.field, required this.value, required this.ok}): super._();
+  const _DsrCheckLineModel({required this.field, @IdConverter() required this.value, required this.ok}): super._();
   factory _DsrCheckLineModel.fromJson(Map<String, dynamic> json) => _$DsrCheckLineModelFromJson(json);
 
 @override final  String field;
-@override final  String value;
+@override@IdConverter() final  String value;
 @override final  bool ok;
 
 /// Create a copy of DsrCheckLineModel
@@ -1141,7 +1141,7 @@ abstract mixin class _$DsrCheckLineModelCopyWith<$Res> implements $DsrCheckLineM
   factory _$DsrCheckLineModelCopyWith(_DsrCheckLineModel value, $Res Function(_DsrCheckLineModel) _then) = __$DsrCheckLineModelCopyWithImpl;
 @override @useResult
 $Res call({
- String field, String value, bool ok
+ String field,@IdConverter() String value, bool ok
 });
 
 
@@ -1174,7 +1174,7 @@ as bool,
 /// @nodoc
 mixin _$DsrCheckModel {
 
- String get uploadId; String get fileName; int get size; List<DsrCheckLineModel> get lines; List<String> get warnings; bool get replacesExisting;
+@IdConverter() String get uploadId; String get fileName; int get size; List<DsrCheckLineModel> get lines; List<String> get warnings; bool get replacesExisting;
 /// Create a copy of DsrCheckModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1212,7 +1212,7 @@ abstract mixin class $DsrCheckModelCopyWith<$Res>  {
   factory $DsrCheckModelCopyWith(DsrCheckModel value, $Res Function(DsrCheckModel) _then) = _$DsrCheckModelCopyWithImpl;
 @useResult
 $Res call({
- String uploadId, String fileName, int size, List<DsrCheckLineModel> lines, List<String> warnings, bool replacesExisting
+@IdConverter() String uploadId, String fileName, int size, List<DsrCheckLineModel> lines, List<String> warnings, bool replacesExisting
 });
 
 
@@ -1322,7 +1322,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String uploadId,  String fileName,  int size,  List<DsrCheckLineModel> lines,  List<String> warnings,  bool replacesExisting)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@IdConverter()  String uploadId,  String fileName,  int size,  List<DsrCheckLineModel> lines,  List<String> warnings,  bool replacesExisting)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DsrCheckModel() when $default != null:
 return $default(_that.uploadId,_that.fileName,_that.size,_that.lines,_that.warnings,_that.replacesExisting);case _:
@@ -1343,7 +1343,7 @@ return $default(_that.uploadId,_that.fileName,_that.size,_that.lines,_that.warni
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String uploadId,  String fileName,  int size,  List<DsrCheckLineModel> lines,  List<String> warnings,  bool replacesExisting)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@IdConverter()  String uploadId,  String fileName,  int size,  List<DsrCheckLineModel> lines,  List<String> warnings,  bool replacesExisting)  $default,) {final _that = this;
 switch (_that) {
 case _DsrCheckModel():
 return $default(_that.uploadId,_that.fileName,_that.size,_that.lines,_that.warnings,_that.replacesExisting);case _:
@@ -1363,7 +1363,7 @@ return $default(_that.uploadId,_that.fileName,_that.size,_that.lines,_that.warni
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String uploadId,  String fileName,  int size,  List<DsrCheckLineModel> lines,  List<String> warnings,  bool replacesExisting)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@IdConverter()  String uploadId,  String fileName,  int size,  List<DsrCheckLineModel> lines,  List<String> warnings,  bool replacesExisting)?  $default,) {final _that = this;
 switch (_that) {
 case _DsrCheckModel() when $default != null:
 return $default(_that.uploadId,_that.fileName,_that.size,_that.lines,_that.warnings,_that.replacesExisting);case _:
@@ -1378,10 +1378,10 @@ return $default(_that.uploadId,_that.fileName,_that.size,_that.lines,_that.warni
 @JsonSerializable()
 
 class _DsrCheckModel extends DsrCheckModel {
-  const _DsrCheckModel({required this.uploadId, required this.fileName, required this.size, required  List<DsrCheckLineModel> lines,  List<String> warnings = const <String>[], this.replacesExisting = false}): _lines = lines,_warnings = warnings,super._();
+  const _DsrCheckModel({@IdConverter() required this.uploadId, required this.fileName, required this.size, required  List<DsrCheckLineModel> lines,  List<String> warnings = const <String>[], this.replacesExisting = false}): _lines = lines,_warnings = warnings,super._();
   factory _DsrCheckModel.fromJson(Map<String, dynamic> json) => _$DsrCheckModelFromJson(json);
 
-@override final  String uploadId;
+@override@IdConverter() final  String uploadId;
 @override final  String fileName;
 @override final  int size;
  final  List<DsrCheckLineModel> _lines;
@@ -1435,7 +1435,7 @@ abstract mixin class _$DsrCheckModelCopyWith<$Res> implements $DsrCheckModelCopy
   factory _$DsrCheckModelCopyWith(_DsrCheckModel value, $Res Function(_DsrCheckModel) _then) = __$DsrCheckModelCopyWithImpl;
 @override @useResult
 $Res call({
- String uploadId, String fileName, int size, List<DsrCheckLineModel> lines, List<String> warnings, bool replacesExisting
+@IdConverter() String uploadId, String fileName, int size, List<DsrCheckLineModel> lines, List<String> warnings, bool replacesExisting
 });
 
 
@@ -1471,7 +1471,7 @@ as bool,
 /// @nodoc
 mixin _$DsrSavedModel {
 
- DateTime get date; String get storeName; num get sales; int get bills; int get mtdPercent; DateTime get savedAt; bool get onTime;
+ DateTime get date; num get sales; int get bills; num get mtdPercent; bool get onTime; String get storeName; DateTime? get savedAt;
 /// Create a copy of DsrSavedModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1485,20 +1485,20 @@ $DsrSavedModelCopyWith<DsrSavedModel> get copyWith => _$DsrSavedModelCopyWithImp
 @override
 bool operator ==(Object other) {
   final _this = this as DsrSavedModel;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DsrSavedModel&&(identical(other.date, _this.date) || other.date == _this.date)&&(identical(other.storeName, _this.storeName) || other.storeName == _this.storeName)&&(identical(other.sales, _this.sales) || other.sales == _this.sales)&&(identical(other.bills, _this.bills) || other.bills == _this.bills)&&(identical(other.mtdPercent, _this.mtdPercent) || other.mtdPercent == _this.mtdPercent)&&(identical(other.savedAt, _this.savedAt) || other.savedAt == _this.savedAt)&&(identical(other.onTime, _this.onTime) || other.onTime == _this.onTime));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DsrSavedModel&&(identical(other.date, _this.date) || other.date == _this.date)&&(identical(other.sales, _this.sales) || other.sales == _this.sales)&&(identical(other.bills, _this.bills) || other.bills == _this.bills)&&(identical(other.mtdPercent, _this.mtdPercent) || other.mtdPercent == _this.mtdPercent)&&(identical(other.onTime, _this.onTime) || other.onTime == _this.onTime)&&(identical(other.storeName, _this.storeName) || other.storeName == _this.storeName)&&(identical(other.savedAt, _this.savedAt) || other.savedAt == _this.savedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as DsrSavedModel;
-  return Object.hash(runtimeType,_this.date,_this.storeName,_this.sales,_this.bills,_this.mtdPercent,_this.savedAt,_this.onTime);
+  return Object.hash(runtimeType,_this.date,_this.sales,_this.bills,_this.mtdPercent,_this.onTime,_this.storeName,_this.savedAt);
 }
 
 @override
 String toString() {
   final _this = this as DsrSavedModel;
-  return 'DsrSavedModel(date: ${_this.date}, storeName: ${_this.storeName}, sales: ${_this.sales}, bills: ${_this.bills}, mtdPercent: ${_this.mtdPercent}, savedAt: ${_this.savedAt}, onTime: ${_this.onTime})';
+  return 'DsrSavedModel(date: ${_this.date}, sales: ${_this.sales}, bills: ${_this.bills}, mtdPercent: ${_this.mtdPercent}, onTime: ${_this.onTime}, storeName: ${_this.storeName}, savedAt: ${_this.savedAt})';
 }
 
 
@@ -1509,7 +1509,7 @@ abstract mixin class $DsrSavedModelCopyWith<$Res>  {
   factory $DsrSavedModelCopyWith(DsrSavedModel value, $Res Function(DsrSavedModel) _then) = _$DsrSavedModelCopyWithImpl;
 @useResult
 $Res call({
- DateTime date, String storeName, num sales, int bills, int mtdPercent, DateTime savedAt, bool onTime
+ DateTime date, num sales, int bills, num mtdPercent, bool onTime, String storeName, DateTime? savedAt
 });
 
 
@@ -1526,16 +1526,16 @@ class _$DsrSavedModelCopyWithImpl<$Res>
 
 /// Create a copy of DsrSavedModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? date = null,Object? storeName = null,Object? sales = null,Object? bills = null,Object? mtdPercent = null,Object? savedAt = null,Object? onTime = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? date = null,Object? sales = null,Object? bills = null,Object? mtdPercent = null,Object? onTime = null,Object? storeName = null,Object? savedAt = freezed,}) {
   return _then(DsrSavedModel(
 date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
-as DateTime,storeName: null == storeName ? _self.storeName : storeName // ignore: cast_nullable_to_non_nullable
-as String,sales: null == sales ? _self.sales : sales // ignore: cast_nullable_to_non_nullable
+as DateTime,sales: null == sales ? _self.sales : sales // ignore: cast_nullable_to_non_nullable
 as num,bills: null == bills ? _self.bills : bills // ignore: cast_nullable_to_non_nullable
 as int,mtdPercent: null == mtdPercent ? _self.mtdPercent : mtdPercent // ignore: cast_nullable_to_non_nullable
-as int,savedAt: null == savedAt ? _self.savedAt : savedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,onTime: null == onTime ? _self.onTime : onTime // ignore: cast_nullable_to_non_nullable
-as bool,
+as num,onTime: null == onTime ? _self.onTime : onTime // ignore: cast_nullable_to_non_nullable
+as bool,storeName: null == storeName ? _self.storeName : storeName // ignore: cast_nullable_to_non_nullable
+as String,savedAt: freezed == savedAt ? _self.savedAt : savedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -1620,10 +1620,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime date,  String storeName,  num sales,  int bills,  int mtdPercent,  DateTime savedAt,  bool onTime)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime date,  num sales,  int bills,  num mtdPercent,  bool onTime,  String storeName,  DateTime? savedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DsrSavedModel() when $default != null:
-return $default(_that.date,_that.storeName,_that.sales,_that.bills,_that.mtdPercent,_that.savedAt,_that.onTime);case _:
+return $default(_that.date,_that.sales,_that.bills,_that.mtdPercent,_that.onTime,_that.storeName,_that.savedAt);case _:
   return orElse();
 
 }
@@ -1641,10 +1641,10 @@ return $default(_that.date,_that.storeName,_that.sales,_that.bills,_that.mtdPerc
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime date,  String storeName,  num sales,  int bills,  int mtdPercent,  DateTime savedAt,  bool onTime)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime date,  num sales,  int bills,  num mtdPercent,  bool onTime,  String storeName,  DateTime? savedAt)  $default,) {final _that = this;
 switch (_that) {
 case _DsrSavedModel():
-return $default(_that.date,_that.storeName,_that.sales,_that.bills,_that.mtdPercent,_that.savedAt,_that.onTime);case _:
+return $default(_that.date,_that.sales,_that.bills,_that.mtdPercent,_that.onTime,_that.storeName,_that.savedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1661,10 +1661,10 @@ return $default(_that.date,_that.storeName,_that.sales,_that.bills,_that.mtdPerc
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime date,  String storeName,  num sales,  int bills,  int mtdPercent,  DateTime savedAt,  bool onTime)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime date,  num sales,  int bills,  num mtdPercent,  bool onTime,  String storeName,  DateTime? savedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _DsrSavedModel() when $default != null:
-return $default(_that.date,_that.storeName,_that.sales,_that.bills,_that.mtdPercent,_that.savedAt,_that.onTime);case _:
+return $default(_that.date,_that.sales,_that.bills,_that.mtdPercent,_that.onTime,_that.storeName,_that.savedAt);case _:
   return null;
 
 }
@@ -1676,16 +1676,16 @@ return $default(_that.date,_that.storeName,_that.sales,_that.bills,_that.mtdPerc
 @JsonSerializable()
 
 class _DsrSavedModel extends DsrSavedModel {
-  const _DsrSavedModel({required this.date, required this.storeName, required this.sales, required this.bills, required this.mtdPercent, required this.savedAt, required this.onTime}): super._();
+  const _DsrSavedModel({required this.date, required this.sales, required this.bills, required this.mtdPercent, required this.onTime, this.storeName = '', this.savedAt}): super._();
   factory _DsrSavedModel.fromJson(Map<String, dynamic> json) => _$DsrSavedModelFromJson(json);
 
 @override final  DateTime date;
-@override final  String storeName;
 @override final  num sales;
 @override final  int bills;
-@override final  int mtdPercent;
-@override final  DateTime savedAt;
+@override final  num mtdPercent;
 @override final  bool onTime;
+@override@JsonKey() final  String storeName;
+@override final  DateTime? savedAt;
 
 /// Create a copy of DsrSavedModel
 /// with the given fields replaced by the non-null parameter values.
@@ -1700,18 +1700,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DsrSavedModel&&(identical(other.date, date) || other.date == date)&&(identical(other.storeName, storeName) || other.storeName == storeName)&&(identical(other.sales, sales) || other.sales == sales)&&(identical(other.bills, bills) || other.bills == bills)&&(identical(other.mtdPercent, mtdPercent) || other.mtdPercent == mtdPercent)&&(identical(other.savedAt, savedAt) || other.savedAt == savedAt)&&(identical(other.onTime, onTime) || other.onTime == onTime));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DsrSavedModel&&(identical(other.date, date) || other.date == date)&&(identical(other.sales, sales) || other.sales == sales)&&(identical(other.bills, bills) || other.bills == bills)&&(identical(other.mtdPercent, mtdPercent) || other.mtdPercent == mtdPercent)&&(identical(other.onTime, onTime) || other.onTime == onTime)&&(identical(other.storeName, storeName) || other.storeName == storeName)&&(identical(other.savedAt, savedAt) || other.savedAt == savedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,date,storeName,sales,bills,mtdPercent,savedAt,onTime);
+    return Object.hash(runtimeType,date,sales,bills,mtdPercent,onTime,storeName,savedAt);
 }
 
 @override
 String toString() {
-    return 'DsrSavedModel(date: $date, storeName: $storeName, sales: $sales, bills: $bills, mtdPercent: $mtdPercent, savedAt: $savedAt, onTime: $onTime)';
+    return 'DsrSavedModel(date: $date, sales: $sales, bills: $bills, mtdPercent: $mtdPercent, onTime: $onTime, storeName: $storeName, savedAt: $savedAt)';
 }
 
 
@@ -1722,7 +1722,7 @@ abstract mixin class _$DsrSavedModelCopyWith<$Res> implements $DsrSavedModelCopy
   factory _$DsrSavedModelCopyWith(_DsrSavedModel value, $Res Function(_DsrSavedModel) _then) = __$DsrSavedModelCopyWithImpl;
 @override @useResult
 $Res call({
- DateTime date, String storeName, num sales, int bills, int mtdPercent, DateTime savedAt, bool onTime
+ DateTime date, num sales, int bills, num mtdPercent, bool onTime, String storeName, DateTime? savedAt
 });
 
 
@@ -1739,16 +1739,16 @@ class __$DsrSavedModelCopyWithImpl<$Res>
 
 /// Create a copy of DsrSavedModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? date = null,Object? storeName = null,Object? sales = null,Object? bills = null,Object? mtdPercent = null,Object? savedAt = null,Object? onTime = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? date = null,Object? sales = null,Object? bills = null,Object? mtdPercent = null,Object? onTime = null,Object? storeName = null,Object? savedAt = freezed,}) {
   return _then(_DsrSavedModel(
 date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
-as DateTime,storeName: null == storeName ? _self.storeName : storeName // ignore: cast_nullable_to_non_nullable
-as String,sales: null == sales ? _self.sales : sales // ignore: cast_nullable_to_non_nullable
+as DateTime,sales: null == sales ? _self.sales : sales // ignore: cast_nullable_to_non_nullable
 as num,bills: null == bills ? _self.bills : bills // ignore: cast_nullable_to_non_nullable
 as int,mtdPercent: null == mtdPercent ? _self.mtdPercent : mtdPercent // ignore: cast_nullable_to_non_nullable
-as int,savedAt: null == savedAt ? _self.savedAt : savedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,onTime: null == onTime ? _self.onTime : onTime // ignore: cast_nullable_to_non_nullable
-as bool,
+as num,onTime: null == onTime ? _self.onTime : onTime // ignore: cast_nullable_to_non_nullable
+as bool,storeName: null == storeName ? _self.storeName : storeName // ignore: cast_nullable_to_non_nullable
+as String,savedAt: freezed == savedAt ? _self.savedAt : savedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

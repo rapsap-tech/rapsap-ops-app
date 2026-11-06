@@ -30,6 +30,7 @@ class DsrCheckView extends StatelessWidget {
       DsrField.netSales => l10n.dsrNetSales,
       DsrField.bills => l10n.summaryBills,
       DsrField.monthTarget => l10n.dsrMonthTargetShort,
+      DsrField.dayTarget => l10n.dsrDayTargetShort,
     };
     return ListView(
       padding: Dimens.pagePadding,

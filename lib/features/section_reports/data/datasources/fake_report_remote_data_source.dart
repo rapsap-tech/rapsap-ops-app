@@ -38,8 +38,8 @@ class FakeReportRemoteDataSource implements ReportRemoteDataSource {
         _report(
           s.name,
           s.tasks,
-          s.opensAt,
-          s.closesAt ?? s.tasks.last.dueAt,
+          s.opensAt!,
+          s.closesAt ?? s.tasks.last.dueAt!,
           now,
         ),
     ];
@@ -121,8 +121,8 @@ class FakeReportRemoteDataSource implements ReportRemoteDataSource {
       title: '${section.name} report',
       storeName: 'Walk Hiranandani',
       date: now,
-      opensAt: section.opensAt,
-      closesAt: section.closesAt ?? section.tasks.last.dueAt,
+      opensAt: section.opensAt!,
+      closesAt: section.closesAt ?? section.tasks.last.dueAt!,
       done: section.tasks
           .where((t) => t.status == 'submitted' || t.status == 'verified')
           .length,

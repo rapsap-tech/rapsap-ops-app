@@ -38,6 +38,7 @@ class AppConstants {
   static const int chatMessageMaxLength = 1000;
   static const Duration socketRetryBase = Duration(seconds: 2);
   static const Duration socketRetryMax = Duration(seconds: 30);
+  static const Duration socketStableAfter = Duration(seconds: 30);
 
   static const int remarksMaxLength = 300;
   static const int sendBackMaxLength = 200;
@@ -49,6 +50,10 @@ class AppConstants {
   static const List<int> photoJpegQualities = [80, 65, 50, 35];
   static const String photoFileName = 'proof.jpg';
   static const String videoFileName = 'proof.mp4';
+  static final RegExp videoUrlPattern = RegExp(
+    r'\.(mp4|webm|mov)(\?|$)',
+    caseSensitive: false,
+  );
   static const String stampBrand = 'RAPSAP';
   static const String stampSeparator = ' · ';
   static const String stampDateFormat = 'd MMM yyyy';
@@ -67,7 +72,9 @@ class AppConstants {
   static const int summaryMaxCount = 999;
   static const int summaryMaxAmount = 9999999;
   static const int summaryNumberMaxLength = 9;
-  static const int videoMaxBytes = 50 * 1024 * 1024;
+  static const int videoMaxBytes = 25 * 1024 * 1024;
+  static const int socketAuthFailedCode = 4401;
+  static const String refreshLockName = 'auth-refresh';
 
   static const Duration connectivityDebounce = Duration(seconds: 1);
   static const int maxGetRetries = 2;

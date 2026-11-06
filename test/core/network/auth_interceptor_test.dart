@@ -6,9 +6,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rapsap_ops_app/core/network/interceptors/auth_interceptor.dart';
 import 'package:rapsap_ops_app/core/network/network_events.dart';
+import 'package:rapsap_ops_app/core/services/locks/tab_lock.dart';
 import 'package:rapsap_ops_app/core/services/storage/secure_storage_service.dart';
 
 class _MockStorage extends Mock implements SecureStorageService;
+
+/// Runs [whileWaiting] before granting the lock, like another tab that
+/// refreshed first.
+class _TabLock implements TabLock {
+  void Function()? whileWaiting;
+
+  @override
+  Future<T> run<T>(String name, Future<T> Function() action) {
+    whileWaiting?.call();
+    return action();
+  }
+}
 
 enum _Refresh { ok, rejected, serverError, offline }
 
@@ -66,6 +79,7 @@ void main() {
   late _FakeServer server;
   late NetworkEvents events;
   late Dio dio;
+  late _TabLock lock;
   late int generation;
   String? access;
 
@@ -73,6 +87,7 @@ void main() {
     storage = _MockStorage();
     server = _FakeServer();
     events = NetworkEvents();
+    lock = _TabLock();
     access = 'old';
     generation = 0;
     when(() => storage.accessToken).thenAnswer((_) async => access);
@@ -101,6 +116,7 @@ void main() {
           storage: storage,
           events: events,
           refreshDio: refreshDio,
+          lock: lock,
         ),
       );
   });
@@ -113,6 +129,16 @@ void main() {
     ]);
     expect(results.map((r) => r.statusCode), everyElement(200));
     expect(server.refreshCalls, 1);
+  });
+
+  test('uses the token another tab refreshed instead of reusing r1', () async {
+    lock.whileWaiting = () {
+      when(() => storage.refreshToken).thenAnswer((_) async => 'r2');
+      access = 'new';
+    };
+    final response = await dio.get<dynamic>('/a');
+    expect(response.statusCode, 200);
+    expect(server.refreshCalls, 0);
   });
 
   test('a multipart upload is re-sent after the refresh', () async {

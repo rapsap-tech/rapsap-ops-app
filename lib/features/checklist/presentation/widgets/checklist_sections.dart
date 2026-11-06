@@ -33,9 +33,10 @@ class _SectionHeader extends StatelessWidget {
     final l10n = context.l10n;
     final from = section.opensAt.storeTime();
     final closesAt = section.closesAt;
+    final name = l10n.sectionName(section.name);
     final text = closesAt == null
-        ? l10n.sectionFrom(section.name, from)
-        : l10n.sectionWindow(section.name, from, closesAt.storeTime());
+        ? l10n.sectionFrom(name, from)
+        : l10n.sectionWindow(name, from, closesAt.storeTime());
     return Semantics(
       header: true,
       child: Text(

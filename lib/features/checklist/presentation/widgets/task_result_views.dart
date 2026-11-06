@@ -6,7 +6,6 @@ import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
 import 'package:rapsap_ops_app/core/extensions/date_ext.dart';
 import 'package:rapsap_ops_app/core/extensions/navigation_ext.dart';
 import 'package:rapsap_ops_app/core/router/route_names.dart';
-import 'package:rapsap_ops_app/core/router/route_paths.dart';
 import 'package:rapsap_ops_app/core/widgets/app_scaffold.dart';
 import 'package:rapsap_ops_app/core/widgets/brand_header.dart';
 import 'package:rapsap_ops_app/core/widgets/result_view.dart';
@@ -68,12 +67,7 @@ class SubmittedView extends StatelessWidget {
             ? null
             : ResultAction(
                 label: l10n.submittedViewChat,
-                onPressed: () => context.pushReplacementNamed(
-                  RouteNames.conversation,
-                  pathParameters: {
-                    RoutePaths.conversationIdParam: detail.checklistGroupId,
-                  },
-                ),
+                onPressed: () => context.goNamed(RouteNames.chat),
               ),
       ),
     );

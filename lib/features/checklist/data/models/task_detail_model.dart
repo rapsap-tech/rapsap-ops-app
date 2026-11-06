@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rapsap_ops_app/core/constants/app_constants.dart';
 import 'package:rapsap_ops_app/features/checklist/data/models/today_checklist_model.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/entities/task_detail.dart';
 
@@ -10,11 +11,10 @@ abstract class TaskDetailModel with _$TaskDetailModel {
   const factory({
     required ChecklistTaskModel task,
     required String section,
-    required String assignedTo,
-    required String photoHint,
-    required String managerName,
-    required String checklistGroup,
-    required String checklistGroupId,
+    @Default('') String assignedTo,
+    @Default('') String photoHint,
+    @Default('') String managerName,
+    @Default('') String checklistGroup,
     SendBackNoteModel? sendBack,
     String? photoUrl,
     String? videoUrl,
@@ -27,19 +27,24 @@ abstract class TaskDetailModel with _$TaskDetailModel {
   factory fromJson(Map<String, dynamic> json) =>
       _$TaskDetailModelFromJson(json);
 
-  TaskDetail toEntity() => TaskDetail(
-    task: task.toEntity(section),
-    assignedTo: assignedTo,
-    photoHint: photoHint,
-    managerName: managerName,
-    checklistGroup: checklistGroup,
-    checklistGroupId: checklistGroupId,
-    sendBack: sendBack?.toEntity(),
-    photoUrl: photoUrl,
-    videoUrl: videoUrl,
-    remarks: remarks,
-    lockedAt: lockedAt,
-  );
+  TaskDetail toEntity() {
+    final now = DateTime.now();
+    // The server returns a submitted clip in `photo_url`.
+    final photoIsVideo =
+        photoUrl != null && AppConstants.videoUrlPattern.hasMatch(photoUrl!);
+    return TaskDetail(
+      task: task.toEntity(section, DateTime(now.year, now.month, now.day)),
+      assignedTo: assignedTo,
+      photoHint: photoHint,
+      managerName: managerName,
+      checklistGroup: checklistGroup,
+      sendBack: sendBack?.toEntity(),
+      photoUrl: photoIsVideo ? null : photoUrl,
+      videoUrl: videoUrl ?? (photoIsVideo ? photoUrl : null),
+      remarks: remarks,
+      lockedAt: lockedAt,
+    );
+  }
 }
 
 @freezed

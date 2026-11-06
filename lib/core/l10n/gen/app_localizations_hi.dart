@@ -255,6 +255,21 @@ class AppLocalizationsHi extends AppLocalizations {
   String get shiftClosing => 'क्लोज़िंग शिफ्ट';
 
   @override
+  String get sectionNameOpening => 'ओपनिंग';
+
+  @override
+  String get sectionNameTrading => 'ट्रेडिंग';
+
+  @override
+  String get sectionNameBackStore => 'बैक स्टोर';
+
+  @override
+  String get sectionNameHygiene => 'साफ़-सफ़ाई';
+
+  @override
+  String get sectionNameClosing => 'क्लोज़िंग';
+
+  @override
   String get checklistMyTitle => 'मेरी चेकलिस्ट';
 
   @override
@@ -1550,6 +1565,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get dsrNotUploaded => 'अपलोड नहीं';
 
   @override
+  String get dsrUploaded => 'अपलोड हुआ';
+
+  @override
   String dsrUploadedOnTime(String time) {
     return '$time पर अपलोड · समय पर';
   }
@@ -1647,6 +1665,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String get dsrMonthTargetShort => 'महीने का लक्ष्य';
 
   @override
+  String get dsrDayTargetShort => 'दिन का लक्ष्य';
+
+  @override
   String get dsrReplaces =>
       'इस तारीख के लिए पहले से अपलोड है? सेव करने पर वह बदल जाएगा. पुराना संस्करण इतिहास में रहेगा.';
 
@@ -1703,6 +1724,16 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get dsrPostedBody => 'आपका DSR स्नैपशॉट सफलतापूर्वक पोस्ट हो गया.';
+
+  @override
+  String get dsrMarkPosted => 'पोस्ट हुआ मार्क करें';
+
+  @override
+  String get dsrMarkedPostedTitle => 'DSR पोस्ट हुआ मार्क किया गया';
+
+  @override
+  String get dsrMarkedPostedBody =>
+      'आपका DSR सेव हो गया और पोस्ट हुआ मार्क किया गया।';
 
   @override
   String dsrSalesBills(String sales, int bills) {

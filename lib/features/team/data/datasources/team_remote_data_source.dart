@@ -24,6 +24,11 @@ abstract class TeamRemoteDataSource {
 
 Map<String, dynamic> _json(Object? d) => d! as Map<String, dynamic>;
 
+/// Role and task ids are numbers on the server.
+List<Object> _numericIds(List<String> ids) => [
+  for (final id in ids) int.tryParse(id) ?? id,
+];
+
 @realApi
 @LazySingleton(as: TeamRemoteDataSource)
 class TeamRemoteDataSourceImpl implements TeamRemoteDataSource {
@@ -63,12 +68,12 @@ class TeamRemoteDataSourceImpl implements TeamRemoteDataSource {
     data: {
       'phone': phone,
       'name': name,
-      'role_ids': roleIds,
-      'extra_task_ids': extraTaskIds,
+      'role_ids': _numericIds(roleIds),
+      'extra_task_ids': _numericIds(extraTaskIds),
     },
     fromData: (d) {
       final json = _json(d);
-      return (id: json['id'] as String, smsSent: json['sms_sent'] as bool);
+      return (id: '${json['id']}', smsSent: json['sms_sent'] == true);
     },
   );
 
@@ -79,7 +84,7 @@ class TeamRemoteDataSourceImpl implements TeamRemoteDataSource {
   @override
   Future<void> updateRoles(String id, List<String> roleIds) => _client.put(
     ApiConstants.team.roles(id),
-    data: {'role_ids': roleIds},
+    data: {'role_ids': _numericIds(roleIds)},
     fromData: (_) {},
   );
 

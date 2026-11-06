@@ -41,7 +41,7 @@ class FakeReviewRemoteDataSource implements ReviewRemoteDataSource {
       'submitted' => 'needs_review',
       'missed' => 'missed',
       'not_done' => 'not_done',
-      'pending' when !now.isBefore(t.opensAt) => 'open_now',
+      'pending' when !now.isBefore(t.opensAt!) => 'open_now',
       _ => null,
     };
     if (kind == null) return null;
@@ -100,7 +100,7 @@ class FakeReviewRemoteDataSource implements ReviewRemoteDataSource {
   String _sectionStatus(ChecklistSectionModel s, DateTime now) {
     if (s.tasks.any((t) => t.status == 'missed')) return 'critical';
     final closed = s.tasks.every(
-      (t) => now.isAfter(t.dueAt) || t.status != 'pending',
+      (t) => now.isAfter(t.dueAt!) || t.status != 'pending',
     );
     return closed ? 'ready' : 'in_progress';
   }
@@ -119,10 +119,15 @@ class FakeReviewRemoteDataSource implements ReviewRemoteDataSource {
       final item = _item(s, t);
       if (item == null) break;
       return ReviewDetailModel(
-        item: item,
+        item: ReviewTaskModel(
+          number: item.number,
+          title: item.title,
+          section: item.section,
+        ),
+        status: t.status,
         remarks: t.status == 'submitted' ? 'Done as per the standard.' : null,
         lockedAt: t.status == 'missed'
-            ? t.dueAt.add(const Duration(minutes: 2))
+            ? t.dueAt?.add(const Duration(minutes: 2))
             : null,
       );
     }

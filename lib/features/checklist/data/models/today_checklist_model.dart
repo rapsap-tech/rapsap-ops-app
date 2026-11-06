@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rapsap_ops_app/core/network/json_converters.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/entities/checklist_task.dart';
 import 'package:rapsap_ops_app/features/checklist/domain/entities/today_checklist.dart';
 
@@ -9,8 +10,8 @@ part 'today_checklist_model.g.dart';
 abstract class TodayChecklistModel with _$TodayChecklistModel {
   const factory({
     required DateTime date,
-    required String shift,
     required List<ChecklistSectionModel> sections,
+    String? shift,
   }) = _TodayChecklistModel;
 
   const new _();
@@ -18,10 +19,17 @@ abstract class TodayChecklistModel with _$TodayChecklistModel {
   factory fromJson(Map<String, dynamic> json) =>
       _$TodayChecklistModelFromJson(json);
 
+  /// The server names the section open right now (`trading`, `hygiene`,
+  /// ...); anything between opening and closing is the mid shift.
   TodayChecklist toEntity() => TodayChecklist(
     date: date,
-    shift: Shift.values.asNameMap()[shift] ?? Shift.opening,
-    sections: [for (final s in sections) s.toEntity()],
+    shift: switch (shift) {
+      null => null,
+      'opening' => Shift.opening,
+      'closing' => Shift.closing,
+      _ => Shift.mid,
+    },
+    sections: [for (final s in sections) s.toEntity(date)],
   );
 }
 
@@ -29,8 +37,8 @@ abstract class TodayChecklistModel with _$TodayChecklistModel {
 abstract class ChecklistSectionModel with _$ChecklistSectionModel {
   const factory({
     required String name,
-    required DateTime opensAt,
     required List<ChecklistTaskModel> tasks,
+    DateTime? opensAt,
     DateTime? closesAt,
   }) = _ChecklistSectionModel;
 
@@ -39,23 +47,23 @@ abstract class ChecklistSectionModel with _$ChecklistSectionModel {
   factory fromJson(Map<String, dynamic> json) =>
       _$ChecklistSectionModelFromJson(json);
 
-  ChecklistSection toEntity() => ChecklistSection(
+  ChecklistSection toEntity(DateTime day) => ChecklistSection(
     name: name,
-    opensAt: opensAt,
+    opensAt: opensAt ?? day,
     closesAt: closesAt,
-    tasks: [for (final t in tasks) t.toEntity(name)],
+    tasks: [for (final t in tasks) t.toEntity(name, day)],
   );
 }
 
 @freezed
 abstract class ChecklistTaskModel with _$ChecklistTaskModel {
   const factory({
-    required String id,
+    @IdConverter() required String id,
     required int number,
     required String title,
-    required DateTime opensAt,
-    required DateTime dueAt,
     required String status,
+    DateTime? opensAt,
+    DateTime? dueAt,
     String? actorName,
     DateTime? actedAt,
   }) = _ChecklistTaskModel;
@@ -74,13 +82,14 @@ abstract class ChecklistTaskModel with _$ChecklistTaskModel {
     'not_done': TaskStatus.notDone,
   };
 
-  ChecklistTask toEntity(String section) => ChecklistTask(
+  /// A task with no time window is open all [day].
+  ChecklistTask toEntity(String section, DateTime day) => ChecklistTask(
     id: id,
     number: number,
     title: title,
     section: section,
-    opensAt: opensAt,
-    dueAt: dueAt,
+    opensAt: opensAt ?? day,
+    dueAt: dueAt ?? day.add(const Duration(days: 1)),
     status: _statuses[status] ?? TaskStatus.pending,
     actorName: actorName,
     actedAt: actedAt,

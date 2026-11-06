@@ -46,7 +46,7 @@ class ReviewEntryBody extends StatelessWidget {
             StatusChip(label: chip, tone: tone),
             8.wSpace,
             Text(
-              l10n.taskHeader(item.section, item.number),
+              l10n.taskHeader(l10n.sectionName(item.section), item.number),
               style: AppTextStyles.base.s13.secondaryTextColor(),
             ),
           ],

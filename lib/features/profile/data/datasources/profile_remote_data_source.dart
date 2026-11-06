@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/constants/api_constants.dart';
 import 'package:rapsap_ops_app/core/network/dio_client.dart';
+import 'package:rapsap_ops_app/features/auth/data/models/user_model.dart';
 import 'package:rapsap_ops_app/features/profile/data/models/profile_model.dart';
 
 abstract class ProfileRemoteDataSource {
@@ -15,10 +16,22 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
 
   final DioClient _client;
 
+  /// shortcut: built from /auth/me until /me/profile ships; employee id,
+  /// phone, manager and month stats stay empty.
   @override
   Future<ProfileModel> profile() => _client.get(
-    ApiConstants.me.profile,
-    fromData: (data) => ProfileModel.fromJson(data! as Map<String, dynamic>),
+    ApiConstants.auth.me,
+    fromData: (data) {
+      final user = UserModel.fromJson(data! as Map<String, dynamic>);
+      return ProfileModel(
+        name: user.name,
+        tags: user.jobRoles,
+        employeeId: '',
+        phone: '',
+        storeName: user.storeName,
+        reportsTo: '',
+      );
+    },
   );
 }
 

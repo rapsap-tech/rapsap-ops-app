@@ -66,16 +66,15 @@ class FakeChecklistRemoteDataSource implements ChecklistRemoteDataSource {
       photoHint: 'Show the display and the full unit',
       managerName: _manager,
       checklistGroup: 'Walk - Checklist',
-      checklistGroupId: 'c-checklist',
       sendBack: sentBack
           ? SendBackNoteModel(
               by: _manager,
-              at: task.opensAt,
+              at: task.opensAt!,
               reason: 'Photo is blurry. Show the full shelf.',
             )
           : null,
       lockedAt: task.status == 'missed'
-          ? task.dueAt.add(const Duration(minutes: 2))
+          ? task.dueAt!.add(const Duration(minutes: 2))
           : null,
     );
   }
@@ -126,7 +125,7 @@ class FakeChecklistRemoteDataSource implements ChecklistRemoteDataSource {
     updateTask(taskId, (t) => t.copyWith(status: status, actedAt: now));
     return SubmissionResultModel(
       submittedAt: now,
-      onTime: !now.isAfter(task.dueAt),
+      onTime: !now.isAfter(task.dueAt!),
     );
   }
 

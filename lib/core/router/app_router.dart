@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/bloc/session_cubit.dart';
+import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/router/go_router_refresh_stream.dart';
 import 'package:rapsap_ops_app/core/router/guards/install_guard.dart';
 import 'package:rapsap_ops_app/core/router/guards/role_guard.dart';
@@ -154,7 +155,9 @@ class AppRouter {
       GoRoute(
         path: RoutePaths.sectionReports,
         name: RouteNames.sectionReports,
-        redirect: managerOnly(_session),
+        redirect: (context, state) => EnvConfig.instance.hasSectionReports
+            ? managerOnly(_session)(context, state)
+            : RoutePaths.home,
         builder: (_, _) => const SectionReportsPage(),
         routes: [
           GoRoute(

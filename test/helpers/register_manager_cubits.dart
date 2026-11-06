@@ -52,6 +52,8 @@ import 'package:rapsap_ops_app/features/team/presentation/bloc/create_login_cubi
 import 'package:rapsap_ops_app/features/team/presentation/bloc/member_detail_cubit.dart';
 import 'package:rapsap_ops_app/features/team/presentation/bloc/team_cubit.dart';
 
+import 'signed_out_auth.dart';
+
 /// Fake-backed cubits for the store-manager pages in widget tests.
 void registerManagerCubits(FakeChecklistRemoteDataSource checklist) {
   final review = ReviewRepositoryImpl(FakeReviewRemoteDataSource(checklist));
@@ -60,7 +62,7 @@ void registerManagerCubits(FakeChecklistRemoteDataSource checklist) {
     FakeReportRemoteDataSource(checklist),
   );
   final capture = StartCapture(ChecklistRepositoryImpl(checklist));
-  final dsr = DsrRepositoryImpl(FakeDsrRemoteDataSource());
+  final dsr = DsrRepositoryImpl(FakeDsrRemoteDataSource(), SignedOutAuth());
   getIt
     ..registerFactory(() => ManagerDashboardCubit(GetManagerDashboard(review)))
     ..registerFactory(() => ReviewQueueCubit(GetReviewQueue(review)))

@@ -26,7 +26,7 @@ class ReviewResultView extends StatelessWidget {
     );
     final unlocked = action == ReviewAction.unlock;
     return AppScaffold(
-      header: BrandHeader(storeName: item.section),
+      header: BrandHeader(storeName: context.l10n.sectionName(item.section)),
       body: ResultView(
         tone: ResultTone.confirmed,
         badge: l10n.resultConfirmed,

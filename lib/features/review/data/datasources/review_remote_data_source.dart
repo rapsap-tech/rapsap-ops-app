@@ -77,7 +77,8 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
     formData: FormData.fromMap({
       'capture_token': captureToken,
       'reason': reason,
-      'remarks': remarks,
+      // An empty value would wipe the staff member's remark.
+      if (remarks.isNotEmpty) 'remarks': remarks,
       ...mediaPart(media),
     }),
     fromData: (_) {},

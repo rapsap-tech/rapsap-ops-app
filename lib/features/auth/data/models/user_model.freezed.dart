@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserModel {
 
- String get id; String get name; String get role; String get storeName; List<String> get jobRoles; bool get consentAccepted;
+@IdConverter() String get id; String get role; String get name; String get storeName; List<String> get jobRoles; bool get consentAccepted;
 /// Create a copy of UserModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +30,20 @@ $UserModelCopyWith<UserModel> get copyWith => _$UserModelCopyWithImpl<UserModel>
 @override
 bool operator ==(Object other) {
   final _this = this as UserModel;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.role, _this.role) || other.role == _this.role)&&(identical(other.storeName, _this.storeName) || other.storeName == _this.storeName)&&const DeepCollectionEquality().equals(other.jobRoles, _this.jobRoles)&&(identical(other.consentAccepted, _this.consentAccepted) || other.consentAccepted == _this.consentAccepted));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.role, _this.role) || other.role == _this.role)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.storeName, _this.storeName) || other.storeName == _this.storeName)&&const DeepCollectionEquality().equals(other.jobRoles, _this.jobRoles)&&(identical(other.consentAccepted, _this.consentAccepted) || other.consentAccepted == _this.consentAccepted));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as UserModel;
-  return Object.hash(runtimeType,_this.id,_this.name,_this.role,_this.storeName,const DeepCollectionEquality().hash(_this.jobRoles),_this.consentAccepted);
+  return Object.hash(runtimeType,_this.id,_this.role,_this.name,_this.storeName,const DeepCollectionEquality().hash(_this.jobRoles),_this.consentAccepted);
 }
 
 @override
 String toString() {
   final _this = this as UserModel;
-  return 'UserModel(id: ${_this.id}, name: ${_this.name}, role: ${_this.role}, storeName: ${_this.storeName}, jobRoles: ${_this.jobRoles}, consentAccepted: ${_this.consentAccepted})';
+  return 'UserModel(id: ${_this.id}, role: ${_this.role}, name: ${_this.name}, storeName: ${_this.storeName}, jobRoles: ${_this.jobRoles}, consentAccepted: ${_this.consentAccepted})';
 }
 
 
@@ -54,7 +54,7 @@ abstract mixin class $UserModelCopyWith<$Res>  {
   factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) _then) = _$UserModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String role, String storeName, List<String> jobRoles, bool consentAccepted
+@IdConverter() String id, String role, String name, String storeName, List<String> jobRoles, bool consentAccepted
 });
 
 
@@ -71,11 +71,11 @@ class _$UserModelCopyWithImpl<$Res>
 
 /// Create a copy of UserModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? role = null,Object? storeName = null,Object? jobRoles = null,Object? consentAccepted = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? role = null,Object? name = null,Object? storeName = null,Object? jobRoles = null,Object? consentAccepted = null,}) {
   return _then(UserModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,storeName: null == storeName ? _self.storeName : storeName // ignore: cast_nullable_to_non_nullable
 as String,jobRoles: null == jobRoles ? _self.jobRoles : jobRoles // ignore: cast_nullable_to_non_nullable
 as List<String>,consentAccepted: null == consentAccepted ? _self.consentAccepted : consentAccepted // ignore: cast_nullable_to_non_nullable
@@ -164,10 +164,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String role,  String storeName,  List<String> jobRoles,  bool consentAccepted)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@IdConverter()  String id,  String role,  String name,  String storeName,  List<String> jobRoles,  bool consentAccepted)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserModel() when $default != null:
-return $default(_that.id,_that.name,_that.role,_that.storeName,_that.jobRoles,_that.consentAccepted);case _:
+return $default(_that.id,_that.role,_that.name,_that.storeName,_that.jobRoles,_that.consentAccepted);case _:
   return orElse();
 
 }
@@ -185,10 +185,10 @@ return $default(_that.id,_that.name,_that.role,_that.storeName,_that.jobRoles,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String role,  String storeName,  List<String> jobRoles,  bool consentAccepted)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@IdConverter()  String id,  String role,  String name,  String storeName,  List<String> jobRoles,  bool consentAccepted)  $default,) {final _that = this;
 switch (_that) {
 case _UserModel():
-return $default(_that.id,_that.name,_that.role,_that.storeName,_that.jobRoles,_that.consentAccepted);case _:
+return $default(_that.id,_that.role,_that.name,_that.storeName,_that.jobRoles,_that.consentAccepted);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -205,10 +205,10 @@ return $default(_that.id,_that.name,_that.role,_that.storeName,_that.jobRoles,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String role,  String storeName,  List<String> jobRoles,  bool consentAccepted)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@IdConverter()  String id,  String role,  String name,  String storeName,  List<String> jobRoles,  bool consentAccepted)?  $default,) {final _that = this;
 switch (_that) {
 case _UserModel() when $default != null:
-return $default(_that.id,_that.name,_that.role,_that.storeName,_that.jobRoles,_that.consentAccepted);case _:
+return $default(_that.id,_that.role,_that.name,_that.storeName,_that.jobRoles,_that.consentAccepted);case _:
   return null;
 
 }
@@ -220,13 +220,13 @@ return $default(_that.id,_that.name,_that.role,_that.storeName,_that.jobRoles,_t
 @JsonSerializable()
 
 class _UserModel extends UserModel {
-  const _UserModel({required this.id, required this.name, required this.role, required this.storeName,  List<String> jobRoles = const <String>[], this.consentAccepted = false}): _jobRoles = jobRoles,super._();
+  const _UserModel({@IdConverter() required this.id, required this.role, this.name = '', this.storeName = '',  List<String> jobRoles = const <String>[], this.consentAccepted = false}): _jobRoles = jobRoles,super._();
   factory _UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
 
-@override final  String id;
-@override final  String name;
+@override@IdConverter() final  String id;
 @override final  String role;
-@override final  String storeName;
+@override@JsonKey() final  String name;
+@override@JsonKey() final  String storeName;
  final  List<String> _jobRoles;
 @override@JsonKey() List<String> get jobRoles {
   if (_jobRoles is EqualUnmodifiableListView) return _jobRoles;
@@ -249,18 +249,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserModel&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.role, role) || other.role == role)&&(identical(other.storeName, storeName) || other.storeName == storeName)&&const DeepCollectionEquality().equals(other.jobRoles, _jobRoles)&&(identical(other.consentAccepted, consentAccepted) || other.consentAccepted == consentAccepted));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserModel&&(identical(other.id, id) || other.id == id)&&(identical(other.role, role) || other.role == role)&&(identical(other.name, name) || other.name == name)&&(identical(other.storeName, storeName) || other.storeName == storeName)&&const DeepCollectionEquality().equals(other.jobRoles, _jobRoles)&&(identical(other.consentAccepted, consentAccepted) || other.consentAccepted == consentAccepted));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,name,role,storeName,const DeepCollectionEquality().hash(_jobRoles),consentAccepted);
+    return Object.hash(runtimeType,id,role,name,storeName,const DeepCollectionEquality().hash(_jobRoles),consentAccepted);
 }
 
 @override
 String toString() {
-    return 'UserModel(id: $id, name: $name, role: $role, storeName: $storeName, jobRoles: $jobRoles, consentAccepted: $consentAccepted)';
+    return 'UserModel(id: $id, role: $role, name: $name, storeName: $storeName, jobRoles: $jobRoles, consentAccepted: $consentAccepted)';
 }
 
 
@@ -271,7 +271,7 @@ abstract mixin class _$UserModelCopyWith<$Res> implements $UserModelCopyWith<$Re
   factory _$UserModelCopyWith(_UserModel value, $Res Function(_UserModel) _then) = __$UserModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String role, String storeName, List<String> jobRoles, bool consentAccepted
+@IdConverter() String id, String role, String name, String storeName, List<String> jobRoles, bool consentAccepted
 });
 
 
@@ -288,11 +288,11 @@ class __$UserModelCopyWithImpl<$Res>
 
 /// Create a copy of UserModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? role = null,Object? storeName = null,Object? jobRoles = null,Object? consentAccepted = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? role = null,Object? name = null,Object? storeName = null,Object? jobRoles = null,Object? consentAccepted = null,}) {
   return _then(_UserModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,storeName: null == storeName ? _self.storeName : storeName // ignore: cast_nullable_to_non_nullable
 as String,jobRoles: null == jobRoles ? _self._jobRoles : jobRoles // ignore: cast_nullable_to_non_nullable
 as List<String>,consentAccepted: null == consentAccepted ? _self.consentAccepted : consentAccepted // ignore: cast_nullable_to_non_nullable

@@ -153,7 +153,7 @@ class DsrEndpoints {
 class AppEndpoints {
   const new _();
   String get config => '${ApiConstants._prefix}/app/config';
-  String get health => '${ApiConstants._prefix}/health';
+  String get health => '/ops/health';
 }
 
 /// Ids come from routes and links, so they are untrusted: only a plain id

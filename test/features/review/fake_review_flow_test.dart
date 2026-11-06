@@ -51,6 +51,6 @@ void main() {
     final task = [for (final s in checklist.current.sections) ...s.tasks]
         .firstWhere((t) => t.id == missed.taskId);
     expect(task.status, 'pending');
-    expect(task.dueAt.isAfter(DateTime.now()), isTrue);
+    expect(task.dueAt!.isAfter(DateTime.now()), isTrue);
   });
 }

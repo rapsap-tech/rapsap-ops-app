@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ConversationModel {
 
- String get id; String get title; String get kind; int get memberCount; int get unread; bool get muted; bool get canPost; String? get lastPreview; DateTime? get lastAt; String? get pinnedText;
+@IdConverter() String get id; String get title; String get kind; int get memberCount; int get unread; bool get muted; bool get canPost; String? get lastPreview; DateTime? get lastAt; String? get pinnedText;
 /// Create a copy of ConversationModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -54,7 +54,7 @@ abstract mixin class $ConversationModelCopyWith<$Res>  {
   factory $ConversationModelCopyWith(ConversationModel value, $Res Function(ConversationModel) _then) = _$ConversationModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String title, String kind, int memberCount, int unread, bool muted, bool canPost, String? lastPreview, DateTime? lastAt, String? pinnedText
+@IdConverter() String id, String title, String kind, int memberCount, int unread, bool muted, bool canPost, String? lastPreview, DateTime? lastAt, String? pinnedText
 });
 
 
@@ -168,7 +168,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  String kind,  int memberCount,  int unread,  bool muted,  bool canPost,  String? lastPreview,  DateTime? lastAt,  String? pinnedText)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@IdConverter()  String id,  String title,  String kind,  int memberCount,  int unread,  bool muted,  bool canPost,  String? lastPreview,  DateTime? lastAt,  String? pinnedText)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ConversationModel() when $default != null:
 return $default(_that.id,_that.title,_that.kind,_that.memberCount,_that.unread,_that.muted,_that.canPost,_that.lastPreview,_that.lastAt,_that.pinnedText);case _:
@@ -189,7 +189,7 @@ return $default(_that.id,_that.title,_that.kind,_that.memberCount,_that.unread,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  String kind,  int memberCount,  int unread,  bool muted,  bool canPost,  String? lastPreview,  DateTime? lastAt,  String? pinnedText)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@IdConverter()  String id,  String title,  String kind,  int memberCount,  int unread,  bool muted,  bool canPost,  String? lastPreview,  DateTime? lastAt,  String? pinnedText)  $default,) {final _that = this;
 switch (_that) {
 case _ConversationModel():
 return $default(_that.id,_that.title,_that.kind,_that.memberCount,_that.unread,_that.muted,_that.canPost,_that.lastPreview,_that.lastAt,_that.pinnedText);case _:
@@ -209,7 +209,7 @@ return $default(_that.id,_that.title,_that.kind,_that.memberCount,_that.unread,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  String kind,  int memberCount,  int unread,  bool muted,  bool canPost,  String? lastPreview,  DateTime? lastAt,  String? pinnedText)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@IdConverter()  String id,  String title,  String kind,  int memberCount,  int unread,  bool muted,  bool canPost,  String? lastPreview,  DateTime? lastAt,  String? pinnedText)?  $default,) {final _that = this;
 switch (_that) {
 case _ConversationModel() when $default != null:
 return $default(_that.id,_that.title,_that.kind,_that.memberCount,_that.unread,_that.muted,_that.canPost,_that.lastPreview,_that.lastAt,_that.pinnedText);case _:
@@ -224,10 +224,10 @@ return $default(_that.id,_that.title,_that.kind,_that.memberCount,_that.unread,_
 @JsonSerializable()
 
 class _ConversationModel extends ConversationModel {
-  const _ConversationModel({required this.id, required this.title, required this.kind, this.memberCount = 0, this.unread = 0, this.muted = false, this.canPost = true, this.lastPreview, this.lastAt, this.pinnedText}): super._();
+  const _ConversationModel({@IdConverter() required this.id, required this.title, required this.kind, this.memberCount = 0, this.unread = 0, this.muted = false, this.canPost = true, this.lastPreview, this.lastAt, this.pinnedText}): super._();
   factory _ConversationModel.fromJson(Map<String, dynamic> json) => _$ConversationModelFromJson(json);
 
-@override final  String id;
+@override@IdConverter() final  String id;
 @override final  String title;
 @override final  String kind;
 @override@JsonKey() final  int memberCount;
@@ -273,7 +273,7 @@ abstract mixin class _$ConversationModelCopyWith<$Res> implements $ConversationM
   factory _$ConversationModelCopyWith(_ConversationModel value, $Res Function(_ConversationModel) _then) = __$ConversationModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String title, String kind, int memberCount, int unread, bool muted, bool canPost, String? lastPreview, DateTime? lastAt, String? pinnedText
+@IdConverter() String id, String title, String kind, int memberCount, int unread, bool muted, bool canPost, String? lastPreview, DateTime? lastAt, String? pinnedText
 });
 
 
@@ -313,7 +313,7 @@ as String?,
 /// @nodoc
 mixin _$ChatMessageModel {
 
- String get id; String get senderName; DateTime get sentAt; bool get isMine; String? get senderRole; String? get text; String? get photoUrl; String? get videoUrl; int get seenBy;
+@IdConverter() String get id; String get senderName;@JsonKey(name: 'created_at') DateTime? get sentAt;@IdConverter() String? get senderId; bool get isMine; String? get senderRole; String? get text; String? get photoUrl; String? get videoUrl; int get seenBy;
 /// Create a copy of ChatMessageModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -327,20 +327,20 @@ $ChatMessageModelCopyWith<ChatMessageModel> get copyWith => _$ChatMessageModelCo
 @override
 bool operator ==(Object other) {
   final _this = this as ChatMessageModel;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatMessageModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.senderName, _this.senderName) || other.senderName == _this.senderName)&&(identical(other.sentAt, _this.sentAt) || other.sentAt == _this.sentAt)&&(identical(other.isMine, _this.isMine) || other.isMine == _this.isMine)&&(identical(other.senderRole, _this.senderRole) || other.senderRole == _this.senderRole)&&(identical(other.text, _this.text) || other.text == _this.text)&&(identical(other.photoUrl, _this.photoUrl) || other.photoUrl == _this.photoUrl)&&(identical(other.videoUrl, _this.videoUrl) || other.videoUrl == _this.videoUrl)&&(identical(other.seenBy, _this.seenBy) || other.seenBy == _this.seenBy));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChatMessageModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.senderName, _this.senderName) || other.senderName == _this.senderName)&&(identical(other.sentAt, _this.sentAt) || other.sentAt == _this.sentAt)&&(identical(other.senderId, _this.senderId) || other.senderId == _this.senderId)&&(identical(other.isMine, _this.isMine) || other.isMine == _this.isMine)&&(identical(other.senderRole, _this.senderRole) || other.senderRole == _this.senderRole)&&(identical(other.text, _this.text) || other.text == _this.text)&&(identical(other.photoUrl, _this.photoUrl) || other.photoUrl == _this.photoUrl)&&(identical(other.videoUrl, _this.videoUrl) || other.videoUrl == _this.videoUrl)&&(identical(other.seenBy, _this.seenBy) || other.seenBy == _this.seenBy));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as ChatMessageModel;
-  return Object.hash(runtimeType,_this.id,_this.senderName,_this.sentAt,_this.isMine,_this.senderRole,_this.text,_this.photoUrl,_this.videoUrl,_this.seenBy);
+  return Object.hash(runtimeType,_this.id,_this.senderName,_this.sentAt,_this.senderId,_this.isMine,_this.senderRole,_this.text,_this.photoUrl,_this.videoUrl,_this.seenBy);
 }
 
 @override
 String toString() {
   final _this = this as ChatMessageModel;
-  return 'ChatMessageModel(id: ${_this.id}, senderName: ${_this.senderName}, sentAt: ${_this.sentAt}, isMine: ${_this.isMine}, senderRole: ${_this.senderRole}, text: ${_this.text}, photoUrl: ${_this.photoUrl}, videoUrl: ${_this.videoUrl}, seenBy: ${_this.seenBy})';
+  return 'ChatMessageModel(id: ${_this.id}, senderName: ${_this.senderName}, sentAt: ${_this.sentAt}, senderId: ${_this.senderId}, isMine: ${_this.isMine}, senderRole: ${_this.senderRole}, text: ${_this.text}, photoUrl: ${_this.photoUrl}, videoUrl: ${_this.videoUrl}, seenBy: ${_this.seenBy})';
 }
 
 
@@ -351,7 +351,7 @@ abstract mixin class $ChatMessageModelCopyWith<$Res>  {
   factory $ChatMessageModelCopyWith(ChatMessageModel value, $Res Function(ChatMessageModel) _then) = _$ChatMessageModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String senderName, DateTime sentAt, bool isMine, String? senderRole, String? text, String? photoUrl, String? videoUrl, int seenBy
+@IdConverter() String id, String senderName,@JsonKey(name: 'created_at') DateTime? sentAt,@IdConverter() String? senderId, bool isMine, String? senderRole, String? text, String? photoUrl, String? videoUrl, int seenBy
 });
 
 
@@ -368,12 +368,13 @@ class _$ChatMessageModelCopyWithImpl<$Res>
 
 /// Create a copy of ChatMessageModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? senderName = null,Object? sentAt = null,Object? isMine = null,Object? senderRole = freezed,Object? text = freezed,Object? photoUrl = freezed,Object? videoUrl = freezed,Object? seenBy = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? senderName = null,Object? sentAt = freezed,Object? senderId = freezed,Object? isMine = null,Object? senderRole = freezed,Object? text = freezed,Object? photoUrl = freezed,Object? videoUrl = freezed,Object? seenBy = null,}) {
   return _then(ChatMessageModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,senderName: null == senderName ? _self.senderName : senderName // ignore: cast_nullable_to_non_nullable
-as String,sentAt: null == sentAt ? _self.sentAt : sentAt // ignore: cast_nullable_to_non_nullable
-as DateTime,isMine: null == isMine ? _self.isMine : isMine // ignore: cast_nullable_to_non_nullable
+as String,sentAt: freezed == sentAt ? _self.sentAt : sentAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,senderId: freezed == senderId ? _self.senderId : senderId // ignore: cast_nullable_to_non_nullable
+as String?,isMine: null == isMine ? _self.isMine : isMine // ignore: cast_nullable_to_non_nullable
 as bool,senderRole: freezed == senderRole ? _self.senderRole : senderRole // ignore: cast_nullable_to_non_nullable
 as String?,text: freezed == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String?,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
@@ -464,10 +465,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String senderName,  DateTime sentAt,  bool isMine,  String? senderRole,  String? text,  String? photoUrl,  String? videoUrl,  int seenBy)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@IdConverter()  String id,  String senderName, @JsonKey(name: 'created_at')  DateTime? sentAt, @IdConverter()  String? senderId,  bool isMine,  String? senderRole,  String? text,  String? photoUrl,  String? videoUrl,  int seenBy)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChatMessageModel() when $default != null:
-return $default(_that.id,_that.senderName,_that.sentAt,_that.isMine,_that.senderRole,_that.text,_that.photoUrl,_that.videoUrl,_that.seenBy);case _:
+return $default(_that.id,_that.senderName,_that.sentAt,_that.senderId,_that.isMine,_that.senderRole,_that.text,_that.photoUrl,_that.videoUrl,_that.seenBy);case _:
   return orElse();
 
 }
@@ -485,10 +486,10 @@ return $default(_that.id,_that.senderName,_that.sentAt,_that.isMine,_that.sender
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String senderName,  DateTime sentAt,  bool isMine,  String? senderRole,  String? text,  String? photoUrl,  String? videoUrl,  int seenBy)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@IdConverter()  String id,  String senderName, @JsonKey(name: 'created_at')  DateTime? sentAt, @IdConverter()  String? senderId,  bool isMine,  String? senderRole,  String? text,  String? photoUrl,  String? videoUrl,  int seenBy)  $default,) {final _that = this;
 switch (_that) {
 case _ChatMessageModel():
-return $default(_that.id,_that.senderName,_that.sentAt,_that.isMine,_that.senderRole,_that.text,_that.photoUrl,_that.videoUrl,_that.seenBy);case _:
+return $default(_that.id,_that.senderName,_that.sentAt,_that.senderId,_that.isMine,_that.senderRole,_that.text,_that.photoUrl,_that.videoUrl,_that.seenBy);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -505,10 +506,10 @@ return $default(_that.id,_that.senderName,_that.sentAt,_that.isMine,_that.sender
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String senderName,  DateTime sentAt,  bool isMine,  String? senderRole,  String? text,  String? photoUrl,  String? videoUrl,  int seenBy)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@IdConverter()  String id,  String senderName, @JsonKey(name: 'created_at')  DateTime? sentAt, @IdConverter()  String? senderId,  bool isMine,  String? senderRole,  String? text,  String? photoUrl,  String? videoUrl,  int seenBy)?  $default,) {final _that = this;
 switch (_that) {
 case _ChatMessageModel() when $default != null:
-return $default(_that.id,_that.senderName,_that.sentAt,_that.isMine,_that.senderRole,_that.text,_that.photoUrl,_that.videoUrl,_that.seenBy);case _:
+return $default(_that.id,_that.senderName,_that.sentAt,_that.senderId,_that.isMine,_that.senderRole,_that.text,_that.photoUrl,_that.videoUrl,_that.seenBy);case _:
   return null;
 
 }
@@ -520,12 +521,13 @@ return $default(_that.id,_that.senderName,_that.sentAt,_that.isMine,_that.sender
 @JsonSerializable()
 
 class _ChatMessageModel extends ChatMessageModel {
-  const _ChatMessageModel({required this.id, required this.senderName, required this.sentAt, this.isMine = false, this.senderRole, this.text, this.photoUrl, this.videoUrl, this.seenBy = 0}): super._();
+  const _ChatMessageModel({@IdConverter() required this.id, this.senderName = '', @JsonKey(name: 'created_at') this.sentAt, @IdConverter() this.senderId, this.isMine = false, this.senderRole, this.text, this.photoUrl, this.videoUrl, this.seenBy = 0}): super._();
   factory _ChatMessageModel.fromJson(Map<String, dynamic> json) => _$ChatMessageModelFromJson(json);
 
-@override final  String id;
-@override final  String senderName;
-@override final  DateTime sentAt;
+@override@IdConverter() final  String id;
+@override@JsonKey() final  String senderName;
+@override@JsonKey(name: 'created_at') final  DateTime? sentAt;
+@override@IdConverter() final  String? senderId;
 @override@JsonKey() final  bool isMine;
 @override final  String? senderRole;
 @override final  String? text;
@@ -546,18 +548,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatMessageModel&&(identical(other.id, id) || other.id == id)&&(identical(other.senderName, senderName) || other.senderName == senderName)&&(identical(other.sentAt, sentAt) || other.sentAt == sentAt)&&(identical(other.isMine, isMine) || other.isMine == isMine)&&(identical(other.senderRole, senderRole) || other.senderRole == senderRole)&&(identical(other.text, text) || other.text == text)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&(identical(other.videoUrl, videoUrl) || other.videoUrl == videoUrl)&&(identical(other.seenBy, seenBy) || other.seenBy == seenBy));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChatMessageModel&&(identical(other.id, id) || other.id == id)&&(identical(other.senderName, senderName) || other.senderName == senderName)&&(identical(other.sentAt, sentAt) || other.sentAt == sentAt)&&(identical(other.senderId, senderId) || other.senderId == senderId)&&(identical(other.isMine, isMine) || other.isMine == isMine)&&(identical(other.senderRole, senderRole) || other.senderRole == senderRole)&&(identical(other.text, text) || other.text == text)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&(identical(other.videoUrl, videoUrl) || other.videoUrl == videoUrl)&&(identical(other.seenBy, seenBy) || other.seenBy == seenBy));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,senderName,sentAt,isMine,senderRole,text,photoUrl,videoUrl,seenBy);
+    return Object.hash(runtimeType,id,senderName,sentAt,senderId,isMine,senderRole,text,photoUrl,videoUrl,seenBy);
 }
 
 @override
 String toString() {
-    return 'ChatMessageModel(id: $id, senderName: $senderName, sentAt: $sentAt, isMine: $isMine, senderRole: $senderRole, text: $text, photoUrl: $photoUrl, videoUrl: $videoUrl, seenBy: $seenBy)';
+    return 'ChatMessageModel(id: $id, senderName: $senderName, sentAt: $sentAt, senderId: $senderId, isMine: $isMine, senderRole: $senderRole, text: $text, photoUrl: $photoUrl, videoUrl: $videoUrl, seenBy: $seenBy)';
 }
 
 
@@ -568,7 +570,7 @@ abstract mixin class _$ChatMessageModelCopyWith<$Res> implements $ChatMessageMod
   factory _$ChatMessageModelCopyWith(_ChatMessageModel value, $Res Function(_ChatMessageModel) _then) = __$ChatMessageModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String senderName, DateTime sentAt, bool isMine, String? senderRole, String? text, String? photoUrl, String? videoUrl, int seenBy
+@IdConverter() String id, String senderName,@JsonKey(name: 'created_at') DateTime? sentAt,@IdConverter() String? senderId, bool isMine, String? senderRole, String? text, String? photoUrl, String? videoUrl, int seenBy
 });
 
 
@@ -585,12 +587,13 @@ class __$ChatMessageModelCopyWithImpl<$Res>
 
 /// Create a copy of ChatMessageModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? senderName = null,Object? sentAt = null,Object? isMine = null,Object? senderRole = freezed,Object? text = freezed,Object? photoUrl = freezed,Object? videoUrl = freezed,Object? seenBy = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? senderName = null,Object? sentAt = freezed,Object? senderId = freezed,Object? isMine = null,Object? senderRole = freezed,Object? text = freezed,Object? photoUrl = freezed,Object? videoUrl = freezed,Object? seenBy = null,}) {
   return _then(_ChatMessageModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,senderName: null == senderName ? _self.senderName : senderName // ignore: cast_nullable_to_non_nullable
-as String,sentAt: null == sentAt ? _self.sentAt : sentAt // ignore: cast_nullable_to_non_nullable
-as DateTime,isMine: null == isMine ? _self.isMine : isMine // ignore: cast_nullable_to_non_nullable
+as String,sentAt: freezed == sentAt ? _self.sentAt : sentAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,senderId: freezed == senderId ? _self.senderId : senderId // ignore: cast_nullable_to_non_nullable
+as String?,isMine: null == isMine ? _self.isMine : isMine // ignore: cast_nullable_to_non_nullable
 as bool,senderRole: freezed == senderRole ? _self.senderRole : senderRole // ignore: cast_nullable_to_non_nullable
 as String?,text: freezed == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String?,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable

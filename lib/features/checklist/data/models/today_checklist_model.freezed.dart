@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TodayChecklistModel {
 
- DateTime get date; String get shift; List<ChecklistSectionModel> get sections;
+ DateTime get date; List<ChecklistSectionModel> get sections; String? get shift;
 /// Create a copy of TodayChecklistModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +30,20 @@ $TodayChecklistModelCopyWith<TodayChecklistModel> get copyWith => _$TodayCheckli
 @override
 bool operator ==(Object other) {
   final _this = this as TodayChecklistModel;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TodayChecklistModel&&(identical(other.date, _this.date) || other.date == _this.date)&&(identical(other.shift, _this.shift) || other.shift == _this.shift)&&const DeepCollectionEquality().equals(other.sections, _this.sections));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TodayChecklistModel&&(identical(other.date, _this.date) || other.date == _this.date)&&const DeepCollectionEquality().equals(other.sections, _this.sections)&&(identical(other.shift, _this.shift) || other.shift == _this.shift));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as TodayChecklistModel;
-  return Object.hash(runtimeType,_this.date,_this.shift,const DeepCollectionEquality().hash(_this.sections));
+  return Object.hash(runtimeType,_this.date,const DeepCollectionEquality().hash(_this.sections),_this.shift);
 }
 
 @override
 String toString() {
   final _this = this as TodayChecklistModel;
-  return 'TodayChecklistModel(date: ${_this.date}, shift: ${_this.shift}, sections: ${_this.sections})';
+  return 'TodayChecklistModel(date: ${_this.date}, sections: ${_this.sections}, shift: ${_this.shift})';
 }
 
 
@@ -54,7 +54,7 @@ abstract mixin class $TodayChecklistModelCopyWith<$Res>  {
   factory $TodayChecklistModelCopyWith(TodayChecklistModel value, $Res Function(TodayChecklistModel) _then) = _$TodayChecklistModelCopyWithImpl;
 @useResult
 $Res call({
- DateTime date, String shift, List<ChecklistSectionModel> sections
+ DateTime date, List<ChecklistSectionModel> sections, String? shift
 });
 
 
@@ -71,12 +71,12 @@ class _$TodayChecklistModelCopyWithImpl<$Res>
 
 /// Create a copy of TodayChecklistModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? date = null,Object? shift = null,Object? sections = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? date = null,Object? sections = null,Object? shift = freezed,}) {
   return _then(TodayChecklistModel(
 date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
-as DateTime,shift: null == shift ? _self.shift : shift // ignore: cast_nullable_to_non_nullable
-as String,sections: null == sections ? _self.sections : sections // ignore: cast_nullable_to_non_nullable
-as List<ChecklistSectionModel>,
+as DateTime,sections: null == sections ? _self.sections : sections // ignore: cast_nullable_to_non_nullable
+as List<ChecklistSectionModel>,shift: freezed == shift ? _self.shift : shift // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -161,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime date,  String shift,  List<ChecklistSectionModel> sections)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime date,  List<ChecklistSectionModel> sections,  String? shift)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TodayChecklistModel() when $default != null:
-return $default(_that.date,_that.shift,_that.sections);case _:
+return $default(_that.date,_that.sections,_that.shift);case _:
   return orElse();
 
 }
@@ -182,10 +182,10 @@ return $default(_that.date,_that.shift,_that.sections);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime date,  String shift,  List<ChecklistSectionModel> sections)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime date,  List<ChecklistSectionModel> sections,  String? shift)  $default,) {final _that = this;
 switch (_that) {
 case _TodayChecklistModel():
-return $default(_that.date,_that.shift,_that.sections);case _:
+return $default(_that.date,_that.sections,_that.shift);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -202,10 +202,10 @@ return $default(_that.date,_that.shift,_that.sections);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime date,  String shift,  List<ChecklistSectionModel> sections)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime date,  List<ChecklistSectionModel> sections,  String? shift)?  $default,) {final _that = this;
 switch (_that) {
 case _TodayChecklistModel() when $default != null:
-return $default(_that.date,_that.shift,_that.sections);case _:
+return $default(_that.date,_that.sections,_that.shift);case _:
   return null;
 
 }
@@ -217,11 +217,10 @@ return $default(_that.date,_that.shift,_that.sections);case _:
 @JsonSerializable()
 
 class _TodayChecklistModel extends TodayChecklistModel {
-  const _TodayChecklistModel({required this.date, required this.shift, required  List<ChecklistSectionModel> sections}): _sections = sections,super._();
+  const _TodayChecklistModel({required this.date, required  List<ChecklistSectionModel> sections, this.shift}): _sections = sections,super._();
   factory _TodayChecklistModel.fromJson(Map<String, dynamic> json) => _$TodayChecklistModelFromJson(json);
 
 @override final  DateTime date;
-@override final  String shift;
  final  List<ChecklistSectionModel> _sections;
 @override List<ChecklistSectionModel> get sections {
   if (_sections is EqualUnmodifiableListView) return _sections;
@@ -229,6 +228,7 @@ class _TodayChecklistModel extends TodayChecklistModel {
   return EqualUnmodifiableListView(_sections);
 }
 
+@override final  String? shift;
 
 /// Create a copy of TodayChecklistModel
 /// with the given fields replaced by the non-null parameter values.
@@ -243,18 +243,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TodayChecklistModel&&(identical(other.date, date) || other.date == date)&&(identical(other.shift, shift) || other.shift == shift)&&const DeepCollectionEquality().equals(other.sections, _sections));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TodayChecklistModel&&(identical(other.date, date) || other.date == date)&&const DeepCollectionEquality().equals(other.sections, _sections)&&(identical(other.shift, shift) || other.shift == shift));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,date,shift,const DeepCollectionEquality().hash(_sections));
+    return Object.hash(runtimeType,date,const DeepCollectionEquality().hash(_sections),shift);
 }
 
 @override
 String toString() {
-    return 'TodayChecklistModel(date: $date, shift: $shift, sections: $sections)';
+    return 'TodayChecklistModel(date: $date, sections: $sections, shift: $shift)';
 }
 
 
@@ -265,7 +265,7 @@ abstract mixin class _$TodayChecklistModelCopyWith<$Res> implements $TodayCheckl
   factory _$TodayChecklistModelCopyWith(_TodayChecklistModel value, $Res Function(_TodayChecklistModel) _then) = __$TodayChecklistModelCopyWithImpl;
 @override @useResult
 $Res call({
- DateTime date, String shift, List<ChecklistSectionModel> sections
+ DateTime date, List<ChecklistSectionModel> sections, String? shift
 });
 
 
@@ -282,12 +282,12 @@ class __$TodayChecklistModelCopyWithImpl<$Res>
 
 /// Create a copy of TodayChecklistModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? date = null,Object? shift = null,Object? sections = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? date = null,Object? sections = null,Object? shift = freezed,}) {
   return _then(_TodayChecklistModel(
 date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
-as DateTime,shift: null == shift ? _self.shift : shift // ignore: cast_nullable_to_non_nullable
-as String,sections: null == sections ? _self._sections : sections // ignore: cast_nullable_to_non_nullable
-as List<ChecklistSectionModel>,
+as DateTime,sections: null == sections ? _self._sections : sections // ignore: cast_nullable_to_non_nullable
+as List<ChecklistSectionModel>,shift: freezed == shift ? _self.shift : shift // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -298,7 +298,7 @@ as List<ChecklistSectionModel>,
 /// @nodoc
 mixin _$ChecklistSectionModel {
 
- String get name; DateTime get opensAt; List<ChecklistTaskModel> get tasks; DateTime? get closesAt;
+ String get name; List<ChecklistTaskModel> get tasks; DateTime? get opensAt; DateTime? get closesAt;
 /// Create a copy of ChecklistSectionModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -312,20 +312,20 @@ $ChecklistSectionModelCopyWith<ChecklistSectionModel> get copyWith => _$Checklis
 @override
 bool operator ==(Object other) {
   final _this = this as ChecklistSectionModel;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChecklistSectionModel&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.opensAt, _this.opensAt) || other.opensAt == _this.opensAt)&&const DeepCollectionEquality().equals(other.tasks, _this.tasks)&&(identical(other.closesAt, _this.closesAt) || other.closesAt == _this.closesAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChecklistSectionModel&&(identical(other.name, _this.name) || other.name == _this.name)&&const DeepCollectionEquality().equals(other.tasks, _this.tasks)&&(identical(other.opensAt, _this.opensAt) || other.opensAt == _this.opensAt)&&(identical(other.closesAt, _this.closesAt) || other.closesAt == _this.closesAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as ChecklistSectionModel;
-  return Object.hash(runtimeType,_this.name,_this.opensAt,const DeepCollectionEquality().hash(_this.tasks),_this.closesAt);
+  return Object.hash(runtimeType,_this.name,const DeepCollectionEquality().hash(_this.tasks),_this.opensAt,_this.closesAt);
 }
 
 @override
 String toString() {
   final _this = this as ChecklistSectionModel;
-  return 'ChecklistSectionModel(name: ${_this.name}, opensAt: ${_this.opensAt}, tasks: ${_this.tasks}, closesAt: ${_this.closesAt})';
+  return 'ChecklistSectionModel(name: ${_this.name}, tasks: ${_this.tasks}, opensAt: ${_this.opensAt}, closesAt: ${_this.closesAt})';
 }
 
 
@@ -336,7 +336,7 @@ abstract mixin class $ChecklistSectionModelCopyWith<$Res>  {
   factory $ChecklistSectionModelCopyWith(ChecklistSectionModel value, $Res Function(ChecklistSectionModel) _then) = _$ChecklistSectionModelCopyWithImpl;
 @useResult
 $Res call({
- String name, DateTime opensAt, List<ChecklistTaskModel> tasks, DateTime? closesAt
+ String name, List<ChecklistTaskModel> tasks, DateTime? opensAt, DateTime? closesAt
 });
 
 
@@ -353,12 +353,12 @@ class _$ChecklistSectionModelCopyWithImpl<$Res>
 
 /// Create a copy of ChecklistSectionModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? opensAt = null,Object? tasks = null,Object? closesAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? tasks = null,Object? opensAt = freezed,Object? closesAt = freezed,}) {
   return _then(ChecklistSectionModel(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,opensAt: null == opensAt ? _self.opensAt : opensAt // ignore: cast_nullable_to_non_nullable
-as DateTime,tasks: null == tasks ? _self.tasks : tasks // ignore: cast_nullable_to_non_nullable
-as List<ChecklistTaskModel>,closesAt: freezed == closesAt ? _self.closesAt : closesAt // ignore: cast_nullable_to_non_nullable
+as String,tasks: null == tasks ? _self.tasks : tasks // ignore: cast_nullable_to_non_nullable
+as List<ChecklistTaskModel>,opensAt: freezed == opensAt ? _self.opensAt : opensAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,closesAt: freezed == closesAt ? _self.closesAt : closesAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }
@@ -444,10 +444,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  DateTime opensAt,  List<ChecklistTaskModel> tasks,  DateTime? closesAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  List<ChecklistTaskModel> tasks,  DateTime? opensAt,  DateTime? closesAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChecklistSectionModel() when $default != null:
-return $default(_that.name,_that.opensAt,_that.tasks,_that.closesAt);case _:
+return $default(_that.name,_that.tasks,_that.opensAt,_that.closesAt);case _:
   return orElse();
 
 }
@@ -465,10 +465,10 @@ return $default(_that.name,_that.opensAt,_that.tasks,_that.closesAt);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  DateTime opensAt,  List<ChecklistTaskModel> tasks,  DateTime? closesAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  List<ChecklistTaskModel> tasks,  DateTime? opensAt,  DateTime? closesAt)  $default,) {final _that = this;
 switch (_that) {
 case _ChecklistSectionModel():
-return $default(_that.name,_that.opensAt,_that.tasks,_that.closesAt);case _:
+return $default(_that.name,_that.tasks,_that.opensAt,_that.closesAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -485,10 +485,10 @@ return $default(_that.name,_that.opensAt,_that.tasks,_that.closesAt);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  DateTime opensAt,  List<ChecklistTaskModel> tasks,  DateTime? closesAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  List<ChecklistTaskModel> tasks,  DateTime? opensAt,  DateTime? closesAt)?  $default,) {final _that = this;
 switch (_that) {
 case _ChecklistSectionModel() when $default != null:
-return $default(_that.name,_that.opensAt,_that.tasks,_that.closesAt);case _:
+return $default(_that.name,_that.tasks,_that.opensAt,_that.closesAt);case _:
   return null;
 
 }
@@ -500,11 +500,10 @@ return $default(_that.name,_that.opensAt,_that.tasks,_that.closesAt);case _:
 @JsonSerializable()
 
 class _ChecklistSectionModel extends ChecklistSectionModel {
-  const _ChecklistSectionModel({required this.name, required this.opensAt, required  List<ChecklistTaskModel> tasks, this.closesAt}): _tasks = tasks,super._();
+  const _ChecklistSectionModel({required this.name, required  List<ChecklistTaskModel> tasks, this.opensAt, this.closesAt}): _tasks = tasks,super._();
   factory _ChecklistSectionModel.fromJson(Map<String, dynamic> json) => _$ChecklistSectionModelFromJson(json);
 
 @override final  String name;
-@override final  DateTime opensAt;
  final  List<ChecklistTaskModel> _tasks;
 @override List<ChecklistTaskModel> get tasks {
   if (_tasks is EqualUnmodifiableListView) return _tasks;
@@ -512,6 +511,7 @@ class _ChecklistSectionModel extends ChecklistSectionModel {
   return EqualUnmodifiableListView(_tasks);
 }
 
+@override final  DateTime? opensAt;
 @override final  DateTime? closesAt;
 
 /// Create a copy of ChecklistSectionModel
@@ -527,18 +527,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChecklistSectionModel&&(identical(other.name, name) || other.name == name)&&(identical(other.opensAt, opensAt) || other.opensAt == opensAt)&&const DeepCollectionEquality().equals(other.tasks, _tasks)&&(identical(other.closesAt, closesAt) || other.closesAt == closesAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChecklistSectionModel&&(identical(other.name, name) || other.name == name)&&const DeepCollectionEquality().equals(other.tasks, _tasks)&&(identical(other.opensAt, opensAt) || other.opensAt == opensAt)&&(identical(other.closesAt, closesAt) || other.closesAt == closesAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,name,opensAt,const DeepCollectionEquality().hash(_tasks),closesAt);
+    return Object.hash(runtimeType,name,const DeepCollectionEquality().hash(_tasks),opensAt,closesAt);
 }
 
 @override
 String toString() {
-    return 'ChecklistSectionModel(name: $name, opensAt: $opensAt, tasks: $tasks, closesAt: $closesAt)';
+    return 'ChecklistSectionModel(name: $name, tasks: $tasks, opensAt: $opensAt, closesAt: $closesAt)';
 }
 
 
@@ -549,7 +549,7 @@ abstract mixin class _$ChecklistSectionModelCopyWith<$Res> implements $Checklist
   factory _$ChecklistSectionModelCopyWith(_ChecklistSectionModel value, $Res Function(_ChecklistSectionModel) _then) = __$ChecklistSectionModelCopyWithImpl;
 @override @useResult
 $Res call({
- String name, DateTime opensAt, List<ChecklistTaskModel> tasks, DateTime? closesAt
+ String name, List<ChecklistTaskModel> tasks, DateTime? opensAt, DateTime? closesAt
 });
 
 
@@ -566,12 +566,12 @@ class __$ChecklistSectionModelCopyWithImpl<$Res>
 
 /// Create a copy of ChecklistSectionModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? opensAt = null,Object? tasks = null,Object? closesAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? tasks = null,Object? opensAt = freezed,Object? closesAt = freezed,}) {
   return _then(_ChecklistSectionModel(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,opensAt: null == opensAt ? _self.opensAt : opensAt // ignore: cast_nullable_to_non_nullable
-as DateTime,tasks: null == tasks ? _self._tasks : tasks // ignore: cast_nullable_to_non_nullable
-as List<ChecklistTaskModel>,closesAt: freezed == closesAt ? _self.closesAt : closesAt // ignore: cast_nullable_to_non_nullable
+as String,tasks: null == tasks ? _self._tasks : tasks // ignore: cast_nullable_to_non_nullable
+as List<ChecklistTaskModel>,opensAt: freezed == opensAt ? _self.opensAt : opensAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,closesAt: freezed == closesAt ? _self.closesAt : closesAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }
@@ -583,7 +583,7 @@ as DateTime?,
 /// @nodoc
 mixin _$ChecklistTaskModel {
 
- String get id; int get number; String get title; DateTime get opensAt; DateTime get dueAt; String get status; String? get actorName; DateTime? get actedAt;
+@IdConverter() String get id; int get number; String get title; String get status; DateTime? get opensAt; DateTime? get dueAt; String? get actorName; DateTime? get actedAt;
 /// Create a copy of ChecklistTaskModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -597,20 +597,20 @@ $ChecklistTaskModelCopyWith<ChecklistTaskModel> get copyWith => _$ChecklistTaskM
 @override
 bool operator ==(Object other) {
   final _this = this as ChecklistTaskModel;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChecklistTaskModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.number, _this.number) || other.number == _this.number)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.opensAt, _this.opensAt) || other.opensAt == _this.opensAt)&&(identical(other.dueAt, _this.dueAt) || other.dueAt == _this.dueAt)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.actorName, _this.actorName) || other.actorName == _this.actorName)&&(identical(other.actedAt, _this.actedAt) || other.actedAt == _this.actedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ChecklistTaskModel&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.number, _this.number) || other.number == _this.number)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.opensAt, _this.opensAt) || other.opensAt == _this.opensAt)&&(identical(other.dueAt, _this.dueAt) || other.dueAt == _this.dueAt)&&(identical(other.actorName, _this.actorName) || other.actorName == _this.actorName)&&(identical(other.actedAt, _this.actedAt) || other.actedAt == _this.actedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as ChecklistTaskModel;
-  return Object.hash(runtimeType,_this.id,_this.number,_this.title,_this.opensAt,_this.dueAt,_this.status,_this.actorName,_this.actedAt);
+  return Object.hash(runtimeType,_this.id,_this.number,_this.title,_this.status,_this.opensAt,_this.dueAt,_this.actorName,_this.actedAt);
 }
 
 @override
 String toString() {
   final _this = this as ChecklistTaskModel;
-  return 'ChecklistTaskModel(id: ${_this.id}, number: ${_this.number}, title: ${_this.title}, opensAt: ${_this.opensAt}, dueAt: ${_this.dueAt}, status: ${_this.status}, actorName: ${_this.actorName}, actedAt: ${_this.actedAt})';
+  return 'ChecklistTaskModel(id: ${_this.id}, number: ${_this.number}, title: ${_this.title}, status: ${_this.status}, opensAt: ${_this.opensAt}, dueAt: ${_this.dueAt}, actorName: ${_this.actorName}, actedAt: ${_this.actedAt})';
 }
 
 
@@ -621,7 +621,7 @@ abstract mixin class $ChecklistTaskModelCopyWith<$Res>  {
   factory $ChecklistTaskModelCopyWith(ChecklistTaskModel value, $Res Function(ChecklistTaskModel) _then) = _$ChecklistTaskModelCopyWithImpl;
 @useResult
 $Res call({
- String id, int number, String title, DateTime opensAt, DateTime dueAt, String status, String? actorName, DateTime? actedAt
+@IdConverter() String id, int number, String title, String status, DateTime? opensAt, DateTime? dueAt, String? actorName, DateTime? actedAt
 });
 
 
@@ -638,15 +638,15 @@ class _$ChecklistTaskModelCopyWithImpl<$Res>
 
 /// Create a copy of ChecklistTaskModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? number = null,Object? title = null,Object? opensAt = null,Object? dueAt = null,Object? status = null,Object? actorName = freezed,Object? actedAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? number = null,Object? title = null,Object? status = null,Object? opensAt = freezed,Object? dueAt = freezed,Object? actorName = freezed,Object? actedAt = freezed,}) {
   return _then(ChecklistTaskModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,opensAt: null == opensAt ? _self.opensAt : opensAt // ignore: cast_nullable_to_non_nullable
-as DateTime,dueAt: null == dueAt ? _self.dueAt : dueAt // ignore: cast_nullable_to_non_nullable
-as DateTime,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,actorName: freezed == actorName ? _self.actorName : actorName // ignore: cast_nullable_to_non_nullable
+as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String,opensAt: freezed == opensAt ? _self.opensAt : opensAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,dueAt: freezed == dueAt ? _self.dueAt : dueAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,actorName: freezed == actorName ? _self.actorName : actorName // ignore: cast_nullable_to_non_nullable
 as String?,actedAt: freezed == actedAt ? _self.actedAt : actedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
@@ -733,10 +733,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  int number,  String title,  DateTime opensAt,  DateTime dueAt,  String status,  String? actorName,  DateTime? actedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@IdConverter()  String id,  int number,  String title,  String status,  DateTime? opensAt,  DateTime? dueAt,  String? actorName,  DateTime? actedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ChecklistTaskModel() when $default != null:
-return $default(_that.id,_that.number,_that.title,_that.opensAt,_that.dueAt,_that.status,_that.actorName,_that.actedAt);case _:
+return $default(_that.id,_that.number,_that.title,_that.status,_that.opensAt,_that.dueAt,_that.actorName,_that.actedAt);case _:
   return orElse();
 
 }
@@ -754,10 +754,10 @@ return $default(_that.id,_that.number,_that.title,_that.opensAt,_that.dueAt,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  int number,  String title,  DateTime opensAt,  DateTime dueAt,  String status,  String? actorName,  DateTime? actedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@IdConverter()  String id,  int number,  String title,  String status,  DateTime? opensAt,  DateTime? dueAt,  String? actorName,  DateTime? actedAt)  $default,) {final _that = this;
 switch (_that) {
 case _ChecklistTaskModel():
-return $default(_that.id,_that.number,_that.title,_that.opensAt,_that.dueAt,_that.status,_that.actorName,_that.actedAt);case _:
+return $default(_that.id,_that.number,_that.title,_that.status,_that.opensAt,_that.dueAt,_that.actorName,_that.actedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -774,10 +774,10 @@ return $default(_that.id,_that.number,_that.title,_that.opensAt,_that.dueAt,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  int number,  String title,  DateTime opensAt,  DateTime dueAt,  String status,  String? actorName,  DateTime? actedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@IdConverter()  String id,  int number,  String title,  String status,  DateTime? opensAt,  DateTime? dueAt,  String? actorName,  DateTime? actedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _ChecklistTaskModel() when $default != null:
-return $default(_that.id,_that.number,_that.title,_that.opensAt,_that.dueAt,_that.status,_that.actorName,_that.actedAt);case _:
+return $default(_that.id,_that.number,_that.title,_that.status,_that.opensAt,_that.dueAt,_that.actorName,_that.actedAt);case _:
   return null;
 
 }
@@ -789,15 +789,15 @@ return $default(_that.id,_that.number,_that.title,_that.opensAt,_that.dueAt,_tha
 @JsonSerializable()
 
 class _ChecklistTaskModel extends ChecklistTaskModel {
-  const _ChecklistTaskModel({required this.id, required this.number, required this.title, required this.opensAt, required this.dueAt, required this.status, this.actorName, this.actedAt}): super._();
+  const _ChecklistTaskModel({@IdConverter() required this.id, required this.number, required this.title, required this.status, this.opensAt, this.dueAt, this.actorName, this.actedAt}): super._();
   factory _ChecklistTaskModel.fromJson(Map<String, dynamic> json) => _$ChecklistTaskModelFromJson(json);
 
-@override final  String id;
+@override@IdConverter() final  String id;
 @override final  int number;
 @override final  String title;
-@override final  DateTime opensAt;
-@override final  DateTime dueAt;
 @override final  String status;
+@override final  DateTime? opensAt;
+@override final  DateTime? dueAt;
 @override final  String? actorName;
 @override final  DateTime? actedAt;
 
@@ -814,18 +814,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChecklistTaskModel&&(identical(other.id, id) || other.id == id)&&(identical(other.number, number) || other.number == number)&&(identical(other.title, title) || other.title == title)&&(identical(other.opensAt, opensAt) || other.opensAt == opensAt)&&(identical(other.dueAt, dueAt) || other.dueAt == dueAt)&&(identical(other.status, status) || other.status == status)&&(identical(other.actorName, actorName) || other.actorName == actorName)&&(identical(other.actedAt, actedAt) || other.actedAt == actedAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ChecklistTaskModel&&(identical(other.id, id) || other.id == id)&&(identical(other.number, number) || other.number == number)&&(identical(other.title, title) || other.title == title)&&(identical(other.status, status) || other.status == status)&&(identical(other.opensAt, opensAt) || other.opensAt == opensAt)&&(identical(other.dueAt, dueAt) || other.dueAt == dueAt)&&(identical(other.actorName, actorName) || other.actorName == actorName)&&(identical(other.actedAt, actedAt) || other.actedAt == actedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,number,title,opensAt,dueAt,status,actorName,actedAt);
+    return Object.hash(runtimeType,id,number,title,status,opensAt,dueAt,actorName,actedAt);
 }
 
 @override
 String toString() {
-    return 'ChecklistTaskModel(id: $id, number: $number, title: $title, opensAt: $opensAt, dueAt: $dueAt, status: $status, actorName: $actorName, actedAt: $actedAt)';
+    return 'ChecklistTaskModel(id: $id, number: $number, title: $title, status: $status, opensAt: $opensAt, dueAt: $dueAt, actorName: $actorName, actedAt: $actedAt)';
 }
 
 
@@ -836,7 +836,7 @@ abstract mixin class _$ChecklistTaskModelCopyWith<$Res> implements $ChecklistTas
   factory _$ChecklistTaskModelCopyWith(_ChecklistTaskModel value, $Res Function(_ChecklistTaskModel) _then) = __$ChecklistTaskModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, int number, String title, DateTime opensAt, DateTime dueAt, String status, String? actorName, DateTime? actedAt
+@IdConverter() String id, int number, String title, String status, DateTime? opensAt, DateTime? dueAt, String? actorName, DateTime? actedAt
 });
 
 
@@ -853,15 +853,15 @@ class __$ChecklistTaskModelCopyWithImpl<$Res>
 
 /// Create a copy of ChecklistTaskModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? number = null,Object? title = null,Object? opensAt = null,Object? dueAt = null,Object? status = null,Object? actorName = freezed,Object? actedAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? number = null,Object? title = null,Object? status = null,Object? opensAt = freezed,Object? dueAt = freezed,Object? actorName = freezed,Object? actedAt = freezed,}) {
   return _then(_ChecklistTaskModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
-as String,opensAt: null == opensAt ? _self.opensAt : opensAt // ignore: cast_nullable_to_non_nullable
-as DateTime,dueAt: null == dueAt ? _self.dueAt : dueAt // ignore: cast_nullable_to_non_nullable
-as DateTime,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,actorName: freezed == actorName ? _self.actorName : actorName // ignore: cast_nullable_to_non_nullable
+as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String,opensAt: freezed == opensAt ? _self.opensAt : opensAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,dueAt: freezed == dueAt ? _self.dueAt : dueAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,actorName: freezed == actorName ? _self.actorName : actorName // ignore: cast_nullable_to_non_nullable
 as String?,actedAt: freezed == actedAt ? _self.actedAt : actedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));

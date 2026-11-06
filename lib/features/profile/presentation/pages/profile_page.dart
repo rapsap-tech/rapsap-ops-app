@@ -78,17 +78,23 @@ class _ProfileBody extends StatelessWidget {
         20.hSpace,
         InfoRowsCard(
           rows: [
-            (l10n.profileEmployeeId, profile.employeeId),
-            (
-              l10n.profileMobile,
-              '${AppConstants.countryCode} ${profile.phone.maskedPhone}',
-            ),
-            (l10n.profileStore, profile.storeName),
-            (l10n.profileReportsTo, profile.reportsTo),
+            if (profile.employeeId.isNotEmpty)
+              (l10n.profileEmployeeId, profile.employeeId),
+            if (profile.phone.isNotEmpty)
+              (
+                l10n.profileMobile,
+                '${AppConstants.countryCode} ${profile.phone.maskedPhone}',
+              ),
+            if (profile.storeName.isNotEmpty)
+              (l10n.profileStore, profile.storeName),
+            if (profile.reportsTo.isNotEmpty)
+              (l10n.profileReportsTo, profile.reportsTo),
           ],
         ),
-        20.hSpace,
-        MonthStatsCard(profile: profile),
+        if (profile.doneThisMonth + profile.missedThisMonth > 0) ...[
+          20.hSpace,
+          MonthStatsCard(profile: profile),
+        ],
         if (contact != null) ...[
           20.hSpace,
           InfoRowsCard(rows: [(l10n.profileEmergencyContact, contact)]),

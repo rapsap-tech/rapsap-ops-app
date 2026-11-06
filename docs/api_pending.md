@@ -1,9 +1,73 @@
 # API pending
 
-The backend API is not documented yet. Everything below is an assumption the app
-is built against. With `USE_FAKE_API=true` in `env/env.json` the app runs on the
-fake data sources; set it to `false` to call the real paths. Update this file
-(and `ApiConstants`) as each endpoint is confirmed.
+The backend is live on staging (`rapsap-operations-api`, guide:
+https://claude.ai/artifact/9WxbPVYavB2FQUMXJtgvtM, Swagger:
+https://operations-api-stag.rapsap.com/rapsap-operations/docs). Run against it with
+`flutter run --dart-define-from-file=env/staging.json` (`USE_FAKE_API=false`).
+`WS_URL` must include the API prefix: `wss://<host>/ops/api/v1`. Health is
+`/ops/health`, outside the prefix.
+
+The tables below are the contract the app was built on. Where the real API
+differs, the app adapts in the data layer (see "How the app adapts") and the
+backend team has the list under "Backend fixes needed".
+
+## Not on the backend yet
+
+With the real API these features are hidden (`EnvConfig.has…` flags) instead
+of running on sample data, so nothing a user submits is dropped. Turn a flag
+on when its endpoint ships.
+
+| Feature | Missing endpoint | With the real API |
+| --- | --- | --- |
+| Section reports, closing report, walkthrough, daily summary | all of `/section-reports/*` | Hidden (`hasSectionReports`): no "Section reports" link, section tiles don't open it, deep links go home |
+| Notification settings | `/me/notification-settings` | Hidden (`hasNotificationSettings`): Settings shows language and log out only |
+| DSR post to chat | `/dsr/post` takes JSON `{ date }` only | `hasDsrChatPost` off: no group picker; the button is "Mark as posted" |
+| Force update | `/app/config` | Real path; a 404 means no minimum version. Needed before a store release |
+| Profile | `/me/profile` | Built from `/auth/me` (name, job roles, store); employee id, phone, manager and month stats stay hidden |
+| Team: resend invite, change number | `/team/members/{id}/resend-invite`, `/number-change`, `/number-change/verify` | Real paths; they return 404 ("not found") until built |
+
+## How the app adapts to the real API
+
+- **Ids:** the API sends numeric ids; `IdConverter` (`core/network/json_converters.dart`) reads any id as a string. Team role and task ids go back as numbers.
+- **Nulls:** `store_name`, `subtitle`, `sender_name`, `assigned_to`, `manager_name`, `checklist_group`, `staff_name` and `phone` default to empty; screens hide empty rows.
+- **Checklist:** a null `shift` hides the shift label; a section key (`trading`, `back_store`, `hygiene`) is the mid shift. Tasks with no time window are open all day. Section keys are shown through ARB names (`l10n.sectionName`).
+- **Media:** a `photo_url` ending in `.mp4`, `.webm` or `.mov` is treated as the video.
+- **Chat:** `created_at` is the send time; a message is the user's own when `sender_id` is the signed-in user's id. After the socket closes with 4401 the app refreshes the token before reconnecting; repeated quick closes back off up to 30 s. The socket disconnects on logout and session expiry.
+- **Token refresh:** the server revokes the whole session when a refresh token is used twice, so on the PWA the refresh runs under a cross-tab Web Lock (`TabLock`) and a tab that waited uses the token another tab just got.
+- **Review:** `/review/{taskId}` lacks staff, kind and time, so the app joins it with the task's `/review/queue` row. Section status `not_started` shows "In progress", `completed` shows "Ready". Review edit sends `remarks` only when filled in.
+- **Team:** members list role names; the app matches them to catalog ids.
+- **DSR:** trend `day` dates become day numbers; `monthly_target` / `daily_target` lines are shown; history and today's posting have no time or on-time flag, so those are hidden; a missing store name falls back to the signed-in SM's store.
+- **Limits:** video uploads are capped at 25 MB (the server's limit).
+- **Login:** `/auth/otp/send` answers the same for every number (privacy rule), so the A3 "No login" screen only appears with fake data; an unknown number fails at verify as a wrong OTP.
+
+## Backend fixes needed
+
+Paths are in `rapsap-operations-api/apps/operations-api/src`.
+
+| # | Problem | Where | Effect in the app |
+| --- | --- | --- | --- |
+| B1 | Review edit can never pass the capture token: tokens are issued per checklist item to the assigned worker, but `/review/{taskId}/edit` checks them against the submission id, and SMs can't get one | `checklist.capture-token.service.ts:57-60`, `worker/worker.service.ts:112-121` | SM edit (C5) fails. Needs an SM capture-token endpoint keyed by submission id |
+| B2 | Business 400s have no `code` (task not open, locked, no media, token invalid/used/expired, unlock on a non-missed task, DSR save not checked) | `worker/worker.service.ts:135,138,170`, `checklist.capture-token.service.ts:60-63`, `store-manager/storeManager.service.ts:454-469` | The app can only show a generic error; please add codes such as `task_locked`, `capture_token_expired` |
+| B3 | Capture tokens expire after 15 min | `checklist.capture-token.service.ts` | Proof that waited offline longer is refused and the user must retake it |
+| B4 | `/tasks/{id}/not-done` drops `client_id` (Zod strips it) | `checklist.schema.ts:117-119`, `worker/worker.controller.ts:42` | Not-done isn't idempotent |
+| B5 | `/tasks/{id}` and `/review/{id}` put a video in `photo_url`, `video_url` always null | `worker/worker.service.ts:105-106`, `store-manager/storeManager.service.ts:417` | App guesses by file extension |
+| B6 | `checklist_group_id` is the store id, not the chat id; `manager_name` holds the store name | `worker/worker.service.ts:102-104` | "View chat" opens the chat list instead of the group |
+| B7 | Notification `target_id` for tasks is a submission id for verified/sent back/edited and an item id for due/missed | `notifications.triggers.ts:40-87`, `notifications.scheduler.ts:52,68` | Some task notifications open the wrong task or "not found" |
+| B8 | `can_post` isn't enforced when posting | `chat/chat.service.ts:173-216` | Anyone can post in Rapsap Announcements through the API |
+| B9 | `/chat/messages/{id}/report` doesn't check the message or membership | `chat/chat.controller.ts:64-67` | Reports can target any id |
+| B10 | Wrong file type returns 500 instead of 400 (multer fileFilter throws a plain Error) | `checklist/checklist.upload.ts`, `chat/chat.upload.ts:11`, `dsr/dsr.upload.ts` | Shown as a server error |
+| B11 | Media is uploaded to blob storage before validation; a rejected request leaves orphan blobs | `worker/worker.controller.ts:27`, `store-manager/storeManager.controller.ts:121-126` | Storage cost, stray personal photos |
+| B12 | Upload limit 25 MB; the doc says 45 s video. 45 s at high resolution can exceed 25 MB | `checklist/checklist.upload.ts:5`, `chat/chat.upload.ts:4` | Long clips are refused; please allow 50 MB |
+| B13 | Video duration error message says "15 seconds" (limit is 45) | `checklist/checklist.media.ts:13,24` | Wrong text if ever shown |
+| B14 | `/review/{taskId}` returns no staff, kind or time; `locked_at` null; `unlock_minutes` hard-coded | `store-manager/storeManager.service.ts:409-423` | App joins with the queue; tasks no longer queued show no staff name |
+| B15 | Dashboard section status uses `not_started/in_progress/completed/critical`; section `missed` is 0/1, not a count; no `sales` block; section names are raw keys | `store-manager/storeManager.service.ts:334-349` | "Critical · 1 missed" can undercount; no sales card on the dashboard |
+| B16 | `/team/members` returns role names, not `{ id, name }`; no `since`; `sms_sent` is always true and no SMS is sent | `team/team.service.ts:66,94-101` | App matches names to the catalog |
+| B17 | DSR: `store_name` always null on save; `wrong_store` is never detected; any non-xlsx file returns `too_large`; `on_time` uses server-local time, not IST; `change_percent` always 0; no `previous` trend; history has no posted time | `dsr/dsr.service.ts:38,152,182-197` | Shown as described under "How the app adapts" |
+| B18 | Unregistered numbers always get `attempts_left: 4` and never lock or rate-limit, which reveals that the number has no account | `auth/auth.otp.service.ts:102-107` | Account enumeration, despite the generic `otp/send` |
+| B19 | Logout ignores `all_devices` and always signs out every device | `auth/auth.controller.ts:36-41` | "Log out this device" also ends other sessions |
+| B20 | Opening a conversation's messages (even older pages) marks it all read | `chat/chat.controller.ts:28` | Unread counts clear early |
+| B21 | No WebSocket ping; idle sockets may be dropped silently by the proxy | `core/ws/chat.gateway.ts` | Live chat can stall until the app reconnects |
+| B22 | Offline proof fields `captured_offline`, `captured_at`, `time_source` are stripped | `checklist.schema.ts` (`submitTaskSchema`) | Needed before offline capture ships |
 
 ## Global assumptions
 
@@ -80,7 +144,7 @@ All paths are under `/ops/api/v1`. Bodies use snake_case. "multipart" = `FormDat
 `user` = `{ id, name, role: staff|store_manager|admin, store_name, job_roles: [string], consent_accepted }`.
 Section names, task titles, notification texts and DSR warnings are shown as sent, so the server should localise them from `Accept-Language`.
 
-## Fake data sources (`@fakeApi`)
+## Fake data sources (`@fakeApi`, used with `USE_FAKE_API=true`)
 
 | Fake | Behaviour |
 | --- | --- |

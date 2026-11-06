@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rapsap_ops_app/core/network/json_converters.dart';
 import 'package:rapsap_ops_app/features/team/domain/entities/team_member.dart';
 
 part 'team_models.freezed.dart';
@@ -6,7 +7,8 @@ part 'team_models.g.dart';
 
 @freezed
 abstract class JobRoleModel with _$JobRoleModel {
-  const factory({required String id, required String name}) = _JobRoleModel;
+  const factory({@IdConverter() required String id, required String name}) =
+      _JobRoleModel;
 
   const new _();
 
@@ -18,10 +20,10 @@ abstract class JobRoleModel with _$JobRoleModel {
 @freezed
 abstract class TaskTemplateModel with _$TaskTemplateModel {
   const factory({
-    required String id,
+    @IdConverter() required String id,
     required int number,
     required String title,
-    @Default(<String>[]) List<String> roleIds,
+    @IdConverter() @Default(<String>[]) List<String> roleIds,
   }) = _TaskTemplateModel;
 
   const new _();
@@ -54,11 +56,11 @@ abstract class RoleCatalogModel with _$RoleCatalogModel {
 @freezed
 abstract class TeamMemberModel with _$TeamMemberModel {
   const factory({
-    required String id,
+    @IdConverter() required String id,
     required String name,
     required String status,
-    required String phone,
-    @Default(<JobRoleModel>[]) List<JobRoleModel> roles,
+    @Default('') String phone,
+    @Default(<String>[]) List<String> roles,
     DateTime? since,
   }) = _TeamMemberModel;
 
@@ -67,10 +69,16 @@ abstract class TeamMemberModel with _$TeamMemberModel {
   factory fromJson(Map<String, dynamic> json) =>
       _$TeamMemberModelFromJson(json);
 
-  TeamMember toEntity() => TeamMember(
+  /// The server lists role names only; [catalog] gives them their ids so
+  /// the role picker can show them as selected.
+  TeamMember toEntity({List<JobRole> catalog = const []}) => TeamMember(
     id: id,
     name: name,
-    roles: [for (final r in roles) r.toEntity()],
+    roles: [
+      for (final name in roles)
+        catalog.where((r) => r.name == name).firstOrNull ??
+            JobRole(id: name, name: name),
+    ],
     status: MemberStatus.values.asNameMap()[status] ?? MemberStatus.active,
     phone: phone,
     since: since,

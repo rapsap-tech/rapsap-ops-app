@@ -7,10 +7,10 @@ part of 'user_model.dart';
 // **************************************************************************
 
 _UserModel _$UserModelFromJson(Map<String, dynamic> json) => _UserModel(
-  id: json['id'] as String,
-  name: json['name'] as String,
+  id: const IdConverter().fromJson(json['id'] as Object),
   role: json['role'] as String,
-  storeName: json['store_name'] as String,
+  name: json['name'] as String? ?? '',
+  storeName: json['store_name'] as String? ?? '',
   jobRoles:
       (json['job_roles'] as List<dynamic>?)?.map((e) => e as String).toList() ??
       const <String>[],
@@ -19,9 +19,9 @@ _UserModel _$UserModelFromJson(Map<String, dynamic> json) => _UserModel(
 
 Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
+      'id': const IdConverter().toJson(instance.id),
       'role': instance.role,
+      'name': instance.name,
       'store_name': instance.storeName,
       'job_roles': instance.jobRoles,
       'consent_accepted': instance.consentAccepted,

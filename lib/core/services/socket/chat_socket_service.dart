@@ -6,6 +6,8 @@ import 'package:injectable/injectable.dart';
 import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/constants/api_constants.dart';
 import 'package:rapsap_ops_app/core/constants/app_constants.dart';
+import 'package:rapsap_ops_app/core/network/dio_client.dart';
+import 'package:rapsap_ops_app/core/network/network_events.dart';
 import 'package:rapsap_ops_app/core/services/storage/secure_storage_service.dart';
 import 'package:rapsap_ops_app/core/utils/logger.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -21,19 +23,29 @@ abstract class ChatSocketService {
 @realApi
 @LazySingleton(as: ChatSocketService)
 class WebChatSocketService implements ChatSocketService {
-  new(this._storage) {
+  new(this._storage, this._client, NetworkEvents network) {
     _events = StreamController<Map<String, dynamic>>.broadcast(
       onListen: _connect,
       onCancel: disconnect,
     );
+    // An open socket would keep receiving messages after logout.
+    network.stream
+        .where(
+          (e) =>
+              e == NetworkEvent.signedOut || e == NetworkEvent.sessionExpired,
+        )
+        .listen((_) => unawaited(disconnect()));
   }
 
   final SecureStorageService _storage;
+  final DioClient _client;
   late final StreamController<Map<String, dynamic>> _events;
   WebSocketChannel? _channel;
   StreamSubscription<dynamic>? _subscription;
   Timer? _retry;
   int _attempt = 0;
+  bool _tokenRejected = false;
+  final Stopwatch _openFor = Stopwatch();
 
   /// Bumped on every close so callbacks from old sockets are ignored.
   int _generation = 0;
@@ -44,6 +56,7 @@ class WebChatSocketService implements ChatSocketService {
   Future<void> _connect() async {
     _close();
     final generation = _generation;
+    if (_tokenRejected) await _refreshToken();
     final token = await _storage.accessToken;
     if (token == null || !_events.hasListener || generation != _generation) {
       return;
@@ -60,18 +73,37 @@ class WebChatSocketService implements ChatSocketService {
       }
       channel.sink.add(jsonEncode({'type': 'auth', 'token': token}));
       _channel = channel;
-      _attempt = 0;
+      _openFor
+        ..reset()
+        ..start();
       _subscription = channel.stream.listen(
         _onData,
         onError: (Object error) {
           if (generation == _generation) _scheduleRetry(error);
         },
         onDone: () {
-          if (generation == _generation) _scheduleRetry(null);
+          if (generation != _generation) return;
+          _tokenRejected =
+              channel.closeCode == AppConstants.socketAuthFailedCode;
+          // Only a socket that stayed up resets the backoff, so repeated
+          // rejections right after connecting keep slowing down.
+          if (_openFor.elapsed >= AppConstants.socketStableAfter) _attempt = 0;
+          _scheduleRetry(null);
         },
       );
     } on Object catch (error) {
       if (generation == _generation) _scheduleRetry(error);
+    }
+  }
+
+  /// The server closes with 4401 for an expired token; any authenticated
+  /// call makes the auth interceptor refresh it (or end the session).
+  Future<void> _refreshToken() async {
+    _tokenRejected = false;
+    try {
+      await _client.get(ApiConstants.auth.me, fromData: (_) {});
+    } on Object catch (error) {
+      appLogger.w('Chat token refresh failed', error: error.runtimeType);
     }
   }
 
@@ -112,6 +144,7 @@ class WebChatSocketService implements ChatSocketService {
   Future<void> disconnect() async {
     _close();
     _attempt = 0;
+    _tokenRejected = false;
   }
 }
 

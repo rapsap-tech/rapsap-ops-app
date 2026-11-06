@@ -9,8 +9,16 @@ import 'package:rapsap_ops_app/features/dsr/data/repositories/dsr_repository_imp
 import 'package:rapsap_ops_app/features/dsr/domain/usecases/check_dsr_file.dart';
 import 'package:rapsap_ops_app/features/section_reports/data/datasources/fake_report_remote_data_source.dart';
 
+import '../../helpers/signed_out_auth.dart';
+
 void main() {
-  final check = CheckDsrFile(DsrRepositoryImpl(FakeDsrRemoteDataSource()));
+  late DsrRepositoryImpl repo;
+  late CheckDsrFile check;
+
+  setUp(() {
+    repo = DsrRepositoryImpl(FakeDsrRemoteDataSource(), SignedOutAuth());
+    check = CheckDsrFile(repo);
+  });
 
   test('files over 5 MB are refused before upload (DSR-01)', () async {
     final big = Uint8List(
@@ -36,7 +44,6 @@ void main() {
   });
 
   test('saving the DSR unlocks the closing daily summary (X12)', () async {
-    final repo = DsrRepositoryImpl(FakeDsrRemoteDataSource());
     final upload = (await repo.check(
       fileName: 'DSR.xlsx',
       bytes: Uint8List(10),

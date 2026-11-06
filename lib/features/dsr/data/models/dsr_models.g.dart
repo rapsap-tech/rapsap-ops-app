@@ -8,28 +8,32 @@ part of 'dsr_models.dart';
 
 _DsrPostingModel _$DsrPostingModelFromJson(Map<String, dynamic> json) =>
     _DsrPostingModel(
-      date: DateTime.parse(json['date'] as String),
-      postedAt: DateTime.parse(json['posted_at'] as String),
-      onTime: json['on_time'] as bool,
+      date: json['date'] == null
+          ? null
+          : DateTime.parse(json['date'] as String),
+      postedAt: json['posted_at'] == null
+          ? null
+          : DateTime.parse(json['posted_at'] as String),
+      onTime: json['on_time'] as bool?,
     );
 
 Map<String, dynamic> _$DsrPostingModelToJson(_DsrPostingModel instance) =>
     <String, dynamic>{
-      'date': instance.date.toIso8601String(),
-      'posted_at': instance.postedAt.toIso8601String(),
+      'date': instance.date?.toIso8601String(),
+      'posted_at': instance.postedAt?.toIso8601String(),
       'on_time': instance.onTime,
     };
 
 _TrendPointModel _$TrendPointModelFromJson(Map<String, dynamic> json) =>
     _TrendPointModel(
-      day: (json['day'] as num).toInt(),
+      day: const DayOfMonthConverter().fromJson(json['day'] as Object),
       current: json['current'] as num,
       previous: json['previous'] as num?,
     );
 
 Map<String, dynamic> _$TrendPointModelToJson(_TrendPointModel instance) =>
     <String, dynamic>{
-      'day': instance.day,
+      'day': const DayOfMonthConverter().toJson(instance.day),
       'current': instance.current,
       'previous': instance.previous,
     };
@@ -71,20 +75,20 @@ Map<String, dynamic> _$SalesOverviewModelToJson(_SalesOverviewModel instance) =>
 _DsrCheckLineModel _$DsrCheckLineModelFromJson(Map<String, dynamic> json) =>
     _DsrCheckLineModel(
       field: json['field'] as String,
-      value: json['value'] as String,
+      value: const IdConverter().fromJson(json['value'] as Object),
       ok: json['ok'] as bool,
     );
 
 Map<String, dynamic> _$DsrCheckLineModelToJson(_DsrCheckLineModel instance) =>
     <String, dynamic>{
       'field': instance.field,
-      'value': instance.value,
+      'value': const IdConverter().toJson(instance.value),
       'ok': instance.ok,
     };
 
 _DsrCheckModel _$DsrCheckModelFromJson(Map<String, dynamic> json) =>
     _DsrCheckModel(
-      uploadId: json['upload_id'] as String,
+      uploadId: const IdConverter().fromJson(json['upload_id'] as Object),
       fileName: json['file_name'] as String,
       size: (json['size'] as num).toInt(),
       lines: (json['lines'] as List<dynamic>)
@@ -100,7 +104,7 @@ _DsrCheckModel _$DsrCheckModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$DsrCheckModelToJson(_DsrCheckModel instance) =>
     <String, dynamic>{
-      'upload_id': instance.uploadId,
+      'upload_id': const IdConverter().toJson(instance.uploadId),
       'file_name': instance.fileName,
       'size': instance.size,
       'lines': instance.lines.map((e) => e.toJson()).toList(),
@@ -111,21 +115,23 @@ Map<String, dynamic> _$DsrCheckModelToJson(_DsrCheckModel instance) =>
 _DsrSavedModel _$DsrSavedModelFromJson(Map<String, dynamic> json) =>
     _DsrSavedModel(
       date: DateTime.parse(json['date'] as String),
-      storeName: json['store_name'] as String,
       sales: json['sales'] as num,
       bills: (json['bills'] as num).toInt(),
-      mtdPercent: (json['mtd_percent'] as num).toInt(),
-      savedAt: DateTime.parse(json['saved_at'] as String),
+      mtdPercent: json['mtd_percent'] as num,
       onTime: json['on_time'] as bool,
+      storeName: json['store_name'] as String? ?? '',
+      savedAt: json['saved_at'] == null
+          ? null
+          : DateTime.parse(json['saved_at'] as String),
     );
 
 Map<String, dynamic> _$DsrSavedModelToJson(_DsrSavedModel instance) =>
     <String, dynamic>{
       'date': instance.date.toIso8601String(),
-      'store_name': instance.storeName,
       'sales': instance.sales,
       'bills': instance.bills,
       'mtd_percent': instance.mtdPercent,
-      'saved_at': instance.savedAt.toIso8601String(),
       'on_time': instance.onTime,
+      'store_name': instance.storeName,
+      'saved_at': instance.savedAt?.toIso8601String(),
     };

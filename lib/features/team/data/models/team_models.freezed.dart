@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$JobRoleModel {
 
- String get id; String get name;
+@IdConverter() String get id; String get name;
 /// Create a copy of JobRoleModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -54,7 +54,7 @@ abstract mixin class $JobRoleModelCopyWith<$Res>  {
   factory $JobRoleModelCopyWith(JobRoleModel value, $Res Function(JobRoleModel) _then) = _$JobRoleModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String name
+@IdConverter() String id, String name
 });
 
 
@@ -160,7 +160,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@IdConverter()  String id,  String name)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _JobRoleModel() when $default != null:
 return $default(_that.id,_that.name);case _:
@@ -181,7 +181,7 @@ return $default(_that.id,_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@IdConverter()  String id,  String name)  $default,) {final _that = this;
 switch (_that) {
 case _JobRoleModel():
 return $default(_that.id,_that.name);case _:
@@ -201,7 +201,7 @@ return $default(_that.id,_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@IdConverter()  String id,  String name)?  $default,) {final _that = this;
 switch (_that) {
 case _JobRoleModel() when $default != null:
 return $default(_that.id,_that.name);case _:
@@ -216,10 +216,10 @@ return $default(_that.id,_that.name);case _:
 @JsonSerializable()
 
 class _JobRoleModel extends JobRoleModel {
-  const _JobRoleModel({required this.id, required this.name}): super._();
+  const _JobRoleModel({@IdConverter() required this.id, required this.name}): super._();
   factory _JobRoleModel.fromJson(Map<String, dynamic> json) => _$JobRoleModelFromJson(json);
 
-@override final  String id;
+@override@IdConverter() final  String id;
 @override final  String name;
 
 /// Create a copy of JobRoleModel
@@ -257,7 +257,7 @@ abstract mixin class _$JobRoleModelCopyWith<$Res> implements $JobRoleModelCopyWi
   factory _$JobRoleModelCopyWith(_JobRoleModel value, $Res Function(_JobRoleModel) _then) = __$JobRoleModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name
+@IdConverter() String id, String name
 });
 
 
@@ -289,7 +289,7 @@ as String,
 /// @nodoc
 mixin _$TaskTemplateModel {
 
- String get id; int get number; String get title; List<String> get roleIds;
+@IdConverter() String get id; int get number; String get title;@IdConverter() List<String> get roleIds;
 /// Create a copy of TaskTemplateModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -327,7 +327,7 @@ abstract mixin class $TaskTemplateModelCopyWith<$Res>  {
   factory $TaskTemplateModelCopyWith(TaskTemplateModel value, $Res Function(TaskTemplateModel) _then) = _$TaskTemplateModelCopyWithImpl;
 @useResult
 $Res call({
- String id, int number, String title, List<String> roleIds
+@IdConverter() String id, int number, String title,@IdConverter() List<String> roleIds
 });
 
 
@@ -435,7 +435,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  int number,  String title,  List<String> roleIds)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@IdConverter()  String id,  int number,  String title, @IdConverter()  List<String> roleIds)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TaskTemplateModel() when $default != null:
 return $default(_that.id,_that.number,_that.title,_that.roleIds);case _:
@@ -456,7 +456,7 @@ return $default(_that.id,_that.number,_that.title,_that.roleIds);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  int number,  String title,  List<String> roleIds)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@IdConverter()  String id,  int number,  String title, @IdConverter()  List<String> roleIds)  $default,) {final _that = this;
 switch (_that) {
 case _TaskTemplateModel():
 return $default(_that.id,_that.number,_that.title,_that.roleIds);case _:
@@ -476,7 +476,7 @@ return $default(_that.id,_that.number,_that.title,_that.roleIds);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  int number,  String title,  List<String> roleIds)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@IdConverter()  String id,  int number,  String title, @IdConverter()  List<String> roleIds)?  $default,) {final _that = this;
 switch (_that) {
 case _TaskTemplateModel() when $default != null:
 return $default(_that.id,_that.number,_that.title,_that.roleIds);case _:
@@ -491,14 +491,14 @@ return $default(_that.id,_that.number,_that.title,_that.roleIds);case _:
 @JsonSerializable()
 
 class _TaskTemplateModel extends TaskTemplateModel {
-  const _TaskTemplateModel({required this.id, required this.number, required this.title,  List<String> roleIds = const <String>[]}): _roleIds = roleIds,super._();
+  const _TaskTemplateModel({@IdConverter() required this.id, required this.number, required this.title, @IdConverter()  List<String> roleIds = const <String>[]}): _roleIds = roleIds,super._();
   factory _TaskTemplateModel.fromJson(Map<String, dynamic> json) => _$TaskTemplateModelFromJson(json);
 
-@override final  String id;
+@override@IdConverter() final  String id;
 @override final  int number;
 @override final  String title;
  final  List<String> _roleIds;
-@override@JsonKey() List<String> get roleIds {
+@override@JsonKey()@IdConverter() List<String> get roleIds {
   if (_roleIds is EqualUnmodifiableListView) return _roleIds;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_roleIds);
@@ -540,7 +540,7 @@ abstract mixin class _$TaskTemplateModelCopyWith<$Res> implements $TaskTemplateM
   factory _$TaskTemplateModelCopyWith(_TaskTemplateModel value, $Res Function(_TaskTemplateModel) _then) = __$TaskTemplateModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, int number, String title, List<String> roleIds
+@IdConverter() String id, int number, String title,@IdConverter() List<String> roleIds
 });
 
 
@@ -859,7 +859,7 @@ as List<TaskTemplateModel>,
 /// @nodoc
 mixin _$TeamMemberModel {
 
- String get id; String get name; String get status; String get phone; List<JobRoleModel> get roles; DateTime? get since;
+@IdConverter() String get id; String get name; String get status; String get phone; List<String> get roles; DateTime? get since;
 /// Create a copy of TeamMemberModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -897,7 +897,7 @@ abstract mixin class $TeamMemberModelCopyWith<$Res>  {
   factory $TeamMemberModelCopyWith(TeamMemberModel value, $Res Function(TeamMemberModel) _then) = _$TeamMemberModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String status, String phone, List<JobRoleModel> roles, DateTime? since
+@IdConverter() String id, String name, String status, String phone, List<String> roles, DateTime? since
 });
 
 
@@ -921,7 +921,7 @@ as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String,roles: null == roles ? _self.roles : roles // ignore: cast_nullable_to_non_nullable
-as List<JobRoleModel>,since: freezed == since ? _self.since : since // ignore: cast_nullable_to_non_nullable
+as List<String>,since: freezed == since ? _self.since : since // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }
@@ -1007,7 +1007,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String name,  String status,  String phone,  List<JobRoleModel> roles,  DateTime? since)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@IdConverter()  String id,  String name,  String status,  String phone,  List<String> roles,  DateTime? since)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TeamMemberModel() when $default != null:
 return $default(_that.id,_that.name,_that.status,_that.phone,_that.roles,_that.since);case _:
@@ -1028,7 +1028,7 @@ return $default(_that.id,_that.name,_that.status,_that.phone,_that.roles,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String name,  String status,  String phone,  List<JobRoleModel> roles,  DateTime? since)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@IdConverter()  String id,  String name,  String status,  String phone,  List<String> roles,  DateTime? since)  $default,) {final _that = this;
 switch (_that) {
 case _TeamMemberModel():
 return $default(_that.id,_that.name,_that.status,_that.phone,_that.roles,_that.since);case _:
@@ -1048,7 +1048,7 @@ return $default(_that.id,_that.name,_that.status,_that.phone,_that.roles,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String name,  String status,  String phone,  List<JobRoleModel> roles,  DateTime? since)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@IdConverter()  String id,  String name,  String status,  String phone,  List<String> roles,  DateTime? since)?  $default,) {final _that = this;
 switch (_that) {
 case _TeamMemberModel() when $default != null:
 return $default(_that.id,_that.name,_that.status,_that.phone,_that.roles,_that.since);case _:
@@ -1063,15 +1063,15 @@ return $default(_that.id,_that.name,_that.status,_that.phone,_that.roles,_that.s
 @JsonSerializable()
 
 class _TeamMemberModel extends TeamMemberModel {
-  const _TeamMemberModel({required this.id, required this.name, required this.status, required this.phone,  List<JobRoleModel> roles = const <JobRoleModel>[], this.since}): _roles = roles,super._();
+  const _TeamMemberModel({@IdConverter() required this.id, required this.name, required this.status, this.phone = '',  List<String> roles = const <String>[], this.since}): _roles = roles,super._();
   factory _TeamMemberModel.fromJson(Map<String, dynamic> json) => _$TeamMemberModelFromJson(json);
 
-@override final  String id;
+@override@IdConverter() final  String id;
 @override final  String name;
 @override final  String status;
-@override final  String phone;
- final  List<JobRoleModel> _roles;
-@override@JsonKey() List<JobRoleModel> get roles {
+@override@JsonKey() final  String phone;
+ final  List<String> _roles;
+@override@JsonKey() List<String> get roles {
   if (_roles is EqualUnmodifiableListView) return _roles;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_roles);
@@ -1114,7 +1114,7 @@ abstract mixin class _$TeamMemberModelCopyWith<$Res> implements $TeamMemberModel
   factory _$TeamMemberModelCopyWith(_TeamMemberModel value, $Res Function(_TeamMemberModel) _then) = __$TeamMemberModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String status, String phone, List<JobRoleModel> roles, DateTime? since
+@IdConverter() String id, String name, String status, String phone, List<String> roles, DateTime? since
 });
 
 
@@ -1138,7 +1138,7 @@ as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,phone: null == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as String,roles: null == roles ? _self._roles : roles // ignore: cast_nullable_to_non_nullable
-as List<JobRoleModel>,since: freezed == since ? _self.since : since // ignore: cast_nullable_to_non_nullable
+as List<String>,since: freezed == since ? _self.since : since // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));
 }

@@ -3,11 +3,13 @@ import 'package:equatable/equatable.dart';
 enum TrendPeriod { month, quarter, half, year }
 
 class DsrPosting extends Equatable {
-  const new({required this.date, required this.postedAt, required this.onTime});
+  const new({required this.date, this.postedAt, this.onTime});
 
   final DateTime date;
-  final DateTime postedAt;
-  final bool onTime;
+
+  /// Null when the server doesn't say when or whether it was on time.
+  final DateTime? postedAt;
+  final bool? onTime;
 
   @override
   List<Object?> get props => [date, postedAt, onTime];

@@ -39,15 +39,7 @@ class DsrStatusCard extends StatelessWidget {
             ],
           ),
           8.hSpace,
-          if (posting == null)
-            StatusChip(label: l10n.dsrNotUploaded, tone: StatusTone.error)
-          else
-            StatusChip(
-              label: posting.onTime
-                  ? l10n.dsrUploadedOnTime(posting.postedAt.storeClock(locale))
-                  : l10n.dsrUploadedLate(posting.postedAt.storeClock(locale)),
-              tone: posting.onTime ? StatusTone.success : StatusTone.error,
-            ),
+          _PostingChip(posting: posting, locale: locale),
           12.hSpace,
           AppButton(
             label: posting == null ? l10n.dsrUpload : l10n.dsrReupload,
@@ -58,6 +50,32 @@ class DsrStatusCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _PostingChip extends StatelessWidget {
+  const new({required this.posting, required this.locale});
+
+  final DsrPosting? posting;
+  final String locale;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final posting = this.posting;
+    if (posting == null) {
+      return StatusChip(label: l10n.dsrNotUploaded, tone: StatusTone.error);
+    }
+    final postedAt = posting.postedAt;
+    if (postedAt == null) {
+      return StatusChip(label: l10n.dsrUploaded, tone: StatusTone.success);
+    }
+    final time = postedAt.storeClock(locale);
+    final onTime = posting.onTime ?? true;
+    return StatusChip(
+      label: onTime ? l10n.dsrUploadedOnTime(time) : l10n.dsrUploadedLate(time),
+      tone: onTime ? StatusTone.success : StatusTone.error,
     );
   }
 }

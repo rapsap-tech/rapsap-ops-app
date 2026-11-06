@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
 import 'package:rapsap_ops_app/core/router/route_names.dart';
 import 'package:rapsap_ops_app/core/theme/app_text_styles.dart';
@@ -30,7 +31,9 @@ class SectionProgressTile extends StatelessWidget {
     };
     return InkWell(
       borderRadius: BorderRadius.circular(Dimens.radius14),
-      onTap: () => context.pushNamed(RouteNames.sectionReports),
+      onTap: EnvConfig.instance.hasSectionReports
+          ? () => context.pushNamed(RouteNames.sectionReports)
+          : null,
       child: AppCard(
         radius: Dimens.radius14,
         padding: Dimens.tilePadding,
@@ -40,7 +43,10 @@ class SectionProgressTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(section.name, style: AppTextStyles.base.s15.w600),
+                  Text(
+                    context.l10n.sectionName(section.name),
+                    style: AppTextStyles.base.s15.w600,
+                  ),
                   4.hSpace,
                   StatusChip(label: label, tone: tone),
                 ],

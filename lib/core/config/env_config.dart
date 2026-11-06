@@ -30,6 +30,12 @@ class EnvConfig {
   String get sentryDsn => const String.fromEnvironment('SENTRY_DSN');
   String get fcmVapidKey => const String.fromEnvironment('FCM_VAPID_KEY');
   bool get useFakeApi => const bool.fromEnvironment('USE_FAKE_API');
+
+  /// Not on the backend yet (docs/api_pending.md): with the real API these
+  /// screens are hidden rather than run on sample data.
+  bool get hasSectionReports => useFakeApi;
+  bool get hasNotificationSettings => useFakeApi;
+  bool get hasDsrChatPost => useFakeApi;
   String get diEnvironment => useFakeApi ? fakeApi.name : realApi.name;
   bool get enableLogs => kDebugMode;
 }

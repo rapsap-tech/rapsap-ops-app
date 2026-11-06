@@ -901,7 +901,7 @@ $SalesSummaryModelCopyWith<$Res>? get sales {
 /// @nodoc
 mixin _$ReviewItemModel {
 
- String get taskId; int get number; String get title; String get section; String get staffName; String get staffRole; String get kind; DateTime get at; String? get reason;
+@IdConverter() String get taskId; int get number; String get title; String get section; String get kind; String get staffName; String get staffRole; DateTime? get at; String? get reason;
 /// Create a copy of ReviewItemModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -915,20 +915,20 @@ $ReviewItemModelCopyWith<ReviewItemModel> get copyWith => _$ReviewItemModelCopyW
 @override
 bool operator ==(Object other) {
   final _this = this as ReviewItemModel;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReviewItemModel&&(identical(other.taskId, _this.taskId) || other.taskId == _this.taskId)&&(identical(other.number, _this.number) || other.number == _this.number)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.section, _this.section) || other.section == _this.section)&&(identical(other.staffName, _this.staffName) || other.staffName == _this.staffName)&&(identical(other.staffRole, _this.staffRole) || other.staffRole == _this.staffRole)&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&(identical(other.at, _this.at) || other.at == _this.at)&&(identical(other.reason, _this.reason) || other.reason == _this.reason));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReviewItemModel&&(identical(other.taskId, _this.taskId) || other.taskId == _this.taskId)&&(identical(other.number, _this.number) || other.number == _this.number)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.section, _this.section) || other.section == _this.section)&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&(identical(other.staffName, _this.staffName) || other.staffName == _this.staffName)&&(identical(other.staffRole, _this.staffRole) || other.staffRole == _this.staffRole)&&(identical(other.at, _this.at) || other.at == _this.at)&&(identical(other.reason, _this.reason) || other.reason == _this.reason));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as ReviewItemModel;
-  return Object.hash(runtimeType,_this.taskId,_this.number,_this.title,_this.section,_this.staffName,_this.staffRole,_this.kind,_this.at,_this.reason);
+  return Object.hash(runtimeType,_this.taskId,_this.number,_this.title,_this.section,_this.kind,_this.staffName,_this.staffRole,_this.at,_this.reason);
 }
 
 @override
 String toString() {
   final _this = this as ReviewItemModel;
-  return 'ReviewItemModel(taskId: ${_this.taskId}, number: ${_this.number}, title: ${_this.title}, section: ${_this.section}, staffName: ${_this.staffName}, staffRole: ${_this.staffRole}, kind: ${_this.kind}, at: ${_this.at}, reason: ${_this.reason})';
+  return 'ReviewItemModel(taskId: ${_this.taskId}, number: ${_this.number}, title: ${_this.title}, section: ${_this.section}, kind: ${_this.kind}, staffName: ${_this.staffName}, staffRole: ${_this.staffRole}, at: ${_this.at}, reason: ${_this.reason})';
 }
 
 
@@ -939,7 +939,7 @@ abstract mixin class $ReviewItemModelCopyWith<$Res>  {
   factory $ReviewItemModelCopyWith(ReviewItemModel value, $Res Function(ReviewItemModel) _then) = _$ReviewItemModelCopyWithImpl;
 @useResult
 $Res call({
- String taskId, int number, String title, String section, String staffName, String staffRole, String kind, DateTime at, String? reason
+@IdConverter() String taskId, int number, String title, String section, String kind, String staffName, String staffRole, DateTime? at, String? reason
 });
 
 
@@ -956,17 +956,17 @@ class _$ReviewItemModelCopyWithImpl<$Res>
 
 /// Create a copy of ReviewItemModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? taskId = null,Object? number = null,Object? title = null,Object? section = null,Object? staffName = null,Object? staffRole = null,Object? kind = null,Object? at = null,Object? reason = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? taskId = null,Object? number = null,Object? title = null,Object? section = null,Object? kind = null,Object? staffName = null,Object? staffRole = null,Object? at = freezed,Object? reason = freezed,}) {
   return _then(ReviewItemModel(
 taskId: null == taskId ? _self.taskId : taskId // ignore: cast_nullable_to_non_nullable
 as String,number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,section: null == section ? _self.section : section // ignore: cast_nullable_to_non_nullable
+as String,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
 as String,staffName: null == staffName ? _self.staffName : staffName // ignore: cast_nullable_to_non_nullable
 as String,staffRole: null == staffRole ? _self.staffRole : staffRole // ignore: cast_nullable_to_non_nullable
-as String,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
-as String,at: null == at ? _self.at : at // ignore: cast_nullable_to_non_nullable
-as DateTime,reason: freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
+as String,at: freezed == at ? _self.at : at // ignore: cast_nullable_to_non_nullable
+as DateTime?,reason: freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -1052,10 +1052,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String taskId,  int number,  String title,  String section,  String staffName,  String staffRole,  String kind,  DateTime at,  String? reason)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@IdConverter()  String taskId,  int number,  String title,  String section,  String kind,  String staffName,  String staffRole,  DateTime? at,  String? reason)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReviewItemModel() when $default != null:
-return $default(_that.taskId,_that.number,_that.title,_that.section,_that.staffName,_that.staffRole,_that.kind,_that.at,_that.reason);case _:
+return $default(_that.taskId,_that.number,_that.title,_that.section,_that.kind,_that.staffName,_that.staffRole,_that.at,_that.reason);case _:
   return orElse();
 
 }
@@ -1073,10 +1073,10 @@ return $default(_that.taskId,_that.number,_that.title,_that.section,_that.staffN
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String taskId,  int number,  String title,  String section,  String staffName,  String staffRole,  String kind,  DateTime at,  String? reason)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@IdConverter()  String taskId,  int number,  String title,  String section,  String kind,  String staffName,  String staffRole,  DateTime? at,  String? reason)  $default,) {final _that = this;
 switch (_that) {
 case _ReviewItemModel():
-return $default(_that.taskId,_that.number,_that.title,_that.section,_that.staffName,_that.staffRole,_that.kind,_that.at,_that.reason);case _:
+return $default(_that.taskId,_that.number,_that.title,_that.section,_that.kind,_that.staffName,_that.staffRole,_that.at,_that.reason);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1093,10 +1093,10 @@ return $default(_that.taskId,_that.number,_that.title,_that.section,_that.staffN
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String taskId,  int number,  String title,  String section,  String staffName,  String staffRole,  String kind,  DateTime at,  String? reason)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@IdConverter()  String taskId,  int number,  String title,  String section,  String kind,  String staffName,  String staffRole,  DateTime? at,  String? reason)?  $default,) {final _that = this;
 switch (_that) {
 case _ReviewItemModel() when $default != null:
-return $default(_that.taskId,_that.number,_that.title,_that.section,_that.staffName,_that.staffRole,_that.kind,_that.at,_that.reason);case _:
+return $default(_that.taskId,_that.number,_that.title,_that.section,_that.kind,_that.staffName,_that.staffRole,_that.at,_that.reason);case _:
   return null;
 
 }
@@ -1108,17 +1108,17 @@ return $default(_that.taskId,_that.number,_that.title,_that.section,_that.staffN
 @JsonSerializable()
 
 class _ReviewItemModel extends ReviewItemModel {
-  const _ReviewItemModel({required this.taskId, required this.number, required this.title, required this.section, required this.staffName, required this.staffRole, required this.kind, required this.at, this.reason}): super._();
+  const _ReviewItemModel({@IdConverter() required this.taskId, required this.number, required this.title, required this.section, required this.kind, this.staffName = '', this.staffRole = '', this.at, this.reason}): super._();
   factory _ReviewItemModel.fromJson(Map<String, dynamic> json) => _$ReviewItemModelFromJson(json);
 
-@override final  String taskId;
+@override@IdConverter() final  String taskId;
 @override final  int number;
 @override final  String title;
 @override final  String section;
-@override final  String staffName;
-@override final  String staffRole;
 @override final  String kind;
-@override final  DateTime at;
+@override@JsonKey() final  String staffName;
+@override@JsonKey() final  String staffRole;
+@override final  DateTime? at;
 @override final  String? reason;
 
 /// Create a copy of ReviewItemModel
@@ -1134,18 +1134,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReviewItemModel&&(identical(other.taskId, taskId) || other.taskId == taskId)&&(identical(other.number, number) || other.number == number)&&(identical(other.title, title) || other.title == title)&&(identical(other.section, section) || other.section == section)&&(identical(other.staffName, staffName) || other.staffName == staffName)&&(identical(other.staffRole, staffRole) || other.staffRole == staffRole)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.at, at) || other.at == at)&&(identical(other.reason, reason) || other.reason == reason));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReviewItemModel&&(identical(other.taskId, taskId) || other.taskId == taskId)&&(identical(other.number, number) || other.number == number)&&(identical(other.title, title) || other.title == title)&&(identical(other.section, section) || other.section == section)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.staffName, staffName) || other.staffName == staffName)&&(identical(other.staffRole, staffRole) || other.staffRole == staffRole)&&(identical(other.at, at) || other.at == at)&&(identical(other.reason, reason) || other.reason == reason));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,taskId,number,title,section,staffName,staffRole,kind,at,reason);
+    return Object.hash(runtimeType,taskId,number,title,section,kind,staffName,staffRole,at,reason);
 }
 
 @override
 String toString() {
-    return 'ReviewItemModel(taskId: $taskId, number: $number, title: $title, section: $section, staffName: $staffName, staffRole: $staffRole, kind: $kind, at: $at, reason: $reason)';
+    return 'ReviewItemModel(taskId: $taskId, number: $number, title: $title, section: $section, kind: $kind, staffName: $staffName, staffRole: $staffRole, at: $at, reason: $reason)';
 }
 
 
@@ -1156,7 +1156,7 @@ abstract mixin class _$ReviewItemModelCopyWith<$Res> implements $ReviewItemModel
   factory _$ReviewItemModelCopyWith(_ReviewItemModel value, $Res Function(_ReviewItemModel) _then) = __$ReviewItemModelCopyWithImpl;
 @override @useResult
 $Res call({
- String taskId, int number, String title, String section, String staffName, String staffRole, String kind, DateTime at, String? reason
+@IdConverter() String taskId, int number, String title, String section, String kind, String staffName, String staffRole, DateTime? at, String? reason
 });
 
 
@@ -1173,18 +1173,294 @@ class __$ReviewItemModelCopyWithImpl<$Res>
 
 /// Create a copy of ReviewItemModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? taskId = null,Object? number = null,Object? title = null,Object? section = null,Object? staffName = null,Object? staffRole = null,Object? kind = null,Object? at = null,Object? reason = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? taskId = null,Object? number = null,Object? title = null,Object? section = null,Object? kind = null,Object? staffName = null,Object? staffRole = null,Object? at = freezed,Object? reason = freezed,}) {
   return _then(_ReviewItemModel(
 taskId: null == taskId ? _self.taskId : taskId // ignore: cast_nullable_to_non_nullable
 as String,number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,section: null == section ? _self.section : section // ignore: cast_nullable_to_non_nullable
+as String,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
 as String,staffName: null == staffName ? _self.staffName : staffName // ignore: cast_nullable_to_non_nullable
 as String,staffRole: null == staffRole ? _self.staffRole : staffRole // ignore: cast_nullable_to_non_nullable
-as String,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
-as String,at: null == at ? _self.at : at // ignore: cast_nullable_to_non_nullable
-as DateTime,reason: freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
+as String,at: freezed == at ? _self.at : at // ignore: cast_nullable_to_non_nullable
+as DateTime?,reason: freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
 as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$ReviewTaskModel {
+
+ int get number; String get title; String get section;
+/// Create a copy of ReviewTaskModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ReviewTaskModelCopyWith<ReviewTaskModel> get copyWith => _$ReviewTaskModelCopyWithImpl<ReviewTaskModel>(this as ReviewTaskModel, _$identity);
+
+  /// Serializes this ReviewTaskModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as ReviewTaskModel;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReviewTaskModel&&(identical(other.number, _this.number) || other.number == _this.number)&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.section, _this.section) || other.section == _this.section));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as ReviewTaskModel;
+  return Object.hash(runtimeType,_this.number,_this.title,_this.section);
+}
+
+@override
+String toString() {
+  final _this = this as ReviewTaskModel;
+  return 'ReviewTaskModel(number: ${_this.number}, title: ${_this.title}, section: ${_this.section})';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ReviewTaskModelCopyWith<$Res>  {
+  factory $ReviewTaskModelCopyWith(ReviewTaskModel value, $Res Function(ReviewTaskModel) _then) = _$ReviewTaskModelCopyWithImpl;
+@useResult
+$Res call({
+ int number, String title, String section
+});
+
+
+
+
+}
+/// @nodoc
+class _$ReviewTaskModelCopyWithImpl<$Res>
+    implements $ReviewTaskModelCopyWith<$Res> {
+  _$ReviewTaskModelCopyWithImpl(this._self, this._then);
+
+  final ReviewTaskModel _self;
+  final $Res Function(ReviewTaskModel) _then;
+
+/// Create a copy of ReviewTaskModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? number = null,Object? title = null,Object? section = null,}) {
+  return _then(ReviewTaskModel(
+number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
+as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,section: null == section ? _self.section : section // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ReviewTaskModel].
+extension ReviewTaskModelPatterns on ReviewTaskModel {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ReviewTaskModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ReviewTaskModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ReviewTaskModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _ReviewTaskModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ReviewTaskModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ReviewTaskModel() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int number,  String title,  String section)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ReviewTaskModel() when $default != null:
+return $default(_that.number,_that.title,_that.section);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int number,  String title,  String section)  $default,) {final _that = this;
+switch (_that) {
+case _ReviewTaskModel():
+return $default(_that.number,_that.title,_that.section);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int number,  String title,  String section)?  $default,) {final _that = this;
+switch (_that) {
+case _ReviewTaskModel() when $default != null:
+return $default(_that.number,_that.title,_that.section);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ReviewTaskModel extends ReviewTaskModel {
+  const _ReviewTaskModel({required this.number, required this.title, required this.section}): super._();
+  factory _ReviewTaskModel.fromJson(Map<String, dynamic> json) => _$ReviewTaskModelFromJson(json);
+
+@override final  int number;
+@override final  String title;
+@override final  String section;
+
+/// Create a copy of ReviewTaskModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ReviewTaskModelCopyWith<_ReviewTaskModel> get copyWith => __$ReviewTaskModelCopyWithImpl<_ReviewTaskModel>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ReviewTaskModelToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReviewTaskModel&&(identical(other.number, number) || other.number == number)&&(identical(other.title, title) || other.title == title)&&(identical(other.section, section) || other.section == section));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,number,title,section);
+}
+
+@override
+String toString() {
+    return 'ReviewTaskModel(number: $number, title: $title, section: $section)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ReviewTaskModelCopyWith<$Res> implements $ReviewTaskModelCopyWith<$Res> {
+  factory _$ReviewTaskModelCopyWith(_ReviewTaskModel value, $Res Function(_ReviewTaskModel) _then) = __$ReviewTaskModelCopyWithImpl;
+@override @useResult
+$Res call({
+ int number, String title, String section
+});
+
+
+
+
+}
+/// @nodoc
+class __$ReviewTaskModelCopyWithImpl<$Res>
+    implements _$ReviewTaskModelCopyWith<$Res> {
+  __$ReviewTaskModelCopyWithImpl(this._self, this._then);
+
+  final _ReviewTaskModel _self;
+  final $Res Function(_ReviewTaskModel) _then;
+
+/// Create a copy of ReviewTaskModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? number = null,Object? title = null,Object? section = null,}) {
+  return _then(_ReviewTaskModel(
+number: null == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
+as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,section: null == section ? _self.section : section // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
@@ -1195,7 +1471,7 @@ as String?,
 /// @nodoc
 mixin _$ReviewDetailModel {
 
- ReviewItemModel get item; String? get photoUrl; String? get videoUrl; String? get remarks; DateTime? get lockedAt; int get unlockMinutes;
+ ReviewTaskModel? get item; String? get status; String? get reason; String? get photoUrl; String? get videoUrl; String? get remarks; DateTime? get lockedAt; int get unlockMinutes;
 /// Create a copy of ReviewDetailModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1209,20 +1485,20 @@ $ReviewDetailModelCopyWith<ReviewDetailModel> get copyWith => _$ReviewDetailMode
 @override
 bool operator ==(Object other) {
   final _this = this as ReviewDetailModel;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReviewDetailModel&&(identical(other.item, _this.item) || other.item == _this.item)&&(identical(other.photoUrl, _this.photoUrl) || other.photoUrl == _this.photoUrl)&&(identical(other.videoUrl, _this.videoUrl) || other.videoUrl == _this.videoUrl)&&(identical(other.remarks, _this.remarks) || other.remarks == _this.remarks)&&(identical(other.lockedAt, _this.lockedAt) || other.lockedAt == _this.lockedAt)&&(identical(other.unlockMinutes, _this.unlockMinutes) || other.unlockMinutes == _this.unlockMinutes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReviewDetailModel&&(identical(other.item, _this.item) || other.item == _this.item)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.reason, _this.reason) || other.reason == _this.reason)&&(identical(other.photoUrl, _this.photoUrl) || other.photoUrl == _this.photoUrl)&&(identical(other.videoUrl, _this.videoUrl) || other.videoUrl == _this.videoUrl)&&(identical(other.remarks, _this.remarks) || other.remarks == _this.remarks)&&(identical(other.lockedAt, _this.lockedAt) || other.lockedAt == _this.lockedAt)&&(identical(other.unlockMinutes, _this.unlockMinutes) || other.unlockMinutes == _this.unlockMinutes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as ReviewDetailModel;
-  return Object.hash(runtimeType,_this.item,_this.photoUrl,_this.videoUrl,_this.remarks,_this.lockedAt,_this.unlockMinutes);
+  return Object.hash(runtimeType,_this.item,_this.status,_this.reason,_this.photoUrl,_this.videoUrl,_this.remarks,_this.lockedAt,_this.unlockMinutes);
 }
 
 @override
 String toString() {
   final _this = this as ReviewDetailModel;
-  return 'ReviewDetailModel(item: ${_this.item}, photoUrl: ${_this.photoUrl}, videoUrl: ${_this.videoUrl}, remarks: ${_this.remarks}, lockedAt: ${_this.lockedAt}, unlockMinutes: ${_this.unlockMinutes})';
+  return 'ReviewDetailModel(item: ${_this.item}, status: ${_this.status}, reason: ${_this.reason}, photoUrl: ${_this.photoUrl}, videoUrl: ${_this.videoUrl}, remarks: ${_this.remarks}, lockedAt: ${_this.lockedAt}, unlockMinutes: ${_this.unlockMinutes})';
 }
 
 
@@ -1233,11 +1509,11 @@ abstract mixin class $ReviewDetailModelCopyWith<$Res>  {
   factory $ReviewDetailModelCopyWith(ReviewDetailModel value, $Res Function(ReviewDetailModel) _then) = _$ReviewDetailModelCopyWithImpl;
 @useResult
 $Res call({
- ReviewItemModel item, String? photoUrl, String? videoUrl, String? remarks, DateTime? lockedAt, int unlockMinutes
+ ReviewTaskModel? item, String? status, String? reason, String? photoUrl, String? videoUrl, String? remarks, DateTime? lockedAt, int unlockMinutes
 });
 
 
-$ReviewItemModelCopyWith<$Res> get item;
+$ReviewTaskModelCopyWith<$Res>? get item;
 
 }
 /// @nodoc
@@ -1250,10 +1526,12 @@ class _$ReviewDetailModelCopyWithImpl<$Res>
 
 /// Create a copy of ReviewDetailModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? item = null,Object? photoUrl = freezed,Object? videoUrl = freezed,Object? remarks = freezed,Object? lockedAt = freezed,Object? unlockMinutes = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? item = freezed,Object? status = freezed,Object? reason = freezed,Object? photoUrl = freezed,Object? videoUrl = freezed,Object? remarks = freezed,Object? lockedAt = freezed,Object? unlockMinutes = null,}) {
   return _then(ReviewDetailModel(
-item: null == item ? _self.item : item // ignore: cast_nullable_to_non_nullable
-as ReviewItemModel,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
+item: freezed == item ? _self.item : item // ignore: cast_nullable_to_non_nullable
+as ReviewTaskModel?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String?,reason: freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
+as String?,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
 as String?,videoUrl: freezed == videoUrl ? _self.videoUrl : videoUrl // ignore: cast_nullable_to_non_nullable
 as String?,remarks: freezed == remarks ? _self.remarks : remarks // ignore: cast_nullable_to_non_nullable
 as String?,lockedAt: freezed == lockedAt ? _self.lockedAt : lockedAt // ignore: cast_nullable_to_non_nullable
@@ -1265,9 +1543,12 @@ as int,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$ReviewItemModelCopyWith<$Res> get item {
-  
-  return $ReviewItemModelCopyWith<$Res>(_self.item, (value) {
+$ReviewTaskModelCopyWith<$Res>? get item {
+    if (_self.item == null) {
+    return null;
+  }
+
+  return $ReviewTaskModelCopyWith<$Res>(_self.item!, (value) {
     return _then(_self.copyWith(item: value));
   });
 }
@@ -1352,10 +1633,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ReviewItemModel item,  String? photoUrl,  String? videoUrl,  String? remarks,  DateTime? lockedAt,  int unlockMinutes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ReviewTaskModel? item,  String? status,  String? reason,  String? photoUrl,  String? videoUrl,  String? remarks,  DateTime? lockedAt,  int unlockMinutes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ReviewDetailModel() when $default != null:
-return $default(_that.item,_that.photoUrl,_that.videoUrl,_that.remarks,_that.lockedAt,_that.unlockMinutes);case _:
+return $default(_that.item,_that.status,_that.reason,_that.photoUrl,_that.videoUrl,_that.remarks,_that.lockedAt,_that.unlockMinutes);case _:
   return orElse();
 
 }
@@ -1373,10 +1654,10 @@ return $default(_that.item,_that.photoUrl,_that.videoUrl,_that.remarks,_that.loc
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ReviewItemModel item,  String? photoUrl,  String? videoUrl,  String? remarks,  DateTime? lockedAt,  int unlockMinutes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ReviewTaskModel? item,  String? status,  String? reason,  String? photoUrl,  String? videoUrl,  String? remarks,  DateTime? lockedAt,  int unlockMinutes)  $default,) {final _that = this;
 switch (_that) {
 case _ReviewDetailModel():
-return $default(_that.item,_that.photoUrl,_that.videoUrl,_that.remarks,_that.lockedAt,_that.unlockMinutes);case _:
+return $default(_that.item,_that.status,_that.reason,_that.photoUrl,_that.videoUrl,_that.remarks,_that.lockedAt,_that.unlockMinutes);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1393,10 +1674,10 @@ return $default(_that.item,_that.photoUrl,_that.videoUrl,_that.remarks,_that.loc
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ReviewItemModel item,  String? photoUrl,  String? videoUrl,  String? remarks,  DateTime? lockedAt,  int unlockMinutes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ReviewTaskModel? item,  String? status,  String? reason,  String? photoUrl,  String? videoUrl,  String? remarks,  DateTime? lockedAt,  int unlockMinutes)?  $default,) {final _that = this;
 switch (_that) {
 case _ReviewDetailModel() when $default != null:
-return $default(_that.item,_that.photoUrl,_that.videoUrl,_that.remarks,_that.lockedAt,_that.unlockMinutes);case _:
+return $default(_that.item,_that.status,_that.reason,_that.photoUrl,_that.videoUrl,_that.remarks,_that.lockedAt,_that.unlockMinutes);case _:
   return null;
 
 }
@@ -1408,10 +1689,12 @@ return $default(_that.item,_that.photoUrl,_that.videoUrl,_that.remarks,_that.loc
 @JsonSerializable()
 
 class _ReviewDetailModel extends ReviewDetailModel {
-  const _ReviewDetailModel({required this.item, this.photoUrl, this.videoUrl, this.remarks, this.lockedAt, this.unlockMinutes = 30}): super._();
+  const _ReviewDetailModel({this.item, this.status, this.reason, this.photoUrl, this.videoUrl, this.remarks, this.lockedAt, this.unlockMinutes = 30}): super._();
   factory _ReviewDetailModel.fromJson(Map<String, dynamic> json) => _$ReviewDetailModelFromJson(json);
 
-@override final  ReviewItemModel item;
+@override final  ReviewTaskModel? item;
+@override final  String? status;
+@override final  String? reason;
 @override final  String? photoUrl;
 @override final  String? videoUrl;
 @override final  String? remarks;
@@ -1431,18 +1714,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReviewDetailModel&&(identical(other.item, item) || other.item == item)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&(identical(other.videoUrl, videoUrl) || other.videoUrl == videoUrl)&&(identical(other.remarks, remarks) || other.remarks == remarks)&&(identical(other.lockedAt, lockedAt) || other.lockedAt == lockedAt)&&(identical(other.unlockMinutes, unlockMinutes) || other.unlockMinutes == unlockMinutes));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReviewDetailModel&&(identical(other.item, item) || other.item == item)&&(identical(other.status, status) || other.status == status)&&(identical(other.reason, reason) || other.reason == reason)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&(identical(other.videoUrl, videoUrl) || other.videoUrl == videoUrl)&&(identical(other.remarks, remarks) || other.remarks == remarks)&&(identical(other.lockedAt, lockedAt) || other.lockedAt == lockedAt)&&(identical(other.unlockMinutes, unlockMinutes) || other.unlockMinutes == unlockMinutes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,item,photoUrl,videoUrl,remarks,lockedAt,unlockMinutes);
+    return Object.hash(runtimeType,item,status,reason,photoUrl,videoUrl,remarks,lockedAt,unlockMinutes);
 }
 
 @override
 String toString() {
-    return 'ReviewDetailModel(item: $item, photoUrl: $photoUrl, videoUrl: $videoUrl, remarks: $remarks, lockedAt: $lockedAt, unlockMinutes: $unlockMinutes)';
+    return 'ReviewDetailModel(item: $item, status: $status, reason: $reason, photoUrl: $photoUrl, videoUrl: $videoUrl, remarks: $remarks, lockedAt: $lockedAt, unlockMinutes: $unlockMinutes)';
 }
 
 
@@ -1453,11 +1736,11 @@ abstract mixin class _$ReviewDetailModelCopyWith<$Res> implements $ReviewDetailM
   factory _$ReviewDetailModelCopyWith(_ReviewDetailModel value, $Res Function(_ReviewDetailModel) _then) = __$ReviewDetailModelCopyWithImpl;
 @override @useResult
 $Res call({
- ReviewItemModel item, String? photoUrl, String? videoUrl, String? remarks, DateTime? lockedAt, int unlockMinutes
+ ReviewTaskModel? item, String? status, String? reason, String? photoUrl, String? videoUrl, String? remarks, DateTime? lockedAt, int unlockMinutes
 });
 
 
-@override $ReviewItemModelCopyWith<$Res> get item;
+@override $ReviewTaskModelCopyWith<$Res>? get item;
 
 }
 /// @nodoc
@@ -1470,10 +1753,12 @@ class __$ReviewDetailModelCopyWithImpl<$Res>
 
 /// Create a copy of ReviewDetailModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? item = null,Object? photoUrl = freezed,Object? videoUrl = freezed,Object? remarks = freezed,Object? lockedAt = freezed,Object? unlockMinutes = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? item = freezed,Object? status = freezed,Object? reason = freezed,Object? photoUrl = freezed,Object? videoUrl = freezed,Object? remarks = freezed,Object? lockedAt = freezed,Object? unlockMinutes = null,}) {
   return _then(_ReviewDetailModel(
-item: null == item ? _self.item : item // ignore: cast_nullable_to_non_nullable
-as ReviewItemModel,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
+item: freezed == item ? _self.item : item // ignore: cast_nullable_to_non_nullable
+as ReviewTaskModel?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as String?,reason: freezed == reason ? _self.reason : reason // ignore: cast_nullable_to_non_nullable
+as String?,photoUrl: freezed == photoUrl ? _self.photoUrl : photoUrl // ignore: cast_nullable_to_non_nullable
 as String?,videoUrl: freezed == videoUrl ? _self.videoUrl : videoUrl // ignore: cast_nullable_to_non_nullable
 as String?,remarks: freezed == remarks ? _self.remarks : remarks // ignore: cast_nullable_to_non_nullable
 as String?,lockedAt: freezed == lockedAt ? _self.lockedAt : lockedAt // ignore: cast_nullable_to_non_nullable
@@ -1486,9 +1771,12 @@ as int,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$ReviewItemModelCopyWith<$Res> get item {
-  
-  return $ReviewItemModelCopyWith<$Res>(_self.item, (value) {
+$ReviewTaskModelCopyWith<$Res>? get item {
+    if (_self.item == null) {
+    return null;
+  }
+
+  return $ReviewTaskModelCopyWith<$Res>(_self.item!, (value) {
     return _then(_self.copyWith(item: value));
   });
 }

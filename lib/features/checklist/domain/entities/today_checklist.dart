@@ -23,10 +23,12 @@ class ChecklistSection extends Equatable {
 }
 
 class TodayChecklist extends Equatable {
-  const new({required this.date, required this.shift, required this.sections});
+  const new({required this.date, required this.sections, this.shift});
 
   final DateTime date;
-  final Shift shift;
+
+  /// Null when no section is open right now.
+  final Shift? shift;
   final List<ChecklistSection> sections;
 
   List<ChecklistTask> get tasks => [for (final s in sections) ...s.tasks];

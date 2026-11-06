@@ -35,7 +35,7 @@ class ChecklistTaskTile extends StatelessWidget {
     };
     final actedAt = task.actedAt?.storeClock(locale) ?? '';
     final subtitle = showSectionAsSubtitle
-        ? task.section
+        ? l10n.sectionName(task.section)
         : switch (phase) {
             TaskPhase.later => l10n.taskOpensAt(
               task.opensAt.storeClock(locale),

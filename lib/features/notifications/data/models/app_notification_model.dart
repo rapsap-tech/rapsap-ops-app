@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rapsap_ops_app/core/network/json_converters.dart';
 import 'package:rapsap_ops_app/features/notifications/domain/entities/app_notification.dart';
 
 part 'app_notification_model.freezed.dart';
@@ -7,13 +8,13 @@ part 'app_notification_model.g.dart';
 @freezed
 abstract class AppNotificationModel with _$AppNotificationModel {
   const factory({
-    required String id,
+    @IdConverter() required String id,
     required String title,
-    required String subtitle,
     required DateTime createdAt,
+    @Default('') String subtitle,
     @Default(false) bool read,
     String? targetType,
-    String? targetId,
+    @IdConverter() String? targetId,
   }) = _AppNotificationModel;
 
   const new _();

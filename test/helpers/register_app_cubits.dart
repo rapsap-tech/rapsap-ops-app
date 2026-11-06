@@ -44,10 +44,6 @@ class _MockStorage extends Mock implements SecureStorageService;
 
 /// Registers fake-backed cubits for the slice-2 pages in widget tests.
 Future<void> registerAppCubits(SessionCubit session) async {
-  final chat = ChatRepositoryImpl(
-    FakeChatRemoteDataSource(),
-    FakeChatSocketService(),
-  );
   final notifications = NotificationRepositoryImpl(
     FakeNotificationRemoteDataSource(),
   );
@@ -59,6 +55,11 @@ Future<void> registerAppCubits(SessionCubit session) async {
     storage,
     await openTestLocalDb(),
     NetworkEvents(),
+  );
+  final chat = ChatRepositoryImpl(
+    FakeChatRemoteDataSource(),
+    FakeChatSocketService(),
+    auth,
   );
   getIt
     ..registerFactory(() => ManagerChatCubit(GetManagerConversation(chat)))

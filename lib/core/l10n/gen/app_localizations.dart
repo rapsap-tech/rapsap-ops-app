@@ -514,6 +514,36 @@ abstract class AppLocalizations {
   /// **'Closing shift'**
   String get shiftClosing;
 
+  /// No description provided for @sectionNameOpening.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening'**
+  String get sectionNameOpening;
+
+  /// No description provided for @sectionNameTrading.
+  ///
+  /// In en, this message translates to:
+  /// **'Trading'**
+  String get sectionNameTrading;
+
+  /// No description provided for @sectionNameBackStore.
+  ///
+  /// In en, this message translates to:
+  /// **'Back store'**
+  String get sectionNameBackStore;
+
+  /// No description provided for @sectionNameHygiene.
+  ///
+  /// In en, this message translates to:
+  /// **'Hygiene'**
+  String get sectionNameHygiene;
+
+  /// No description provided for @sectionNameClosing.
+  ///
+  /// In en, this message translates to:
+  /// **'Closing'**
+  String get sectionNameClosing;
+
   /// No description provided for @checklistMyTitle.
   ///
   /// In en, this message translates to:
@@ -2644,6 +2674,12 @@ abstract class AppLocalizations {
   /// **'Not uploaded'**
   String get dsrNotUploaded;
 
+  /// No description provided for @dsrUploaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploaded'**
+  String get dsrUploaded;
+
   /// No description provided for @dsrUploadedOnTime.
   ///
   /// In en, this message translates to:
@@ -2812,6 +2848,12 @@ abstract class AppLocalizations {
   /// **'Month target'**
   String get dsrMonthTargetShort;
 
+  /// No description provided for @dsrDayTargetShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Day target'**
+  String get dsrDayTargetShort;
+
   /// No description provided for @dsrReplaces.
   ///
   /// In en, this message translates to:
@@ -2901,6 +2943,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your DSR snapshot was posted successfully.'**
   String get dsrPostedBody;
+
+  /// No description provided for @dsrMarkPosted.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as posted'**
+  String get dsrMarkPosted;
+
+  /// No description provided for @dsrMarkedPostedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'DSR marked as posted'**
+  String get dsrMarkedPostedTitle;
+
+  /// No description provided for @dsrMarkedPostedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your DSR is saved and marked as posted.'**
+  String get dsrMarkedPostedBody;
 
   /// No description provided for @dsrSalesBills.
   ///

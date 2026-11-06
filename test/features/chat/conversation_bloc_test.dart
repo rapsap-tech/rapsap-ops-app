@@ -12,6 +12,8 @@ import 'package:rapsap_ops_app/features/chat/domain/usecases/set_conversation_mu
 import 'package:rapsap_ops_app/features/chat/domain/usecases/watch_conversation.dart';
 import 'package:rapsap_ops_app/features/chat/presentation/bloc/conversation_bloc.dart';
 
+import '../../helpers/signed_out_auth.dart';
+
 void main() {
   late ConversationBloc bloc;
 
@@ -19,6 +21,7 @@ void main() {
     final repo = ChatRepositoryImpl(
       FakeChatRemoteDataSource(),
       FakeChatSocketService(),
+      SignedOutAuth(),
     );
     bloc = ConversationBloc(
       OpenConversation(repo),

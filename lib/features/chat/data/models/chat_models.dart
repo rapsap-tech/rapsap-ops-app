@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rapsap_ops_app/core/network/json_converters.dart';
 import 'package:rapsap_ops_app/features/chat/domain/entities/chat_message.dart';
 import 'package:rapsap_ops_app/features/chat/domain/entities/conversation.dart';
 
@@ -8,7 +9,7 @@ part 'chat_models.g.dart';
 @freezed
 abstract class ConversationModel with _$ConversationModel {
   const factory({
-    required String id,
+    @IdConverter() required String id,
     required String title,
     required String kind,
     @Default(0) int memberCount,
@@ -46,9 +47,10 @@ abstract class ConversationModel with _$ConversationModel {
 @freezed
 abstract class ChatMessageModel with _$ChatMessageModel {
   const factory({
-    required String id,
-    required String senderName,
-    required DateTime sentAt,
+    @IdConverter() required String id,
+    @Default('') String senderName,
+    @JsonKey(name: 'created_at') DateTime? sentAt,
+    @IdConverter() String? senderId,
     @Default(false) bool isMine,
     String? senderRole,
     String? text,
@@ -62,12 +64,12 @@ abstract class ChatMessageModel with _$ChatMessageModel {
   factory fromJson(Map<String, dynamic> json) =>
       _$ChatMessageModelFromJson(json);
 
-  ChatMessage toEntity() => ChatMessage(
+  ChatMessage toEntity({String? myId}) => ChatMessage(
     id: id,
     senderName: senderName,
     senderRole: senderRole,
-    isMine: isMine,
-    sentAt: sentAt,
+    isMine: isMine || (senderId != null && senderId == myId),
+    sentAt: sentAt ?? DateTime.now(),
     text: text,
     photoUrl: photoUrl,
     videoUrl: videoUrl,
@@ -87,8 +89,8 @@ abstract class MessagePageModel with _$MessagePageModel {
   factory fromJson(Map<String, dynamic> json) =>
       _$MessagePageModelFromJson(json);
 
-  MessagePage toEntity() => MessagePage(
-    messages: [for (final m in messages) m.toEntity()],
+  MessagePage toEntity({String? myId}) => MessagePage(
+    messages: [for (final m in messages) m.toEntity(myId: myId)],
     hasMore: hasMore,
   );
 }

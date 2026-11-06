@@ -1,4 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rapsap_ops_app/core/constants/app_constants.dart';
+import 'package:rapsap_ops_app/core/network/json_converters.dart';
 import 'package:rapsap_ops_app/features/review/domain/entities/manager_dashboard.dart';
 import 'package:rapsap_ops_app/features/review/domain/entities/review_detail.dart';
 import 'package:rapsap_ops_app/features/review/domain/entities/review_item.dart';
@@ -23,7 +25,9 @@ abstract class SectionProgressModel with _$SectionProgressModel {
       _$SectionProgressModelFromJson(json);
 
   static const Map<String, SectionStatus> _statuses = {
+    'not_started': SectionStatus.inProgress,
     'in_progress': SectionStatus.inProgress,
+    'completed': SectionStatus.ready,
     'critical': SectionStatus.critical,
     'ready': SectionStatus.ready,
     'submitted': SectionStatus.submitted,
@@ -96,14 +100,14 @@ abstract class ManagerDashboardModel with _$ManagerDashboardModel {
 @freezed
 abstract class ReviewItemModel with _$ReviewItemModel {
   const factory({
-    required String taskId,
+    @IdConverter() required String taskId,
     required int number,
     required String title,
     required String section,
-    required String staffName,
-    required String staffRole,
     required String kind,
-    required DateTime at,
+    @Default('') String staffName,
+    @Default('') String staffRole,
+    DateTime? at,
     String? reason,
   }) = _ReviewItemModel;
 
@@ -127,15 +131,32 @@ abstract class ReviewItemModel with _$ReviewItemModel {
     staffName: staffName,
     staffRole: staffRole,
     kind: _kinds[kind] ?? ReviewKind.needsReview,
-    at: at,
+    at: at ?? DateTime.now(),
     reason: reason,
   );
+}
+
+/// The task as `/review/{taskId}` describes it: no staff, kind or time.
+@freezed
+abstract class ReviewTaskModel with _$ReviewTaskModel {
+  const factory({
+    required int number,
+    required String title,
+    required String section,
+  }) = _ReviewTaskModel;
+
+  const new _();
+
+  factory fromJson(Map<String, dynamic> json) =>
+      _$ReviewTaskModelFromJson(json);
 }
 
 @freezed
 abstract class ReviewDetailModel with _$ReviewDetailModel {
   const factory({
-    required ReviewItemModel item,
+    ReviewTaskModel? item,
+    String? status,
+    String? reason,
     String? photoUrl,
     String? videoUrl,
     String? remarks,
@@ -148,12 +169,35 @@ abstract class ReviewDetailModel with _$ReviewDetailModel {
   factory fromJson(Map<String, dynamic> json) =>
       _$ReviewDetailModelFromJson(json);
 
-  ReviewDetail toEntity() => ReviewDetail(
-    item: item.toEntity(),
-    photoUrl: photoUrl,
-    videoUrl: videoUrl,
-    remarks: remarks,
-    lockedAt: lockedAt,
-    unlockMinutes: unlockMinutes,
-  );
+  /// [queued] is this task's row from `/review/queue`, which carries the
+  /// staff and time the detail lacks; a task no longer queued (e.g. already
+  /// verified) falls back to what the detail has.
+  ReviewDetail toEntity(String taskId, ReviewItem? queued) {
+    final task = item;
+    // The server returns a submitted clip in `photo_url`.
+    final photoIsVideo =
+        photoUrl != null && AppConstants.videoUrlPattern.hasMatch(photoUrl!);
+    return ReviewDetail(
+      item:
+          queued ??
+          ReviewItem(
+            taskId: taskId,
+            number: task?.number ?? 0,
+            title: task?.title ?? '',
+            section: task?.section ?? '',
+            staffName: '',
+            staffRole: '',
+            kind: status == 'not_done'
+                ? ReviewKind.notDone
+                : ReviewKind.needsReview,
+            at: DateTime.now(),
+            reason: reason,
+          ),
+      photoUrl: photoIsVideo ? null : photoUrl,
+      videoUrl: videoUrl ?? (photoIsVideo ? photoUrl : null),
+      remarks: remarks,
+      lockedAt: lockedAt,
+      unlockMinutes: unlockMinutes,
+    );
+  }
 }

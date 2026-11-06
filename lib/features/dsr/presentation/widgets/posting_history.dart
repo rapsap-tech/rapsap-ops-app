@@ -32,15 +32,18 @@ class PostingHistory extends StatelessWidget {
                     style: AppTextStyles.base.s14.w600,
                   ),
                 ),
-                Text(
-                  h.postedAt.storeClock(locale),
-                  style: AppTextStyles.base.s13.secondaryTextColor(),
-                ),
-                12.wSpace,
-                StatusChip(
-                  label: h.onTime ? l10n.dsrOnTime : l10n.dsrLate,
-                  tone: h.onTime ? StatusTone.success : StatusTone.error,
-                ),
+                if (h.postedAt case final postedAt?) ...[
+                  Text(
+                    postedAt.storeClock(locale),
+                    style: AppTextStyles.base.s13.secondaryTextColor(),
+                  ),
+                  12.wSpace,
+                ],
+                if (h.onTime case final onTime?)
+                  StatusChip(
+                    label: onTime ? l10n.dsrOnTime : l10n.dsrLate,
+                    tone: onTime ? StatusTone.success : StatusTone.error,
+                  ),
               ],
             ),
           ],

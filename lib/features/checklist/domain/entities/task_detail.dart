@@ -20,7 +20,6 @@ class TaskDetail extends Equatable {
     required this.photoHint,
     required this.managerName,
     required this.checklistGroup,
-    required this.checklistGroupId,
     this.sendBack,
     this.photoUrl,
     this.videoUrl,
@@ -35,7 +34,6 @@ class TaskDetail extends Equatable {
 
   /// Store chat group the proof photo is auto-posted to (CKG-02).
   final String checklistGroup;
-  final String checklistGroupId;
   final SendBackNote? sendBack;
 
   /// Last submitted proof photo or video, if any.
@@ -51,7 +49,6 @@ class TaskDetail extends Equatable {
     photoHint,
     managerName,
     checklistGroup,
-    checklistGroupId,
     sendBack,
     photoUrl,
     videoUrl,

@@ -4,6 +4,7 @@ import 'package:rapsap_ops_app/core/error/error_mapper.dart';
 import 'package:rapsap_ops_app/core/error/failures.dart';
 import 'package:rapsap_ops_app/features/auth/domain/entities/otp_ticket.dart';
 import 'package:rapsap_ops_app/features/team/data/datasources/team_remote_data_source.dart';
+import 'package:rapsap_ops_app/features/team/data/models/team_models.dart';
 import 'package:rapsap_ops_app/features/team/domain/entities/team_member.dart';
 import 'package:rapsap_ops_app/features/team/domain/repositories/team_repository.dart';
 
@@ -26,7 +27,13 @@ class TeamRepositoryImpl implements TeamRepository {
 
   @override
   Future<Either<Failure, TeamMember>> member(String id) =>
-      guardFailure(() async => (await _remote.member(id)).toEntity());
+      guardFailure(() async {
+        final [member as TeamMemberModel, catalog as RoleCatalogModel] =
+            await Future.wait<Object>([_remote.member(id), _remote.catalog()]);
+        return member.toEntity(
+          catalog: [for (final r in catalog.roles) r.toEntity()],
+        );
+      });
 
   @override
   Future<Either<Failure, RoleCatalog>> catalog() =>

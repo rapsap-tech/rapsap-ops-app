@@ -10,11 +10,10 @@ _TaskDetailModel _$TaskDetailModelFromJson(Map<String, dynamic> json) =>
     _TaskDetailModel(
       task: ChecklistTaskModel.fromJson(json['task'] as Map<String, dynamic>),
       section: json['section'] as String,
-      assignedTo: json['assigned_to'] as String,
-      photoHint: json['photo_hint'] as String,
-      managerName: json['manager_name'] as String,
-      checklistGroup: json['checklist_group'] as String,
-      checklistGroupId: json['checklist_group_id'] as String,
+      assignedTo: json['assigned_to'] as String? ?? '',
+      photoHint: json['photo_hint'] as String? ?? '',
+      managerName: json['manager_name'] as String? ?? '',
+      checklistGroup: json['checklist_group'] as String? ?? '',
       sendBack: json['send_back'] == null
           ? null
           : SendBackNoteModel.fromJson(
@@ -36,7 +35,6 @@ Map<String, dynamic> _$TaskDetailModelToJson(_TaskDetailModel instance) =>
       'photo_hint': instance.photoHint,
       'manager_name': instance.managerName,
       'checklist_group': instance.checklistGroup,
-      'checklist_group_id': instance.checklistGroupId,
       'send_back': instance.sendBack?.toJson(),
       'photo_url': instance.photoUrl,
       'video_url': instance.videoUrl,

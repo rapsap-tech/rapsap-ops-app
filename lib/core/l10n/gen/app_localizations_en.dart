@@ -253,6 +253,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shiftClosing => 'Closing shift';
 
   @override
+  String get sectionNameOpening => 'Opening';
+
+  @override
+  String get sectionNameTrading => 'Trading';
+
+  @override
+  String get sectionNameBackStore => 'Back store';
+
+  @override
+  String get sectionNameHygiene => 'Hygiene';
+
+  @override
+  String get sectionNameClosing => 'Closing';
+
+  @override
   String get checklistMyTitle => 'My checklist';
 
   @override
@@ -1550,6 +1565,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dsrNotUploaded => 'Not uploaded';
 
   @override
+  String get dsrUploaded => 'Uploaded';
+
+  @override
   String dsrUploadedOnTime(String time) {
     return 'Uploaded $time · On time';
   }
@@ -1647,6 +1665,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dsrMonthTargetShort => 'Month target';
 
   @override
+  String get dsrDayTargetShort => 'Day target';
+
+  @override
   String get dsrReplaces =>
       'Already uploaded for this date? Saving replaces it. The old version stays in history.';
 
@@ -1703,6 +1724,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dsrPostedBody => 'Your DSR snapshot was posted successfully.';
+
+  @override
+  String get dsrMarkPosted => 'Mark as posted';
+
+  @override
+  String get dsrMarkedPostedTitle => 'DSR marked as posted';
+
+  @override
+  String get dsrMarkedPostedBody => 'Your DSR is saved and marked as posted.';
 
   @override
   String dsrSalesBills(String sales, int bills) {

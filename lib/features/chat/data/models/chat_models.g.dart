@@ -8,7 +8,7 @@ part of 'chat_models.dart';
 
 _ConversationModel _$ConversationModelFromJson(Map<String, dynamic> json) =>
     _ConversationModel(
-      id: json['id'] as String,
+      id: const IdConverter().fromJson(json['id'] as Object),
       title: json['title'] as String,
       kind: json['kind'] as String,
       memberCount: (json['member_count'] as num?)?.toInt() ?? 0,
@@ -24,7 +24,7 @@ _ConversationModel _$ConversationModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ConversationModelToJson(_ConversationModel instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'id': const IdConverter().toJson(instance.id),
       'title': instance.title,
       'kind': instance.kind,
       'member_count': instance.memberCount,
@@ -38,9 +38,15 @@ Map<String, dynamic> _$ConversationModelToJson(_ConversationModel instance) =>
 
 _ChatMessageModel _$ChatMessageModelFromJson(Map<String, dynamic> json) =>
     _ChatMessageModel(
-      id: json['id'] as String,
-      senderName: json['sender_name'] as String,
-      sentAt: DateTime.parse(json['sent_at'] as String),
+      id: const IdConverter().fromJson(json['id'] as Object),
+      senderName: json['sender_name'] as String? ?? '',
+      sentAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      senderId: _$JsonConverterFromJson<Object, String>(
+        json['sender_id'],
+        const IdConverter().fromJson,
+      ),
       isMine: json['is_mine'] as bool? ?? false,
       senderRole: json['sender_role'] as String?,
       text: json['text'] as String?,
@@ -51,9 +57,13 @@ _ChatMessageModel _$ChatMessageModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ChatMessageModelToJson(_ChatMessageModel instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'id': const IdConverter().toJson(instance.id),
       'sender_name': instance.senderName,
-      'sent_at': instance.sentAt.toIso8601String(),
+      'created_at': instance.sentAt?.toIso8601String(),
+      'sender_id': _$JsonConverterToJson<Object, String>(
+        instance.senderId,
+        const IdConverter().toJson,
+      ),
       'is_mine': instance.isMine,
       'sender_role': instance.senderRole,
       'text': instance.text,
@@ -61,6 +71,16 @@ Map<String, dynamic> _$ChatMessageModelToJson(_ChatMessageModel instance) =>
       'video_url': instance.videoUrl,
       'seen_by': instance.seenBy,
     };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) => json == null ? null : fromJson(json as Json);
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) => value == null ? null : toJson(value);
 
 _MessagePageModel _$MessagePageModelFromJson(Map<String, dynamic> json) =>
     _MessagePageModel(

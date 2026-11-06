@@ -1,24 +1,30 @@
 import 'package:dio/dio.dart';
 import 'package:rapsap_ops_app/core/constants/api_constants.dart';
+import 'package:rapsap_ops_app/core/constants/app_constants.dart';
 import 'package:rapsap_ops_app/core/network/api_response.dart';
 import 'package:rapsap_ops_app/core/network/network_events.dart';
+import 'package:rapsap_ops_app/core/services/locks/tab_lock.dart';
 import 'package:rapsap_ops_app/core/services/storage/secure_storage_service.dart';
 import 'package:rapsap_ops_app/core/utils/logger.dart';
 
 /// Adds the bearer token (to our API host only) and refreshes it once on 401.
 /// Queued, so concurrent 401s wait for the first refresh and then retry with
 /// the new token. Only a server rejection of the refresh token ends the
-/// session; network errors leave it in place.
+/// session; network errors leave it in place. Across PWA tabs the refresh
+/// runs under [TabLock]: the server ends the whole session when a refresh
+/// token is used twice.
 class AuthInterceptor extends QueuedInterceptor {
   new({
     required this._storage,
     required this._events,
     required this._refreshDio,
+    required this._lock,
   });
 
   final SecureStorageService _storage;
   final NetworkEvents _events;
   final Dio _refreshDio;
+  final TabLock _lock;
 
   static const String _retriedKey = 'auth_retried';
 
@@ -91,8 +97,21 @@ class AuthInterceptor extends QueuedInterceptor {
       );
 
   Future<String?> _refresh() async {
+    final seen = await _storage.refreshToken;
+    return await _lock.run(
+      AppConstants.refreshLockName,
+      () => _refreshOnce(seen),
+    );
+  }
+
+  /// [seen] is the refresh token before waiting for the lock; if it changed,
+  /// another tab already refreshed and its new access token is used.
+  Future<String?> _refreshOnce(String? seen) async {
     final generation = _storage.generation;
     final refreshToken = await _storage.refreshToken;
+    if (refreshToken != null && refreshToken != seen) {
+      return await _storage.accessToken;
+    }
     if (refreshToken == null) {
       await _expire();
       return null;

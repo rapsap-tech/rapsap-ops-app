@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum DsrField { store, date, netSales, bills, monthTarget }
+enum DsrField { store, date, netSales, bills, monthTarget, dayTarget }
 
 class DsrCheckLine extends Equatable {
   const new({required this.field, required this.value, required this.ok});

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rapsap_ops_app/core/config/env_config.dart';
 import 'package:rapsap_ops_app/core/di/injection.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
 import 'package:rapsap_ops_app/core/router/route_names.dart';
@@ -41,14 +42,15 @@ class ManagerChecklistPage extends StatelessWidget {
                     style: AppTextStyles.base.s24.w700.l1,
                   ),
                 ),
-                TextButton(
-                  onPressed: () =>
-                      unawaited(context.pushNamed(RouteNames.sectionReports)),
-                  child: Text(
-                    context.l10n.sectionReportsTitle,
-                    style: AppTextStyles.base.s14.w600.primaryDarkColor(),
+                if (EnvConfig.instance.hasSectionReports)
+                  TextButton(
+                    onPressed: () =>
+                        unawaited(context.pushNamed(RouteNames.sectionReports)),
+                    child: Text(
+                      context.l10n.sectionReportsTitle,
+                      style: AppTextStyles.base.s14.w600.primaryDarkColor(),
+                    ),
                   ),
-                ),
               ],
             ),
           ),

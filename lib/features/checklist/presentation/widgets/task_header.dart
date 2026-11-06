@@ -45,7 +45,10 @@ class TaskHeader extends StatelessWidget {
           if (task != null)
             Expanded(
               child: Text(
-                context.l10n.taskHeader(task.section, task.number),
+                context.l10n.taskHeader(
+                  context.l10n.sectionName(task.section),
+                  task.number,
+                ),
                 style: AppTextStyles.base.s22.w700.l1,
                 overflow: TextOverflow.ellipsis,
               ),

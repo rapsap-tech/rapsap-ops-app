@@ -51,7 +51,10 @@ class DoNowCard extends StatelessWidget {
           ),
           8.hSpace,
           Text(
-            l10n.homeDueAt(task.section, task.dueAt.storeClock(locale)),
+            l10n.homeDueAt(
+              l10n.sectionName(task.section),
+              task.dueAt.storeClock(locale),
+            ),
             style: AppTextStyles.base.s13.secondaryTextColor(),
           ),
           11.hSpace,
