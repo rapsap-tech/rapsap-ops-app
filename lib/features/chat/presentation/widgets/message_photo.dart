@@ -39,6 +39,8 @@ class MessagePhoto extends StatelessWidget {
     } else if (photoUrl != null) {
       content = Image.network(
         photoUrl,
+        // Blob storage has no CORS; the PWA shows an <img>.
+        webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
         width: width,
         height: height,
         fit: BoxFit.cover,
