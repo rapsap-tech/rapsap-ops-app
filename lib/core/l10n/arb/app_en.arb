@@ -1139,7 +1139,7 @@
   "videoPause": "Pause",
   "videoMute": "Mute",
   "videoUnmute": "Unmute",
-  "videoExitFullscreen": "Exit full screen",
+  "mediaClose": "Close",
   "walkthroughMeta": "Task #46 · Today, {time}",
   "walkthroughSend": "Send video",
   "@listSeparatorJoin": {

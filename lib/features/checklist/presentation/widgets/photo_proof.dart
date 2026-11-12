@@ -5,6 +5,7 @@ import 'package:rapsap_ops_app/core/services/media/media_file.dart';
 import 'package:rapsap_ops_app/core/theme/app_colors.dart';
 import 'package:rapsap_ops_app/core/theme/app_text_styles.dart';
 import 'package:rapsap_ops_app/core/theme/dimens.dart';
+import 'package:rapsap_ops_app/core/widgets/app_network_image.dart';
 import 'package:rapsap_ops_app/core/widgets/app_svg_icon.dart';
 import 'package:rapsap_ops_app/core/widgets/media_preview.dart';
 import 'package:rapsap_ops_app/core/widgets/video_box.dart';
@@ -132,15 +133,11 @@ class StoredPhoto extends StatelessWidget {
           ? VideoBox.network(videoUrl, height: Dimens.photoPreviewHeight)
           : url == null
           ? placeholder
-          : Image.network(
+          : AppNetworkImage(
               url,
-              // Blob storage has no CORS; the PWA shows an <img>.
-              webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
               height: Dimens.photoPreviewHeight,
               width: double.infinity,
-              fit: BoxFit.cover,
               semanticLabel: context.l10n.taskYourPhoto,
-              errorBuilder: (_, _, _) => placeholder,
             ),
     );
   }

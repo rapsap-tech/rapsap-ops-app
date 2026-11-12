@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
@@ -174,6 +175,36 @@ void main() {
       if (page.hasMore) {
         ok(await repo.messages(id, beforeId: page.messages.first.id));
       }
+    });
+
+    test('every chat photo and clip is a real file', () async {
+      // Plain Dio: media is on blob storage and must load without a token.
+      final media = Dio();
+      final broken = <String>[];
+      for (final conversation in ok(await repo.conversations())) {
+        final page = ok(await repo.messages(conversation.id));
+        for (final message in page.messages) {
+          final url = message.photoUrl ?? message.videoUrl;
+          if (url == null) continue;
+          final response = await media.head<void>(
+            url,
+            options: Options(validateStatus: (_) => true),
+          );
+          final size = int.tryParse(
+            response.headers.value(Headers.contentLengthHeader) ?? '',
+          );
+          final type = response.headers.value(Headers.contentTypeHeader) ?? '';
+          final isMedia =
+              type.startsWith('image/') || type.startsWith('video/');
+          if (response.statusCode != 200 || !isMedia || (size ?? 0) < 1024) {
+            broken.add(
+              '${conversation.title} #${message.id}: '
+              '${response.statusCode} $type ${size ?? '?'} B $url',
+            );
+          }
+        }
+      }
+      expect(broken, isEmpty, reason: broken.join('\n'));
     });
 
     test('GET /chat/conversations/my-manager', () async {

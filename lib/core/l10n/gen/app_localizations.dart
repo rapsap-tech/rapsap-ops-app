@@ -2638,11 +2638,11 @@ abstract class AppLocalizations {
   /// **'Unmute'**
   String get videoUnmute;
 
-  /// No description provided for @videoExitFullscreen.
+  /// No description provided for @mediaClose.
   ///
   /// In en, this message translates to:
-  /// **'Exit full screen'**
-  String get videoExitFullscreen;
+  /// **'Close'**
+  String get mediaClose;
 
   /// No description provided for @walkthroughMeta.
   ///

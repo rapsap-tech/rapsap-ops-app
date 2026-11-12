@@ -36,6 +36,8 @@ import 'package:rapsap_ops_app/core/services/media/camera_service.dart'
     as _i869;
 import 'package:rapsap_ops_app/core/services/media/photo_processor.dart'
     as _i886;
+import 'package:rapsap_ops_app/core/services/media/video_playback.dart'
+    as _i446;
 import 'package:rapsap_ops_app/core/services/permissions/permission_service.dart'
     as _i269;
 import 'package:rapsap_ops_app/core/services/socket/chat_socket_service.dart'
@@ -344,6 +346,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i600.InstallService>(() => _i600.InstallService.create());
     gh.lazySingleton<_i322.TabLock>(() => _i322.TabLock.create());
     gh.lazySingleton<_i886.PhotoProcessor>(() => _i886.PhotoProcessor());
+    gh.lazySingleton<_i446.VideoPlayback>(() => _i446.VideoPlayback());
     gh.lazySingleton<_i269.PermissionService>(
       () => _i269.PermissionService.create(),
     );

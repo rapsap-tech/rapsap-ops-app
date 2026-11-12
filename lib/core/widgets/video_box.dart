@@ -3,16 +3,21 @@ import 'dart:async';
 import 'package:camera/camera.dart' show XFile;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rapsap_ops_app/core/di/injection.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
+import 'package:rapsap_ops_app/core/services/media/video_playback.dart';
 import 'package:rapsap_ops_app/core/services/media/video_preview.dart';
 import 'package:rapsap_ops_app/core/theme/app_colors.dart';
 import 'package:rapsap_ops_app/core/theme/dimens.dart';
 import 'package:rapsap_ops_app/core/utils/logger.dart';
 import 'package:rapsap_ops_app/core/widgets/app_loader.dart';
+import 'package:rapsap_ops_app/core/widgets/media_close_button.dart';
+import 'package:rapsap_ops_app/core/widgets/tap_layer.dart';
 import 'package:video_player/video_player.dart';
 
-/// First frame of a just-recorded clip or one already on the server. Tapping
-/// it plays the video full screen, so only one video ever plays at a time.
+/// First frame of a just-recorded clip or one already on the server. It
+/// never plays here: tapping it plays the clip full screen through the one
+/// shared [VideoPlayback].
 /// Without a [height] it keeps the clip's own aspect ratio.
 class VideoBox extends StatefulWidget {
   const new local(this.source, {this.height, this.width, super.key})
@@ -97,7 +102,7 @@ class _VideoBoxState extends State<VideoBox> {
           alignment: Alignment.center,
           children: [
             video,
-            const Positioned.fill(child: _TapLayer()),
+            const Positioned.fill(child: TapLayer()),
             Icon(
               Icons.play_circle_fill_rounded,
               size: Dimens.photoIconSize,
@@ -133,16 +138,6 @@ class _VideoPlaceholder extends StatelessWidget {
   }
 }
 
-/// Painted, so on web it sits above the <video> element and gets the taps.
-class _TapLayer extends StatelessWidget {
-  const new();
-
-  @override
-  Widget build(BuildContext context) {
-    return const ColoredBox(color: AppColors.videoTapLayer);
-  }
-}
-
 class _FullscreenVideo extends StatefulWidget {
   const new(this.video);
 
@@ -153,7 +148,8 @@ class _FullscreenVideo extends StatefulWidget {
 }
 
 class _FullscreenVideoState extends State<_FullscreenVideo> {
-  late final VideoPlayerController _player = _createPlayer(widget.video);
+  final VideoPlayback _playback = getIt<VideoPlayback>();
+  VideoPlayerController? _player;
   bool _failed = false;
 
   @override
@@ -166,38 +162,52 @@ class _FullscreenVideoState extends State<_FullscreenVideo> {
   }
 
   Future<void> _initializeAndPlay() async {
+    final VideoPlayerController player;
     try {
-      await _player.initialize();
+      player = await _playback.open(() => _createPlayer(widget.video));
     } on Object catch (error) {
       appLogger.w('Video load failed', error: error.runtimeType);
       if (mounted) setState(() => _failed = true);
       return;
     }
-    if (!mounted) return;
-    setState(() {});
-    await _player.play();
+    if (!mounted) {
+      unawaited(_playback.release(player));
+      return;
+    }
+    setState(() => _player = player);
+    await player.play();
   }
 
   @override
   void dispose() {
     unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
-    unawaited(_player.dispose());
+    final player = _player;
+    if (player != null) unawaited(_playback.release(player));
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final ready = _player.value.isInitialized;
+    final player = _player;
     return Scaffold(
       backgroundColor: AppColors.cameraBackground,
       body: SafeArea(
-        child: Center(
-          child: ready
-              ? AspectRatio(
-                  aspectRatio: _player.value.aspectRatio,
-                  child: _FullscreenControls(_player),
-                )
-              : _VideoPlaceholder(failed: _failed),
+        child: Stack(
+          children: [
+            Center(
+              child: player == null
+                  ? _VideoPlaceholder(failed: _failed)
+                  : AspectRatio(
+                      aspectRatio: player.value.aspectRatio,
+                      child: _FullscreenControls(player),
+                    ),
+            ),
+            Positioned(
+              top: Dimens.paddingSmall,
+              right: Dimens.paddingSmall,
+              child: const MediaCloseButton(),
+            ),
+          ],
         ),
       ),
     );
@@ -230,7 +240,7 @@ class _FullscreenControls extends StatelessWidget {
                 label: l10n.videoPlay,
                 child: GestureDetector(
                   onTap: togglePlay,
-                  child: const _TapLayer(),
+                  child: const TapLayer(),
                 ),
               ),
             ),
@@ -248,28 +258,37 @@ class _FullscreenControls extends StatelessWidget {
               bottom: 0,
               child: ColoredBox(
                 color: AppColors.stampBackground,
-                child: Row(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    _ControlButton(
-                      icon: playing
-                          ? Icons.pause_rounded
-                          : Icons.play_arrow_rounded,
-                      tooltip: playing ? l10n.videoPause : l10n.videoPlayButton,
-                      onPressed: togglePlay,
+                    VideoProgressIndicator(
+                      player,
+                      allowScrubbing: true,
+                      colors: const VideoProgressColors(
+                        playedColor: AppColors.onPrimary,
+                      ),
                     ),
-                    const Spacer(),
-                    _ControlButton(
-                      icon: muted
-                          ? Icons.volume_off_rounded
-                          : Icons.volume_up_rounded,
-                      tooltip: muted ? l10n.videoUnmute : l10n.videoMute,
-                      onPressed: () =>
-                          unawaited(player.setVolume(muted ? 1 : 0)),
-                    ),
-                    _ControlButton(
-                      icon: Icons.fullscreen_exit_rounded,
-                      tooltip: l10n.videoExitFullscreen,
-                      onPressed: () => Navigator.of(context).pop(),
+                    Row(
+                      children: [
+                        _ControlButton(
+                          icon: playing
+                              ? Icons.pause_rounded
+                              : Icons.play_arrow_rounded,
+                          tooltip: playing
+                              ? l10n.videoPause
+                              : l10n.videoPlayButton,
+                          onPressed: togglePlay,
+                        ),
+                        const Spacer(),
+                        _ControlButton(
+                          icon: muted
+                              ? Icons.volume_off_rounded
+                              : Icons.volume_up_rounded,
+                          tooltip: muted ? l10n.videoUnmute : l10n.videoMute,
+                          onPressed: () =>
+                              unawaited(player.setVolume(muted ? 1 : 0)),
+                        ),
+                      ],
                     ),
                   ],
                 ),

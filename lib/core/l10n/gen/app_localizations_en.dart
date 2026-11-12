@@ -1545,7 +1545,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get videoUnmute => 'Unmute';
 
   @override
-  String get videoExitFullscreen => 'Exit full screen';
+  String get mediaClose => 'Close';
 
   @override
   String walkthroughMeta(String time) {
