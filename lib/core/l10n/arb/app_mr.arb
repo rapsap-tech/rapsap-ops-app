@@ -422,6 +422,7 @@
   "videoPlayButton": "चालू करा",
   "videoPause": "थांबवा",
   "videoMute": "आवाज बंद करा",
+  "videoCantPlay": "हा व्हिडिओ या डिव्हाइसवर चालू शकत नाही.",
   "videoUnmute": "आवाज चालू करा",
   "mediaClose": "बंद करा",
   "walkthroughMeta": "काम #46 · आज, {time}",

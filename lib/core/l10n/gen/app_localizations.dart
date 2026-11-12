@@ -2632,6 +2632,12 @@ abstract class AppLocalizations {
   /// **'Mute'**
   String get videoMute;
 
+  /// No description provided for @videoCantPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'This video can\'t be played on this device.'**
+  String get videoCantPlay;
+
   /// No description provided for @videoUnmute.
   ///
   /// In en, this message translates to:

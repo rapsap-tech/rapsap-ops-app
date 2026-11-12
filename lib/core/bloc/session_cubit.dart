@@ -36,7 +36,7 @@ class SessionCubit extends Cubit<SessionState> {
     final result = await _getCurrentUser();
     if (isClosed) return;
     result.match(
-      // Can't reach the server: send to login rather than hang on splash.
+      // No saved user to fall back on: send to login rather than hang.
       (_) => signedOut(),
       (user) => user == null ? signedOut() : signedIn(user),
     );

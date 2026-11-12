@@ -73,7 +73,7 @@ void main() {
     verifyNever(remote.me);
   });
 
-  group('offline restore', () {
+  group('restore with a saved session', () {
     setUp(() {
       when(() => storage.accessToken).thenAnswer((_) async => 'a');
     });
@@ -95,6 +95,21 @@ void main() {
         const Left<Failure, dynamic>(NoInternetFailure()),
       );
     });
+
+    for (final error in [
+      const ServerException(statusCode: 503),
+      const UnknownException(),
+    ]) {
+      test('keeps the saved user when /auth/me fails with $error', () async {
+        when(remote.me).thenAnswer((_) async => user);
+        await repository.currentUser();
+        when(remote.me).thenThrow(error);
+
+        final result = await repository.currentUser();
+
+        expect(result, Right<Failure, dynamic>(user.toEntity()));
+      });
+    }
 
     test('a server rejection is not hidden by the saved user', () async {
       when(remote.me).thenAnswer((_) async => user);

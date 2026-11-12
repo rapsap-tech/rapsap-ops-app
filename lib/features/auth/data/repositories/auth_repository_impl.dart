@@ -48,8 +48,10 @@ class AuthRepositoryImpl implements AuthRepository {
       if (_storage.generation != generation) return null;
       return await _remember(user);
     } on Object catch (error) {
+      // Only a rejected session signs out: offline, a slow or waking server
+      // and other failures keep the user signed in.
       final cached = _cachedUser();
-      if (cached == null || !_isOffline(error)) rethrow;
+      if (cached == null || _isRejected(error)) rethrow;
       return cached;
     }
   });
@@ -80,10 +82,8 @@ class AuthRepositoryImpl implements AuthRepository {
     return UserModel.fromJson(Map<String, dynamic>.from(json)).toEntity();
   }
 
-  bool _isOffline(Object error) => switch (ErrorMapper.toException(error)) {
-    NoInternetException() || RequestTimeoutException() => true,
-    _ => false,
-  };
+  bool _isRejected(Object error) =>
+      ErrorMapper.toException(error) is UnauthorizedException;
 
   @override
   Future<Either<Failure, Unit>> acceptConsent() => guardFailure(() async {

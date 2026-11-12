@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:camera/camera.dart' show XFile;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rapsap_ops_app/core/constants/app_constants.dart';
 import 'package:rapsap_ops_app/core/di/injection.dart';
 import 'package:rapsap_ops_app/core/extensions/context_ext.dart';
 import 'package:rapsap_ops_app/core/services/media/video_playback.dart';
 import 'package:rapsap_ops_app/core/services/media/video_preview.dart';
 import 'package:rapsap_ops_app/core/theme/app_colors.dart';
+import 'package:rapsap_ops_app/core/theme/app_text_styles.dart';
 import 'package:rapsap_ops_app/core/theme/dimens.dart';
 import 'package:rapsap_ops_app/core/utils/logger.dart';
 import 'package:rapsap_ops_app/core/widgets/app_loader.dart';
@@ -71,15 +73,17 @@ class _VideoBoxState extends State<VideoBox> {
   Widget build(BuildContext context) {
     final height = widget.height;
     final width = widget.width ?? double.infinity;
-    if (_failed || !_preview.value.isInitialized) {
-      return _VideoPlaceholder(
-        failed: _failed,
-        height: height ?? Dimens.photoPreviewHeight,
-        width: width,
-      );
-    }
+    // The play button shows at once: some browsers (iPhone Safari) load no
+    // frame until the user plays, so the first frame is only a bonus.
+    final ready = !_failed && _preview.value.isInitialized;
     final picture = VideoPlayer(_preview);
-    final video = height == null
+    final video = !ready
+        ? Container(
+            height: height ?? Dimens.photoPreviewHeight,
+            width: width,
+            color: AppColors.cameraBackground,
+          )
+        : height == null
         ? AspectRatio(aspectRatio: _preview.value.aspectRatio, child: picture)
         : SizedBox(
             height: height,
@@ -119,21 +123,22 @@ VideoPlayerController _createPlayer(VideoBox video) => video.isLocal
     ? videoPreviewController(XFile(video.source))
     : VideoPlayerController.networkUrl(Uri.parse(video.source));
 
+/// Full screen while the clip loads, or why it can't play.
 class _VideoPlaceholder extends StatelessWidget {
-  const new({required this.failed, this.height, this.width});
+  const new({required this.failed});
 
   final bool failed;
-  final double? height;
-  final double? width;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      width: width,
-      alignment: Alignment.center,
-      color: failed ? AppColors.photoPlaceholder : AppColors.cameraBackground,
-      child: failed ? null : const AppLoader(color: AppColors.onPrimary),
+    if (!failed) return const AppLoader(color: AppColors.onPrimary);
+    return Padding(
+      padding: Dimens.pagePadding,
+      child: Text(
+        context.l10n.videoCantPlay,
+        textAlign: TextAlign.center,
+        style: AppTextStyles.base.s15.w600.whiteColor(),
+      ),
     );
   }
 }
@@ -164,7 +169,9 @@ class _FullscreenVideoState extends State<_FullscreenVideo> {
   Future<void> _initializeAndPlay() async {
     final VideoPlayerController player;
     try {
-      player = await _playback.open(() => _createPlayer(widget.video));
+      player = await _playback
+          .open(() => _createPlayer(widget.video))
+          .timeout(AppConstants.videoLoadTimeout);
     } on Object catch (error) {
       appLogger.w('Video load failed', error: error.runtimeType);
       if (mounted) setState(() => _failed = true);

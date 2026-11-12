@@ -1539,6 +1539,9 @@ class AppLocalizationsMr extends AppLocalizations {
   String get videoMute => 'आवाज बंद करा';
 
   @override
+  String get videoCantPlay => 'हा व्हिडिओ या डिव्हाइसवर चालू शकत नाही.';
+
+  @override
   String get videoUnmute => 'आवाज चालू करा';
 
   @override

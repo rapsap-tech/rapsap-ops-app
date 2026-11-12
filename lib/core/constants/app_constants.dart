@@ -39,6 +39,7 @@ class AppConstants {
   static const Duration socketRetryBase = Duration(seconds: 2);
   static const Duration socketRetryMax = Duration(seconds: 30);
   static const Duration socketStableAfter = Duration(seconds: 30);
+  static const Duration videoLoadTimeout = Duration(seconds: 30);
 
   static const int remarksMaxLength = 300;
   static const int sendBackMaxLength = 200;

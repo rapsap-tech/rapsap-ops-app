@@ -1138,6 +1138,7 @@
   "videoPlayButton": "Play",
   "videoPause": "Pause",
   "videoMute": "Mute",
+  "videoCantPlay": "This video can't be played on this device.",
   "videoUnmute": "Unmute",
   "mediaClose": "Close",
   "walkthroughMeta": "Task #46 · Today, {time}",
