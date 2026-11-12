@@ -31,9 +31,10 @@ class SectionProgressTile extends StatelessWidget {
     };
     return InkWell(
       borderRadius: BorderRadius.circular(Dimens.radius14),
+      // Without section reports the tile opens the review queue (C2).
       onTap: EnvConfig.instance.hasSectionReports
           ? () => context.pushNamed(RouteNames.sectionReports)
-          : null,
+          : () => context.goNamed(RouteNames.checklist),
       child: AppCard(
         radius: Dimens.radius14,
         padding: Dimens.tilePadding,

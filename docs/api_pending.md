@@ -68,6 +68,8 @@ Paths are in `rapsap-operations-api/apps/operations-api/src`.
 | B20 | Opening a conversation's messages (even older pages) marks it all read | `chat/chat.controller.ts:28` | Unread counts clear early |
 | B21 | No WebSocket ping; idle sockets may be dropped silently by the proxy | `core/ws/chat.gateway.ts` | Live chat can stall until the app reconnects |
 | B22 | Offline proof fields `captured_offline`, `captured_at`, `time_source` are stripped | `checklist.schema.ts` (`submitTaskSchema`) | Needed before offline capture ships |
+| B23 | Some uploads in `chat-stag` and `rapsap-operations-stag` are 9-byte files holding only a PNG signature (e.g. `chat-stag/da24e460-….jpg`); `createIfNotExists()` also sets no access level, so a new container would be private (`chat-stag` was since made public by hand) | `core/services/blobStorage.service.ts:31-32` | Messages pointing at those files show no image anywhere. Validate uploads (real image bytes, minimum size) and create containers with `access: 'blob'` |
+| B24 | The `rapsap` storage account has no CORS rules | Azure storage account `rapsap` (blob service CORS) | Browsers block image downloads on the PWA; the app falls back to `<img>`. Add a GET/HEAD rule for the PWA origins |
 
 ## Global assumptions
 

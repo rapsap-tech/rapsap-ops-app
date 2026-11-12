@@ -134,6 +134,8 @@ class StoredPhoto extends StatelessWidget {
           ? placeholder
           : Image.network(
               url,
+              // Blob storage has no CORS; the PWA shows an <img>.
+              webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
               height: Dimens.photoPreviewHeight,
               width: double.infinity,
               fit: BoxFit.cover,
